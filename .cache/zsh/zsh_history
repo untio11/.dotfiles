@@ -1,0 +1,879 @@
+: 1699030908:0;cd ~/.cache/zsh
+: 1699030920:0;mv zsh_history/ zsh_history
+: 1699030924:0;rm -r zsh_history
+: 1699030933:0;touch zsh_history
+: 1699030946:0;ch
+: 1699030955:0;close
+: 1699030981:0;h so
+: 1699031009:0;cat ~/.cache/zsh/zsh_history
+: 1699031202:0;mkdir Subdirectory
+: 1699031212:0;cd Subdirectory
+: 1699031516:0;cin status
+: 1699031983:0;brew tap homebrew/cask-fonts
+: 1699032565:0;brew install font-hack-nerd-font
+: 1699032583:0;brew install font-fira-nerd-font
+: 1699032597:0;brew install font-fira-mono-nerd-font
+: 1699032623:0;brew install font-deja-vu-mono-nerd-font
+: 1699032641:0;brew install font-dejavu-sans-mono-nerd-font
+: 1699033193:0;h | cat
+: 1699033262:0;touch test-4.txt
+: 1699033266:0;git add test-4.txt
+: 1699033308:0;npx colortester
+: 1699033684:0;cat Documents/git-test/test-3.txt
+: 1699033702:0;ls -a
+: 1699033737:0;brew upgrade
+: 1699033741:0;npm -v
+: 1699114480:0;echo blah >> test.txt
+: 1699114491:0;gut status
+: 1699114510:0;git commit -am "blah blah"
+: 1699135131:0;man touch
+: 1699135176:0;mkdir ~/.config/lsd
+: 1699135181:0;cd ~/.config/lsd
+: 1699135212:0;touch config.yaml
+: 1699135222:0;ls ~/
+: 1699135302:0;subl config.yaml
+: 1699135312:0;ls -l ~/
+: 1699135641:0;h ew
+: 1699137450:0;ls -l
+: 1699137669:0;ls --tree
+: 1699137697:0;ls --tree --max-depth=1
+: 1699137718:0;ls --tree -- --max-depth=1
+: 1699137751:0;ls --tree --recursion=1
+: 1699137764:0;ls --tree --recursion 1
+: 1699137779:0;ls --tree --recursion 1 | fzf
+: 1699137795:0;ls --tree --recursion 1 2> fzf
+: 1699137806:0;ls --tree --recursion 1 2| fzf
+: 1699137834:0;ls --tree --depth 2
+: 1699137859:0;rm fzf
+: 1699137935:0;ls -al --hyperlink auto
+: 1699137966:0;ls -al --hyperlink always
+: 1699137977:0;ls -al --color 16
+: 1699137984:0;ls -al --theme 16
+: 1699138008:0;ls -al --header
+: 1699138045:0;ls -al --header --group-dirs
+: 1699138065:0;ls -al --header --group-dirs first
+: 1699138367:0;lt Documents
+: 1699138543:0;git tracked | ls --tree
+: 1699138819:0;cd subdir
+: 1699138887:0;lt
+: 1699138891:0;lt ..
+: 1699138961:0;lla ..
+: 1699138991:0;rm ~/fzf
+: 1699139001:0;rm ~/test.txt
+: 1699139487:0;bindkey -l
+: 1699139492:0;bindkey
+: 1699139839:0;keybind
+: 1699140174:0;ths
+: 1699255399:0;bindkey -h
+: 1699255406:0;man bindkey
+: 1699255548:0;bindkey -M main
+: 1699266250:0;ll
+: 1699266252:0;la
+: 1699267370:0;cat .viminfo
+: 1699267446:0;locale
+: 1699267664:0;man vim
+: 1699267835:0;cat .gitconfig
+: 1699267841:0;git ll
+: 1699268560:0;brew install --cask visual-studio-code
+: 1699272425:0;npm i -g nx
+: 1699272445:0;npm i -g ts-node
+: 1699272460:0;brew install --cask docker
+: 1699272629:0;py
+: 1699272638:0;pip
+: 1699272708:0;python
+: 1699272769:0;python -m ensurepip --upgrade
+: 1699272816:0;python -m pip install --upgrade pip
+: 1699272894:0;brew install pulumi
+: 1699273165:0;pulumi login
+: 1699273387:0;pulumi stack
+: 1699273400:0;pulumi org set-default skunkteam
+: 1699273454:0;pulumi version
+: 1699273497:0;brew intsall --cask zulu
+: 1699273503:0;brew install --cask zulu
+: 1699273589:0;brew install jq
+: 1699273657:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5'\
+
+: 1699273702:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.'\
+
+: 1699273714:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.' | cat\
+
+: 1699273733:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.[0]'\
+
+: 1699273827:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.[0]' | '{message: .commit.message, name: .commit.committer.name}'\
+
+: 1699273838:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.[0] {message: .commit.message, name: .commit.committer.name}'\
+
+: 1699273850:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | jq '.[0] | {message: .commit.message, name: .commit.committer.name}'\
+
+: 1699273870:0;curl 'https://api.github.com/repos/jqlang/jq/commits?per_page=5' | cat\
+
+: 1699273936:0;brew install awscli
+: 1699274010:0;brew install azure-cli
+: 1699274580:0;fdesetup status
+: 1699274636:0;brew install p7zip
+: 1699274838:0;python -v
+: 1699274851:0;python -V
+: 1699274968:0;mkdir Development
+: 1699279579:0;brew install --cask git-credential-manager
+: 1699279755:0;git config credential.helper
+: 1699279788:0;git clone https://github.com/skunkteam/usr.git
+: 1699279863:0;cd usr
+: 1699279874:0;cat README.md
+: 1699280380:0;brew install --cask google-cloud-sdk
+: 1699280540:0;gcloud components update
+: 1699280588:0;gcloud init
+: 1699281075:0;gcloud auth application-default login\
+
+: 1699281113:0;gcloud components install beta\
+
+: 1699281134:0;gcloud auth configure-docker europe-docker.pkg.dev\
+
+: 1699283263:0;subl Documents/git-auth.md
+: 1699284483:0;git clone https://github.com/politie/sherlock.git
+: 1699284539:0;mv sherlock politie-sherlock
+: 1699284547:0;git clone https://github.com/skunkteam/sherlock.git
+: 1699284556:0;cd politie-sherlock
+: 1699284561:0;git checkout tutorial
+: 1699284851:0;echo $locale
+: 1699284891:0;LC_ALL=C.UTF-8
+: 1699285107:0;man cp
+: 1699285150:0;cp -R tutorial ../sherlock/tutorial
+: 1699285506:0;subl ~/Documents/scrollback.txt
+: 1699285789:0;cd ~/Downloads
+: 1699285793:0;finder
+: 1699285796:0;ex
+: 1699285812:0;open .
+: 1699349341:0;echo hello, world
+: 1699349350:0;cd Documents/git-test/
+: 1699351845:0;tty
+: 1699351874:0;ls /dev/ttys
+: 1699351883:0;ls /dev/ttys000
+: 1699351890:0;ls /dev/ttys000/
+: 1699351900:0;cat /dev/ttys000
+: 1699351977:0;echo hello >> /dev/ttys000
+: 1699352010:0;man tty
+: 1699354835:0;defaults write com.apple.dock autohide-time-modifier -int 0; killall Dock
+: 1699355095:0;brew install --cask rectangle
+: 1699370943:0;git checkout -b tuturial
+: 1699370959:0;git lt
+: 1699370996:0;git lt --dir
+: 1699372208:0;git lt --directory-only
+: 1699372805:0;chhh
+: 1699373003:0;cat release.sh
+: 1699374021:0;subl ~/.gitconfig
+: 1699374129:0;git config --show remote.origin.url
+: 1699374150:0;git remote
+: 1699374203:0;git config --local --get remote.origin.url
+: 1699374245:0;git url
+: 1699374455:0;git rev-parse --abbrev-ref HEAD
+: 1699374593:0;git tag
+: 1699374608:0;git checkout v6.1.0
+: 1699374620:0;git checkout tuturial
+: 1699376340:0;ls --tree --directory--only
+: 1699376367:0;ls --tree --directory-only
+: 1699376418:0;ls --tree --directory-only --ignore node_modules
+: 1699376444:0;ls --tree --directory-only --ignore-glob node_modules/*
+: 1699376503:0;ls --tree --directory-only --ignore-glob node_modules/**
+: 1699376520:0;ls ../politie-sherlock
+: 1699376532:0;ls ../politie-sherlock/src
+: 1699376539:0;ls ./apps
+: 1699376552:0;ls -al apps
+: 1699376775:0;npm
+: 1699376835:0;npm help
+: 1699376862:0;find
+: 1699376881:0;find ../politie-sherlock | fzf
+: 1699376906:0;cd ../politie-sherlock
+: 1699376964:0;find ./politie-sherlock | fzf
+: 1699376994:0;grep chai package.json
+: 1699377425:0;npm i chai @types/chai
+: 1699377632:0;find ./ -type f -exec sed -i -e 's/..\/src/..\/libs\/sherlock\/src/g' {} \;
+: 1699377717:0;rm *.ts-e
+: 1699377758:0;cd ../../politie-sherlock
+: 1699377765:0;grep sinon package.json
+: 1699377777:0;npm i @types/sinon sinon
+: 1699377850:0;find ../. | fzf
+: 1699381646:0;cat tutorial/6\ -\ errors.ts
+: 1699381765:0;npm list
+: 1699381782:0;npm list | grep chai --color
+: 1699381814:0;npm list | grep chai
+: 1699381941:0;cd ..
+: 1699381951:0;cat package-lock.json | grep chai
+: 1699382171:0;npm i @types/chai@^4.1.7
+: 1699382209:0;npm i chai@^4.2.0
+: 1699382249:0;npm uninstall @types/chai @types/sinon chai sinon
+: 1699382270:0;npm i @types/chai@4.1.7
+: 1699382346:0;npm i @types/sinon-chai@3.2.2 chai@4.2.0 sinon-chai3.3.0
+: 1699382366:0;npm i @types/sinon-chai@3.2.2 chai@4.2.0 sinon-chai@3.3.0
+: 1699382412:0;npm i chai-immutable@2.0.0-alpha.1
+: 1699382738:0;cat package.json
+: 1699382960:0;npm i @types/sinon-chai@3.2.2 chai@4.2.0 sinon-chai@3.3.0 @types/chai@4.1.7 chai-immutable@2.0.0-alpha.1 -D
+: 1699382997:0;cat package.json | grep chai
+: 1699383062:0;git commit -am "Added sinon and chai back to devDependencies"
+: 1699383074:0;git add tutorial/
+: 1699383134:0;git commit "Added tutorial folder from politie-sherlock\
+\
+Additionally fixed the broken imports of sherlock and sherlock-utils\
+"
+: 1699383154:0;git commit -m "Added tutorial folder from politie-sherlock\
+\
+Additionally fixed the broken imports of sherlock and sherlock-utils\
+"
+: 1699383321:0;cat package.json | jest
+: 1699383614:0;find node_modules/. | fzf
+: 1699383776:0;cat scripts/run-tests.js
+: 1699383889:0;cat package.json | grep test
+: 1699383899:0;cat package.json | grep jest
+: 1699383959:0;npm i jest@29.5.0
+: 1699384003:0;npm i @types/mocha@5.2.6 mocha@5.2.0
+: 1699384031:0;cat package.json | grep mocha
+: 1699384075:0;code package.json
+: 1699384278:0;mkdir ./scripts
+: 1699384291:0;cp ../politie-sherlock/scripts/run-tests.js ./scripts/run-tests.js
+: 1699384349:0;npm run-script tutorial:run
+: 1699384509:0;npm -i -D @types/mocha
+: 1699384515:0;npm i -D @types/mocha
+: 1699384562:0;ls typings
+: 1699384795:0;git diff --no-cache -- package.json ../politie-sherlock/package.json
+: 1699384817:0;git diff --no-index -- package.json ../politie-sherlock/package.json
+: 1699384961:0;npm uninstall jest
+: 1699384981:0;npm uninstall @types/jest
+: 1699385726:0;alias
+: 1699385755:0;cat ~/.zshrc
+: 1699385793:0;man zmv
+: 1699385797:0;zmv help
+: 1699385865:0;cp -r ../politie-sherlock/typings ./typings
+: 1699385874:0;ls --tree typings
+: 1699385890:0;ls --tree ../politie-sherlock/typings
+: 1699386030:0;man mocha
+: 1699386033:0;mocha -h
+: 1699386133:0;subl package.json
+: 1699386452:0;open -u README.md
+: 1699386466:0;open -a chrome.app README.md
+: 1699386474:0;ls ~/Applications
+: 1699386484:0;lla ~/Applications
+: 1699386530:0;open -a "Google Chrome" README.md
+: 1699386890:0;ls apps
+: 1699386937:0;cat libs/sherlock/tsconfig.lib.json
+: 1699386949:0;cat libs/sherlock/tsconfig.spec.json
+: 1699386995:0;subl ../politie-sherlock/tsconfig.json
+: 1699387065:0;cp libs/sherlock/tsconfig.json ./tsconfig.json
+: 1699435117:0;ipconfig
+: 1699435132:0;ipconfig getsummary
+: 1699435147:0;ipconfig getiflist
+: 1699435162:0;ipconfig getsummary en0
+: 1699436940:0;ping 192.168.178.199
+: 1699437348:0;ping 142.251.36.42
+: 1699440440:0;ifconfig
+: 1699440519:0;ping 192.168.178.1
+: 1699440527:0;ping --trace 192.168.178.1
+: 1699440556:0;man ping
+: 1699440667:0;man tracerout
+: 1699440699:0;traceroute 192.168.178.1
+: 1699440720:0;traceroute 192.168.178.194
+: 1699440747:0;man traceroute
+: 1699441333:0;ssh root@192.168.178.157
+: 1699441449:0;ssh ubnt@192.168.178.157
+: 1699441464:0;ssh ui@192.168.178.157
+: 1699441523:0;man ssh
+: 1699441729:0;ssh ui@192.168.178.157 -o HostKeyAlgorithms=+ssh-rsa
+: 1699441791:0;ssh root@192.168.178.157 -o HostKeyAlgorithms=+ssh-rsa
+: 1699444224:0;arp -p
+: 1699444233:0;arp
+: 1699444268:0;arp 192.168.178.1
+: 1699444308:0;arp -a 192.168.178.1
+: 1699444318:0;arp 192.168.178.1 -a
+: 1699444388:0;arp -a
+: 1699444436:0;arp -d
+: 1699444444:0;arp -d -a
+: 1699452838:0;Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl -h
+: 1699452846:0;/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl -h
+: 1699452856:0;/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -h
+: 1699452981:0;subl -
+: 1699453031:0;subl - >out
+: 1699453066:0;find .
+: 1699453078:0;find . | subl -
+: 1699453311:0;echo $EDITOR
+: 1699453332:0;ke
+: 1699453835:0;xev
+: 1699454333:0;gh
+: 1699454335:0;fh
+: 1699454940:0;bindkey -L
+: 1699456186:0;echo $BUFFER
+: 1699456230:0;blah bla
+: 1699456908:0;fzf .
+: 1699456913:0;find . | fzf
+: 1699457166:0;fzf
+: 1699457179:0;find . | fzf -q Ad
+: 1699457748:0;cat ./DAF Dotfiles Reference
+: 1699457807:0;fd
+: 1699457900:0;man bat
+: 1699458001:0;cat ./DAF Dotfiles Reference/readme.md
+: 1699458339:0;cat ''
+: 1699458653:0;cd ''
+: 1699458681:0;'./DAF Dotfiles Reference/.bashrc'
+: 1699459069:0;''
+: 1699459119:0;$ source ~/.zshrc
+: 1699459174:0;cat ~/Downloads/dotfiles-main@1f36a1d0daa/gitbashRTC.sh
+: 1699459249:0;echo hello
+: 1699459302:0;echo whatever
+: 1699459672:0;'cat '
+: 1699459745:0;cat
+: 1699459772:0;'./DAF Dotfiles Reference/.config/git/git-prompt.sh'
+: 1699459825:0;'./DAF Dotfiles Reference/.config/git/git-prompt-default-tweaked.sh'
+: 1699460511:0;cat './DAF Dotfiles Reference/readme.md'
+: 1699460653:0;h ^h
+: 1699460656:0;h h
+: 1699460760:0;tsh
+: 1699460827:0;bindkey -L | fzf
+: 1699460838:0;zle -la | fzf
+: 1699460982:0;bindkey '^i'
+: 1699460989:0;bindkey '^u'
+: 1699461108:0;git add git status
+: 1699461367:0;mkdir git-test
+: 1699461369:0;cd git-test
+: 1699461372:0;git init
+: 1699461377:0;touch test.txt
+: 1699462325:0;type eval
+: 1699462676:0;eval "pwd"
+: 1699462983:0;git add
+: 1699463087:0;git git status
+: 1699463299:0;echo "\n\n\n"
+: 1699463535:0;git tracked
+: 1699463640:0;subl -w /tmp/zsh58132cd1 ;: 'cd '
+: 1699463744:0;git add test.txt
+: 1699463768:0;git commit -m "Added this after some cool tricks with command buffers"
+: 1699463876:0;echo hoi
+: 1699464357:0;subl ~/.zshrc
+: 1699464380:0;subl .gitconfig
+: 1699464497:0;cat out
+: 1699464502:0;rm out
+: 1699464527:0;git diff tutorial/7\ -\ conversion.ts
+: 1699464539:0;git add tutorial/7\ -\ conversion.ts
+: 1699464544:0;git statuts
+: 1699464629:0;ls tutorial
+: 1699511416:0;ls .config
+: 1699511754:0;mkdir -p .config/zsh
+: 1699511768:0;cd .config/zsh
+: 1699511788:0;touch prompt.zsh
+: 1699511791:0;subl prompt.zsh
+: 1699512268:0;brew --prefix
+: 1699512307:0;echo $ZSHCONFIG
+: 1699512582:0;reset
+: 1699512765:0;man vcs-info
+: 1699512780:0;vcs_info
+: 1699512785:0;man vcs_info
+: 1699512789:0;vcs_info -h
+: 1699512805:0;which vcs_info
+: 1699512919:0;echo $VCS_INFO_maxexports
+: 1699513406:0;source $zsh_config/prompt.zsh
+: 1699513408:0;vcs_info_lastmsg
+: 1699514135:0;cd -
+: 1699514145:0;echo change >> test.txt
+: 1699514593:0;cd $zsh_config
+: 1699514608:0;touch history-config.zsh
+: 1699516642:0;echo blah
+: 1699516690:0;source history-config.zsh
+: 1699516705:0;cat history-config.zsh
+: 1699516706:0;h
+: 1699516980:0;fc
+: 1699516988:0;subl history-config.zsh
+: 1699516996:0;man fc
+: 1699517077:0;man zshbuiltins
+: 1699517385:0;lla .
+: 1699517393:0;cat .boto
+: 1699517468:0;source ~/.zshrc
+: 1699517474:0;catp .boto
+: 1699517503:0;lla .cache/puppeteer
+: 1699517523:0;catp .CFUserTextEncoding
+: 1699517546:0;lla .config/configstore
+: 1699517558:0;lla .docker
+: 1699517571:0;man git
+: 1699517740:0;mkdir -p .config/git
+: 1699517751:0;mv .gitconfig .config/git
+: 1699517783:0;lla .config/git
+: 1699517790:0;man git-config
+: 1699517843:0;mv .config/git/.gitconfig .config/git/config
+: 1699517863:0;catp .lesshst
+: 1699517879:0;lla .local
+: 1699517897:0;lla .local/share
+: 1699517910:0;catp .python_history
+: 1699517924:0;lla .quokka
+: 1699517932:0;lla .ssh
+: 1699517938:0;lla .viminfo
+: 1699517945:0;catp .viminfo
+: 1699517955:0;lla .wallaby
+: 1699518192:0;mkdir -p ~/.cache/zsh/zcompdump
+: 1699518201:0;mv .zcompdump ~/.cache/zsh/zcompdump
+: 1699518223:0;catp .zcompdump
+: 1699518252:0;lla .cache/zsh/zcompdump
+: 1699518294:0;mv .cache/zsh/zcompdump/.zcompdump .cache/zsh/zcompdump
+: 1699518322:0;mv .cache/zsh/zcompdump/.zcompdump .cache/zsh/tmp-zcompdump
+: 1699518330:0;cd .cache/zsh/
+: 1699518337:0;rm -r zcompdump
+: 1699518344:0;mv tmp-zcompdump zcompdump
+: 1699518414:0;echo $ZDOTDIR
+: 1699518425:0;echo $XDG_CACH_HOME
+: 1699518436:0;subl .zshrc
+: 1699519070:0;\ls -al
+: 1699519080:0;\cat .zprofile
+: 1699519098:0;mv .zprofile $ZDOTDIR/.zprofile
+: 1699519123:0;cat .zsh_history
+: 1699519148:0;rm .zsh_history
+: 1699519168:0;rm .zcompdump
+: 1699519191:0;ls -al
+: 1699519204:0;catp .zshenv
+: 1699519244:0;cat $ZDOTDIR/.zprofile $ZDOTDIR/.zshrc
+: 1699519266:0;rm -r .zsh_sessions
+: 1699519335:0;echo $XDG_CONFIG_HOME
+: 1699519341:0;subl .zshenv
+: 1699519514:0;lla .cache
+: 1699519586:0;cd Development
+: 1699519596:0;code sherlock
+: 1699519605:0;code politie-sherlock
+: 1699519675:0;cd sherlock
+: 1699519719:0;git diff package.json
+: 1699524633:0;npm run tutorial:run
+: 1699525452:0;ping google.com
+: 1699525566:0;rm -r typings
+: 1699525689:0;npm i
+: 1699525797:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/libs/sherlock/src/lib/derivable/atom.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/libs/sherlock/jest.config.ts'
+: 1699526347:0;subl $ZDOTDIR/.zshrc
+: 1699526473:0;zmv '(*).ts' '$1.spec.ts'
+: 1699526537:0;zmv '(*).spec.ts' '$1.test.ts'
+: 1699526744:0;npm ls jest
+: 1699527000:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/1 - intro.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'intro should be clear what to do next'
+: 1699527209:0;npm run tutorial
+: 1699527900:0;git commit -m "Made the tests runnable with jest\
+\
+Use npm run tutorial to run all the test cases in the tutorial directory.\
+"
+: 1699527954:0;subl $ZDOTDIR/prompt.zsh
+: 1699528006:0;cd Development/sherlock/tutorial
+: 1699535716:0;cd tutorial
+: 1699535723:0;npx jest-codemods -d
+: 1699536344:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/1 - intro.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'intro'
+: 1699536969:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/1 - intro.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1699537205:0;git commit -am "Got test 1 in working order"
+: 1699538316:0;git cd '/Users/robin.kneepkens/Development/sherlock'
+: 1699538361:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/2 - deriving.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1699538448:0;git commit -am "Got test 2 in working order\
+\
+Note that it's currently skipping the test cases.\
+They have been validated to run (and fail) before\
+committing though.\
+"
+: 1699539143:0;echo "blah \
+blah bla\
+"
+: 1699539187:0;PS2="|\t"
+: 1699539193:0;echo "blah
+: 1699539246:0;echo "Blah\
+blah blah\
+and more blah\
+"
+: 1699539258:0;echo "blah\
+and more blah\
+and blah\
+"
+: 1699539500:0;echo "bl\
+blah blah\
+and some more\
+blah-ing\
+"
+: 1699539617:0;PS0="noticeable"
+: 1699539755:0;git commit --amend
+: 1699540662:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'reacting reacting synchronously'
+: 1699541594:0;git commit -am "Got test 3 in working order\
+\
+Again skipping by default.\
+"
+: 1699541604:0;PS2="îƒ¸ƒ "
+: 1699543408:0;npm ls seq
+: 1699543418:0;npm ls immutable
+: 1699543439:0;grep 'immutable' package.json
+: 1699543472:0;npm ls
+: 1699543495:0;npm ls | grep 'immutable'
+: 1699612036:0;echo "h\
+what do you want from me?\
+"
+: 1699612060:0;PS2="| "
+: 1699612076:0;echo "\
+what do you wa\
+nt fro\
+m me?"
+: 1699612138:0;echo "\
+this is kinda nice\
+isn't it?\
+"
+: 1699612191:0;echo "%F{cyan} wow! %f"
+: 1699612197:0;echo -s "%F{cyan} wow! %f"
+: 1699612298:0;echo "h\
+is this better\
+"
+: 1699612366:0;echo "\
+hmm\
+almost\
+"
+: 1699612914:0;echo "\
+what's this\
+better?\
+"
+: 1699613014:0;echo "\
+this works\
+I would say so\
+let's go"
+: 1699613048:0;echo "\
+maybe like this?\
+could definitely be worse"
+: 1699613095:0;echo "\
+haha\
+kinda funny\
+"
+: 1699613272:0;echo "\
+yeah\
+that's exactly it\
+"
+: 1699613330:0;echo "\
+nice\
+super\
+cool"
+: 1699613421:0;echo "\
+wild\
+is this what I want?\
+maybe\
+"
+: 1699613565:0;PS2=""Â¦ "\
+
+: 1699613604:0;echo "\
+hmm not bad\
+could be workse\
+blah\
+"
+: 1699613748:0;echo "\
+not\
+what\
+I want\
+"
+: 1699613773:0;echo "\
+hmm\
+also\
+okay\
+"
+: 1699613787:0;echo
+: 1699613795:0;echo "\
+and now\
+then?\
+also fine"
+: 1699613827:0;echo "\
+hmm\
+also interesting\
+"
+: 1699613860:0;echo "\
+also cool\
+let's go\
+"
+: 1699614095:0;source $ZDOTDIR/prompt.zsh
+: 1699614110:0;echo "\
+this is what\
+we're going for\
+I think it makes sense tbh\
+"
+: 1699614169:0;git commit -am "Subject line is here\
+\
+And I want to see how this feels with the new indentation prompt.\
+Pretty nice actually, so Imma keep it at this for now.\
+"
+: 1699614196:0;subl ~/.config/git/config
+: 1699614209:0;git log -2 @
+: 1699614379:0;git update
+: 1699614382:0;git amend
+: 1699614773:0;subl -h
+: 1699615586:0;echo $ZDOTDIR/.zshrc
+: 1699615601:0;lla .config
+: 1699615609:0;lla .config/.config
+: 1699615701:0;lla .config/.config/zsh
+: 1699615716:0;rm -r .config/.config
+: 1699617493:0;source $ZDOTDIR/.zshrc
+: 1699617495:0;zrc
+: 1699617633:0;cd Development/sherlock
+: 1699618013:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'reacting'
+: 1699618045:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/4 - inner workings.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1699618475:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'reacting' --watch
+: 1699618510:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/4 - inner workings.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' --verbose
+: 1699618621:0;git commit -am "Got test 4 in working order (I think)\
+\
+There's still one part at line 121 where I'm not sure what's happening\
+"
+: 1699619697:0;code ../politie-sherlock
+: 1699620405:0;git commit -am "Got test 5 in working order\
+\
+As always, set to skip by default.\
+"
+: 1699648276:0;echo wow
+: 1699648341:0;git plog
+: 1699650970:0;clear
+: 1699650974:0;npx colortest
+: 1699651401:0;cd Development/politie-sherlock
+: 1699651406:0;cd ../sherlock
+: 1699651410:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/5 - unresolved.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1699718130:0;grep '@skunkteam/sherlock' .
+: 1699718149:0;grep '@skunkteam/sherlock' ./
+: 1699718189:0;grep -r '@skunkteam/sherlock' ./.
+: 1699718214:0;grep -r '@skunkteam/sherlock' .
+: 1699718244:0;grep -r '@skunkteam/sherlock' . | fzf
+: 1699718483:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1699718496:0;cd '/Users/robin.kneepkens/Development/sherlock'
+: 1699718496:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/7 - conversion.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1699822069:0;brew search *
+: 1699822096:0;brew search '/[a-zA-z]/'
+: 1699822142:0;brew search '/[a-zA-Z]/' | fzf
+: 1699822168:0;brew info obsidian
+: 1699822258:0;brew install --cask obsidian
+: 1699822318:0;obsidian
+: 1699822324:0;open -a obsidian
+: 1699822422:0;brew search '/[a-zA-Z]/' | fzf | xargs brew info
+: 1699822574:0;fzf | xargs echo
+: 1699822584:0;fzf | xargs 'echo'
+: 1699822705:0;fzf | xargs -I '%1' 'cp %1 copy-of-test.txt'
+: 1699822747:0;fzf | xargs -I "%1" 'cp %1 copy-of-test.txt'
+: 1699822758:0;fzf | xargs -I "%1" "cp %1 copy-of-test.txt"
+: 1699822844:0;fzf | xargs -I "%1" --verbose "echo %1 copy-of-test.txt"
+: 1699823010:0;fzf | xargs -I %1 --verbose echo ""%1 copy-of-test.txt"\
+
+: 1699823054:0;fzf | xargs -I %1 --verbose echo "%1 copy-of-test.txt"
+: 1699823070:0;fzf | xargs -I %1 --verbose cp "%1 copy-of-test.txt"
+: 1699823131:0;fzf | xargs -I %1 --verbose cp '"%1" "copy-of-test.txt"'
+: 1699823149:0;cp test.txt copy-of-test.txt
+: 1699823197:0;ls ~
+: 1699823216:0;env
+: 1699823258:0;env | grep warp
+: 1699823279:0;env | grep -i warp
+: 1699823386:0;echo ""
+: 1699823402:0;echo "Yo my man\
+what is up?\
+"
+: 1699823589:0;echo "Yo my man\
+what is up\
+with you?\
+\
+Nothing much with me actually\
+"
+: 1699823612:0;echo "yo my man\
+what is up\
+with you\
+nothing much\
+\
+with me"
+: 1699823645:0;cd Development/sherlock/
+: 1699823659:0;cd ../us
+: 1699823663:0;cd ../usr
+: 1699823888:0;brew install --cask synchthing
+: 1699823902:0;brew install --cask syncthing
+: 1699823927:0;open -a syncthing
+: 1699823998:0;rm -r Sync
+: 1699824005:0;ls Documents
+: 1699824011:0;cd Documents
+: 1699824072:0;rm -r 'Obsidian Vault\
+'
+: 1699824083:0;rm -r 'Obsidian Vault'
+: 1699824091:0;mkdir Obsidian
+: 1699824093:0;cd Obsidian
+: 1699824122:0;mkdir 'robin-personal-vault'
+: 1699824127:0;cd robin-personal-vault
+: 1699824167:0;pwd | pbcopy
+: 1699857209:0;cd $XDG_CONFIG_HOME
+: 1699857217:0;cd zsh
+: 1699857232:0;mkdir user-widgets
+: 1699857235:0;cd user-widgets
+: 1699857355:0;touch fuzzy-history fuzzy-find quick-insert
+: 1699857391:0;subl fuzzy-history fuzzy-find quick-insert
+: 1699857449:0;zmv '(*)' '$1.zsh'
+: 1699857456:0;subl .
+: 1699857672:0;subl fuzzy-history.zsh fuzzy-find.zsh quick-insert.zsh
+: 1699857935:0;'./quick-insert.zsh'
+: 1699858037:0;touch quick-config.zsh && subl quic-config.zsh
+: 1699858143:0;subl ../history-config.zsh
+: 1699858720:0;man fzf
+: 1699858913:0;_c zshr --height=12
+: 1699859048:0;$EDITOR
+: 1699859055:0;eval $EDITOR
+: 1699859589:0;man zshparam
+: 1699859723:0;typeset -a blah val1 val2 val3
+: 1699859751:0;blah=(val1 val2 val3)
+: 1699859755:0;echo $blah
+: 1699859791:0;echo "$blah[1]"
+: 1699859836:0;echo "$blah[r 1]"
+: 1699859864:0;echo "$blah[r1]"
+: 1699859868:0;echo "$blah[R1]"
+: 1699859941:0;echo "$blah[2:$]"
+: 1699860057:0;echo "$blah[2,$]"
+: 1699860108:0;_c zshr
+: 1699860115:0;_c
+: 1699860191:0;_c zshrc --height=12
+: 1699860225:0;_c zshrc --height=12 +s
+: 1699860300:0;subl quick-config.zsh
+: 1699860367:0;ec zsh
+: 1699860423:0;ec zshr --height=12
+: 1699860560:0;source quick-config.zsh
+: 1699863010:0;git branch
+: 1699863015:0;git branch -a
+: 1699863091:0;git checkout -b robin/1335/line-splitter-fix
+: 1699863104:0;code
+: 1699863117:0;code .
+: 1699863272:0;[200~mkdir -p $HOME/Library/KeyBindings
+: 1699863278:0;echo '{\
+/* Remap Home / End keys to be correct */\
+"\UF729" = "moveToBeginningOfLine:"; /* Home */\
+"\UF72B" = "moveToEndOfLine:"; /* End */\
+"$\UF729" = "moveToBeginningOfLineAndModifySelection:"; /* Shift + Home */\
+"$\UF72B" = "moveToEndOfLineAndModifySelection:"; /* Shift + End */\
+"^\UF729" = "moveToBeginningOfDocument:"; /* Ctrl + Home */\
+"^\UF72B" = "moveToEndOfDocument:"; /* Ctrl + End */\
+"$^\UF729" = "moveToBeginningOfDocumentAndModifySelection:"; /* Shift + Ctrl + Home */\
+"$^\UF72B" = "moveToEndOfDocumentAndModifySelection:"; /* Shift + Ctrl + End */
+: 1699863285:0;mkdir -p $HOME/Library/KeyBindings
+: 1699863344:0;echo '{\
+/* Remap Home / End keys to be correct */\
+"\UF729" = "moveToBeginningOfLine:"; /* Home */\
+"\UF72B" = "moveToEndOfLine:"; /* End */\
+"$\UF729" = "moveToBeginningOfLineAndModifySelection:"; /* Shift + Home */\
+"$\UF72B" = "moveToEndOfLineAndModifySelection:"; /* Shift + End */\
+"^\UF729" = "moveToBeginningOfDocument:"; /* Ctrl + Home */\
+"^\UF72B" = "moveToEndOfDocument:"; /* Ctrl + End */\
+"$^\UF729" = "moveToBeginningOfDocumentAndModifySelection:"; /* Shift + Ctrl + Home */\
+"$^\UF72B" = "moveToEndOfDocumentAndModifySelection:"; /* Shift + Ctrl + End */\
+}' > $HOME/Library/KeyBindings/DefaultKeyBinding.dict
+: 1699863373:0;subl ~/Library/KeyBindings
+: 1699879617:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter other encoding'
+: 1699880478:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter base scenario'
+: 1699882051:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts'
+: 1699882318:0;git commit
+: 1699882693:0;git push -u origin robin/1335/line-splitter-fix
+: 1699882710:0;git bb
+: 1699883127:0;git diff @^
+: 1699883667:0;git add -u
+: 1699883675:0;git add changelog/draft/internal/1335.md
+: 1699884213:0;./gclogin.sh
+: 1699884405:0;npm run lint
+: 1699885085:0;pulumi --cwd pulumi stack select skunkteam/robinkneepkens
+: 1699885236:0;pulumi --cwd pulumi stack select skunkteam/robin
+: 1699885588:0;pulumi --cwd pulumi config set logLocation eu
+: 1699885866:0;cd Development/usr
+: 1699885880:0;git diff libs/common/backend/src/lib/utils/stream-line-splitter.ts
+: 1699886129:0;cd '/Users/robin.kneepkens/Development/usr'
+: 1699886130:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter line too long to handle'
+: 1699886532:0;npm run start
+: 1699887140:0;npm run build
+: 1699887350:0;pulumi --cwd pulumi up --policy-pack ../pulumi-policy
+: 1699887574:0;echo "bla"
+: 1699887880:0;git add './pulumi/Pulumi.robin.yaml'
+: 1699887911:0;git commit -m "Added logLocation: eu to pulumi stack config"
+: 1699887923:0;git last
+: 1699887926:0;git push
+: 1699888555:0;git fetch
+: 1699888559:0;git olog
+: 1699888674:0;git diff
+: 1699888712:0;git checkout './libs/common/backend/src/lib/utils/stream-line-splitter.ts'
+: 1699888721:0;git checkout master
+: 1699888723:0;git pull
+: 1699889820:0;cd Development/usr/
+: 1699889937:0;brew install duti
+: 1699889954:0;duti
+: 1699889961:0;duti -h
+: 1699889968:0;man duti
+: 1699890025:0;duti -l
+: 1699890049:0;duti -x http
+: 1699890059:0;duti -x html
+: 1699890077:0;duti -s com.google.Chrome .md all
+: 1699890087:0;open CHANGELOG.md
+: 1699890283:0;cd ../../Documents/git-test/
+: 1699890303:0;mkdir -p a/subdir
+: 1699890311:0;touch a/blah.txt
+: 1699890318:0;touch a/subdir/readme.md
+: 1699890535:0;cd ~/Documents/git-test
+: 1699890569:0;man zsh
+: 1699890589:0;man zshzle
+: 1699890934:0;rc fuzz
+: 1699890945:0;_fuzzy-find
+: 1699890954:0;_fuzzy-find bla
+: 1699891642:0;rc fzz
+: 1699891968:0;rc
+: 1699892046:0;ec
+: 1699892185:0;rc qic
+: 1699892200:0;rc zsh
+: 1699892235:0;git add './a/blah.txt'
+: 1699892256:0;man test
+: 1699892975:0;git add './a/blah.txt' './test.txt'
+: 1699892978:0;git status
+: 1699893043:0;rc zshr
+: 1699893044:0;source /Users/robin.kneepkens/.config/zsh/.zshrc
+: 1699893059:0;ec zshr
+: 1699893060:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
+: 1699893110:0;ec fu
+: 1699893112:0;subl /Users/robin.kneepkens/.config/zsh/user-widgets/fuzzy-history.zsh
+: 1699893555:0;ec historycon
+: 1699893556:0;subl /Users/robin.kneepkens/.config/zsh/history-config.zsh
+: 1699893650:0;ec promp
+: 1699893651:0;subl /Users/robin.kneepkens/.config/zsh/prompt.zsh
+: 1699894282:0;ls
+: 1699894292:0;touch test-2.txt
+: 1699894296:0;touch test-3.txt
+: 1699894316:0;setopt LIST_AMBIGUOUS
+: 1699894453:0;cd Documents/git-test
+: 1699894491:0;touch tast.txt
+: 1699894506:0;cat tast.txt
+: 1699894693:0;ls $FPATH
+: 1699894836:0;sed "s/:/\n/" $FPATH
+: 1699894843:0;sed "s/:/\n/" "$FPATH"
+: 1699894889:0;sed "s/:/\n/" "'$FPATH'"
+: 1699895037:0;echo "$FPATH" | sed "s/:/\n/g"
+: 1699895052:0;echo "$FPATH" | sed "s/:/\n/g" | xargs ls
+: 1699895165:0;man ztodo
+: 1699895393:0;cd
+: 1699895405:0;open Documents/DAF\ Dotfiles\ Reference/readme.md
+: 1699895442:0;git init --bare ~/.dotfiles
+: 1699895476:0;alias dotfile='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+: 1699895497:0;dotfile config --local status.showUntrackedFiles no
+: 1699895537:0;lla
+: 1699895557:0;dotfile add ./.zshenv
+: 1699895559:0;dotfile status
+: 1699895564:0;exit
+: 1699895569:0;dotfile status
+: 1699895650:0;dotfile add './.config/lsd' './.config/git/config'
+: 1699895655:0;cd .config
+: 1699895656:0;ls
+: 1699895670:0;lla karabiner
+: 1699895678:0;cat karabiner/karabiner.json
+: 1699895699:0;dotfile add './karabiner/karabiner.json'
+: 1699895704:0;lla karabiner
+: 1699895715:0;lla karabiner/assets
+: 1699895720:0;lla
+: 1699895730:0;dotfile add zsh/
+: 1699895733:0;dotfile status
+: 1699895741:0;cd zsh
+: 1699895742:0;ls
+: 1699895746:0;lla
+: 1699895752:0;subl .gitignore
+: 1699895798:0;git status
+: 1699895802:0;dotfile status
+: 1699895823:0;dotfile rm -r --cached .zsh_sessions/
+: 1699895827:0;dotfile status
+: 1699895840:0;cat ../lsd/config.yaml
+: 1699895860:0;dotfile add .
+: 1699895862:0;dotfile status
+: 1699895878:0;dotfile tracked
+: 1699895900:0;cat ~/.zshenv
+: 1699895915:0;cat .zsh_history
+: 1699895931:0;rm .zsh_history
+: 1699895935:0;dotfile status
+: 1699895949:0;git rm --cached .zsh_history
+: 1699895956:0;dotfile rm --cached .zsh_history
+: 1699895961:0;dotfile status
+: 1699895986:0;cd
+: 1699895989:0;cd .cache
+: 1699895990:0;ls
+: 1699895996:0;lla zsh/z
+: 1699896017:0;dotfile add './zsh/zsh_history'
+: 1699896040:0;dotfile rm --cached ../.config/zsh/.zcompdump
+: 1699896044:0;dotfile status
+: 1699896064:0;dotfile add -u

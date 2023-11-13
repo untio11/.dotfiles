@@ -1,0 +1,11 @@
+blocks:
+  # - user
+  # - group
+  # - size
+  # - date
+  # - name
+  - date
+  - size
+  - name
+
+indicators: true

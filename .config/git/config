@@ -1,0 +1,20 @@
+[user]
+	name = Robin Kneepkens
+	email = robin@skunk.team
+[alias]
+	olog = log --oneline --graph --all # Show branching graph with commit titles in terminal.
+	plog = log --pretty=format:'%C(yellow)%h %Cred%ad %Cgreen%an%C(cyan)%d %Creset%s' --date=short --abbrev-commit # Dense, summarized history of all commits contributing to current branch.
+	last = log -1 HEAD # Show commit message of commit that's currently checked out.
+	url = "config --local --get remote.origin.url" # Return just the url of the remote repository "origin".
+	bb = "!open -u `git url`" # Open the remote repository url in default browser. (originally from Bit Bucket, hence 'bb')
+	restore = "!git clean -dfX && git reset --hard @" # Bring tracked files to initial state of current commit. Will only delete files in .gitignore.
+	nuke = "!git clean -dfx && git reset --hard @" # Bring repository to initial state for current commit. Will delete ALL files that are not in remote.
+	tracked = "ls-tree --full-tree --name-only -r HEAD" # Show all tracked files in repo for current branch
+	lt = "!lsd --tree $(git rev-parse --show-toplevel)" # Show a nicely formatted tree of the git repository (requires lsd-rs)
+	amend = commit --amend --no-edit # Quickly amend last commit, keeping the old message.
+[core]
+	editor = /Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl --new-window --wait
+[credential]
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true

@@ -1,3 +1,6 @@
+# Enable vi mode
+bindkey -v
+
 ### =====================
 ### Prompt customization
 ### =====================
@@ -89,6 +92,7 @@ alias zcp='zmv -C'
 alias zln='zmv -L'
 alias dotfile='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME' # For managing dotfiles in ~/.
 alias tmux='tmux -u' # To enable unicode characters.
+alias vim='nvim'
 
 
 ### ===========
@@ -113,3 +117,16 @@ source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
 # NOTE: Needs to be included at the end of .zshrc
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+
+### ======================================
+### Always connect to global tmux session
+### ======================================
+if [[ -z "$TMUX" ]]; then
+	tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
+fi
+
+
+
+
+

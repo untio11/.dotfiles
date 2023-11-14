@@ -54,13 +54,11 @@
 : 1699138367:0;lt Documents
 : 1699138543:0;git tracked | ls --tree
 : 1699138819:0;cd subdir
-: 1699138887:0;lt
 : 1699138891:0;lt ..
 : 1699138961:0;lla ..
 : 1699138991:0;rm ~/fzf
 : 1699139001:0;rm ~/test.txt
 : 1699139487:0;bindkey -l
-: 1699139492:0;bindkey
 : 1699139839:0;keybind
 : 1699140174:0;ths
 : 1699255399:0;bindkey -h
@@ -194,7 +192,6 @@
 : 1699381765:0;npm list
 : 1699381782:0;npm list | grep chai --color
 : 1699381814:0;npm list | grep chai
-: 1699381941:0;cd ..
 : 1699381951:0;cat package-lock.json | grep chai
 : 1699382171:0;npm i @types/chai@^4.1.7
 : 1699382209:0;npm i chai@^4.2.0
@@ -323,7 +320,6 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699460656:0;h h
 : 1699460760:0;tsh
 : 1699460827:0;bindkey -L | fzf
-: 1699460838:0;zle -la | fzf
 : 1699460982:0;bindkey '^i'
 : 1699460989:0;bindkey '^u'
 : 1699461108:0;git add git status
@@ -694,14 +690,12 @@ with me"
 : 1699860191:0;_c zshrc --height=12
 : 1699860225:0;_c zshrc --height=12 +s
 : 1699860300:0;subl quick-config.zsh
-: 1699860367:0;ec zsh
 : 1699860423:0;ec zshr --height=12
 : 1699860560:0;source quick-config.zsh
 : 1699863010:0;git branch
 : 1699863015:0;git branch -a
 : 1699863091:0;git checkout -b robin/1335/line-splitter-fix
 : 1699863104:0;code
-: 1699863117:0;code .
 : 1699863272:0;[200~mkdir -p $HOME/Library/KeyBindings
 : 1699863278:0;echo '{\
 /* Remap Home / End keys to be correct */\
@@ -731,7 +725,6 @@ with me"
 : 1699882051:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts'
 : 1699882318:0;git commit
 : 1699882693:0;git push -u origin robin/1335/line-splitter-fix
-: 1699882710:0;git bb
 : 1699883127:0;git diff @^
 : 1699883667:0;git add -u
 : 1699883675:0;git add changelog/draft/internal/1335.md
@@ -741,16 +734,10 @@ with me"
 : 1699885236:0;pulumi --cwd pulumi stack select skunkteam/robin
 : 1699885588:0;pulumi --cwd pulumi config set logLocation eu
 : 1699885880:0;git diff libs/common/backend/src/lib/utils/stream-line-splitter.ts
-: 1699886129:0;cd '/Users/robin.kneepkens/Development/usr'
-: 1699886130:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter line too long to handle'
 : 1699887350:0;pulumi --cwd pulumi up --policy-pack ../pulumi-policy
 : 1699887574:0;echo "bla"
 : 1699887880:0;git add './pulumi/Pulumi.robin.yaml'
 : 1699887911:0;git commit -m "Added logLocation: eu to pulumi stack config"
-: 1699887923:0;git last
-: 1699887926:0;git push
-: 1699888555:0;git fetch
-: 1699888674:0;git diff
 : 1699888712:0;git checkout './libs/common/backend/src/lib/utils/stream-line-splitter.ts'
 : 1699888721:0;git checkout master
 : 1699888723:0;git pull
@@ -776,7 +763,6 @@ with me"
 : 1699890954:0;_fuzzy-find bla
 : 1699891642:0;rc fzz
 : 1699891968:0;rc
-: 1699892046:0;ec
 : 1699892185:0;rc qic
 : 1699892200:0;rc zsh
 : 1699892235:0;git add './a/blah.txt'
@@ -817,7 +803,6 @@ with me"
 : 1699895752:0;subl .gitignore
 : 1699895823:0;dotfile rm -r --cached .zsh_sessions/
 : 1699895840:0;cat ../lsd/config.yaml
-: 1699895860:0;dotfile add .
 : 1699895900:0;cat ~/.zshenv
 : 1699895915:0;cat .zsh_history
 : 1699895931:0;rm .zsh_history
@@ -851,7 +836,6 @@ with me"
 : 1699956051:0;tmux -h
 : 1699956060:0;tmux list
 : 1699956081:0;tmux close-session 0
-: 1699956085:0;man tmux
 : 1699956201:0;tmux start-session Testing
 : 1699956249:0;vim .config/tmux/tmux.conf
 : 1699956314:0;man vim
@@ -860,7 +844,6 @@ with me"
 : 1699956918:0;touch nvim/init.vim
 : 1699957468:0;tmux kill-session -t 0
 : 1699957486:0;tmux list-sessions
-: 1699957754:0;cd .config
 : 1699957964:0;man nvim
 : 1699958606:0;nvim nvim/init.vim
 : 1699958888:0;vim tmux/tmux.conf
@@ -870,7 +853,6 @@ with me"
 : 1699959973:0;git plog
 : 1699960031:0;bindkey -v
 : 1699960402:0;ec tmu
-: 1699960404:0;subl /Users/robin.kneepkens/.config/tmux/tmux.conf
 : 1699960663:0;tmux set -g default-terminal "screen-256color"
 : 1699960895:0;tmux bind C-b send-prefix
 : 1699960910:0;tmux set -g prefix C-b
@@ -890,9 +872,6 @@ ok"
 : 1699962305:0;PS2="| "
 : 1699962314:0;echo "b\
 la
-: 1699962327:0;tmux kill-server
-: 1699962330:0;tmux ls
-: 1699962339:0;tmux kill-session
 : 1699966061:0;echo
 : 1699966106:0;echo this is a bit tight now :/
 : 1699966124:0;echo "\
@@ -918,13 +897,10 @@ this now?\
 : 1699966759:0;man alacritty
 : 1699966823:0;which zsh
 : 1699967059:0;nvim alacritty.toml
-: 1699967124:0;cd
 : 1699967135:0;lt .config/alacritty
 : 1699967205:0;mv .config/alacritty/alacritty.toml .config/alacritty/alacritty.yml
 : 1699967214:0;nvim alacritty.yml
-: 1699967662:0;git status
 : 1699967712:0;cat Documents/Basic.terminal
-: 1699967954:0;tmux attach
 : 1699968035:0;subl ../../.config/alacritty/alacritty.yml
 : 1699968697:0;alacritty
 : 1699969273:0;npx neofetch
@@ -945,17 +921,13 @@ bash 24-bit-color.sh
 : 1699971744:0;subl /Users/robin.kneepkens/.config/nvim/init.vim
 : 1699972050:0;npm install -g neovim
 : 1699972164:0;python -m pip install --user --upgrade pynvim
-: 1699972171:0;ls
 : 1699972187:0;npx colortest
 : 1699972307:0;cd Documents/git-test
 : 1699972318:0;cd ~/Development/usr
 : 1699972333:0;git olog
-: 1699972480:0;nvim
 : 1699972637:0;dotfile diff './.config/git/config'
 : 1699972649:0;cat './.config/git/config'
 : 1699972668:0;dotfile checkout './.config/git/config'
-: 1699972697:0;ec zshr
-: 1699972698:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
 : 1699972860:0;__git_complete
 : 1699972903:0;which __git_complete
 : 1699972928:0;sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
@@ -971,7 +943,6 @@ bash 24-bit-color.sh
 : 1699973650:0;complete | grep git
 : 1699973654:0;complete
 : 1699973759:0;setopt complet_aliases
-: 1699973811:0;zrc
 : 1699973812:0;reset
 : 1699973887:0;setopt complete_aliases
 : 1699973981:0;dotfile add .config/alacritty
@@ -1001,42 +972,85 @@ bash 24-bit-color.sh
 \
 tmux, nvim and alacritty\
 "
-: 1699974504:0;dotfile status
 : 1699974506:0;dotfile olog
-: 1699974525:0;tmux
-: 1699974687:0;nvim .config/tmux/tmux.conf
-: 1699974839:0;cd Development/usr
-: 1699974849:0;exit
-: 1699975774:0;nvim .config/tmux/tmux.conf
-: 1699976868:0;cd .config
 : 1699976879:0;nvim './nvim/init.vim'
 : 1699977309:0;cd nvim
 : 1699977310:0;lt
 : 1699977320:0;touch init.lua
 : 1699977325:0;mkdir lua
 : 1699977331:0;mkdir lua/plugins.lua
-: 1699977335:0;nvim
-: 1699977410:0;ls
 : 1699977416:0;rm init.lua
 : 1699977426:0;touch lua/config.lua
-: 1699977429:0;nvim init.vim
-: 1699977455:0;nvim
-: 1699977486:0;nvim lua/config.lua
-: 1699977525:0;nvim lua/plugins.lua
 : 1699977535:0;rm -r lua/plugins.lua
 : 1699977540:0;touch lua/plugins.lua
-: 1699977546:0;nvim lua/plugins.lua
 : 1699977670:0;subl lua/plugins.lua
 : 1699977701:0;nvim lua/config.lua
-: 1699977727:0;nvim lua/plugins.lua
-: 1699977781:0;nvim
-: 1699977794:0;nvim lua/plugins.lua
-: 1699977904:0;nvim
 : 1699977948:0;nvim lua/plugins.lua
-: 1699977986:0;nvim init.vim
 : 1699978010:0;nvim
 : 1699978050:0;nvim init.vim
-: 1699978185:0;dotfile status
 : 1699978192:0;dotfile add .
 : 1699978195:0;dotfile status
 : 1699978223:0;dotfile commit -am "Added packer and monokai to nvim"
+: 1699978240:0;ec zsh
+: 1699978718:0;tmux kill-server
+: 1699978766:0;subl /Users/robin.kneepkens/.config/tmux/tmux.conf
+: 1699979144:0;man tmux
+: 1699979888:0;tmux list-clients
+: 1699980415:0;tmux kill-session GLOBAL
+: 1699980428:0;tmux kill session
+: 1699980434:0;tmux kill-session
+: 1699980437:0;tmux ls
+: 1699980621:0;cd Development/usr
+: 1699980640:0;git checkout libs/common/backend/src/lib/utils/stream-line-splitter.ts
+: 1699980644:0;git bb
+: 1699980763:0;code .
+: 1699980823:0;git fetch
+: 1699980852:0;tmux attach GL
+: 1699980896:0;tmux attach
+: 1699980956:0;cd '/Users/robin.kneepkens/Development/usr'
+: 1699980956:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter line too long to handle'
+: 1699981024:0;git status
+: 1699981029:0;git diff
+: 1699981112:0;git commit -am "Resolved review comments"
+: 1699981124:0;git last
+: 1699981128:0;git push
+: 1699981231:0;ts
+: 1699981422:0;ec
+: 1699981443:0;ec fuzz
+: 1699981445:0;subl /Users/robin.kneepkens/.config/zsh/user-widgets/fuzzy-find.zsh
+: 1699981519:0;zle -la | fzf
+: 1699981535:0;zle -x _fuzzy-find
+: 1699981741:0;VIMODE="${${KEYMAP/vicmd/[n]}/(main|viins)/[i]}"
+: 1699981835:0;ec zshr
+: 1699981835:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
+: 1699981881:0;zrc
+: 1699981887:0;echo $VIMODE
+: 1699981943:0;\
+\
+echo $KEYMAP
+: 1699981958:0;$vicmd
+: 1699982025:0;bindkey -m
+: 1699982046:0;bindkey
+: 1699982266:0;cd .config
+: 1699982285:0;cd zsh/user-widgets
+: 1699982295:0;cd ..
+: 1699982296:0;ls
+: 1699982300:0;nvim prompt.zsh
+: 1699982607:0;cd
+: 1699982672:0;tmux
+: 1699982710:0;nvim .config/tmux/tmux.conf
+: 1699982861:0;exit
+: 1699982864:0;tmux
+: 1699982868:0;nvim
+: 1699982883:0;nvim -v
+: 1699982895:0;nvim
+: 1699982965:0;dotfile status
+: 1699982972:0;dotfile diff
+: 1699983027:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
+: 1699983063:0;zrc
+: 1699983126:0;\
+echo hoi
+: 1699983129:0;hmm
+: 1699983132:0;echo
+: 1699983155:0;dotfile diff
+: 1699983188:0;dotfile commit -am "Enbled vi mode in zsh and we now always connect to a global tmux session"

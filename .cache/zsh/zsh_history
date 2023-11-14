@@ -382,12 +382,10 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699517474:0;catp .boto
 : 1699517503:0;lla .cache/puppeteer
 : 1699517523:0;catp .CFUserTextEncoding
-: 1699517546:0;lla .config/configstore
 : 1699517558:0;lla .docker
 : 1699517571:0;man git
 : 1699517740:0;mkdir -p .config/git
 : 1699517751:0;mv .gitconfig .config/git
-: 1699517783:0;lla .config/git
 : 1699517790:0;man git-config
 : 1699517843:0;mv .config/git/.gitconfig .config/git/config
 : 1699517863:0;catp .lesshst
@@ -580,7 +578,6 @@ Pretty nice actually, so Imma keep it at this for now.\
 : 1699614382:0;git amend
 : 1699614773:0;subl -h
 : 1699615586:0;echo $ZDOTDIR/.zshrc
-: 1699615601:0;lla .config
 : 1699615609:0;lla .config/.config
 : 1699615701:0;lla .config/.config/zsh
 : 1699615716:0;rm -r .config/.config
@@ -821,7 +818,6 @@ with me"
 : 1699895823:0;dotfile rm -r --cached .zsh_sessions/
 : 1699895840:0;cat ../lsd/config.yaml
 : 1699895860:0;dotfile add .
-: 1699895878:0;dotfile tracked
 : 1699895900:0;cat ~/.zshenv
 : 1699895915:0;cat .zsh_history
 : 1699895931:0;rm .zsh_history
@@ -831,9 +827,7 @@ with me"
 : 1699895996:0;lla zsh/z
 : 1699896017:0;dotfile add './zsh/zsh_history'
 : 1699896040:0;dotfile rm --cached ../.config/zsh/.zcompdump
-: 1699896064:0;dotfile add -u
 : 1699896074:0;dotfile commit -m "Initial commit"
-: 1699896083:0;dotfile olog
 : 1699899105:0;code Development/usr
 : 1699899139:0;git checkout robin/1335/line-splitter-fix
 : 1699899161:0;npm run build
@@ -934,7 +928,6 @@ this now?\
 : 1699968035:0;subl ../../.config/alacritty/alacritty.yml
 : 1699968697:0;alacritty
 : 1699969273:0;npx neofetch
-: 1699969492:0;lla
 : 1699969967:0;alacritty -v
 : 1699970293:0;alacritty -v --debug
 : 1699970307:0;alacritty --debug
@@ -947,25 +940,20 @@ this now?\
 : 1699971650:0;curl -s https://gist.githubusercontent.com/lifepillar/09a44b8cf0f9397465614e622979107f/raw/24-bit-color.sh >24-bit-color.sh\
 bash 24-bit-color.sh
 : 1699971684:0;./24-bit-color.sh
-: 1699971703:0;bash 24-bit-color.sh
 : 1699971714:0;echo $TERM
 : 1699971742:0;ec init
 : 1699971744:0;subl /Users/robin.kneepkens/.config/nvim/init.vim
-: 1699971834:0;nvim .config/tmux/tmux.conf
 : 1699972050:0;npm install -g neovim
-: 1699972073:0;tmux
 : 1699972164:0;python -m pip install --user --upgrade pynvim
 : 1699972171:0;ls
 : 1699972187:0;npx colortest
 : 1699972307:0;cd Documents/git-test
 : 1699972318:0;cd ~/Development/usr
-: 1699972331:0;cd Development/usr
 : 1699972333:0;git olog
 : 1699972480:0;nvim
 : 1699972637:0;dotfile diff './.config/git/config'
 : 1699972649:0;cat './.config/git/config'
 : 1699972668:0;dotfile checkout './.config/git/config'
-: 1699972672:0;dotfile status
 : 1699972697:0;ec zshr
 : 1699972698:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
 : 1699972860:0;__git_complete
@@ -977,8 +965,6 @@ bash 24-bit-color.sh
 : 1699973252:0;autoload _git
 : 1699973258:0;__git_completion
 : 1699973274:0;_git
-: 1699973489:0;complete -F _git dotfile
-: 1699973495:0;complete -p dotfile
 : 1699973556:0;. /usr/share/zsh/5.9/functions/_git
 : 1699973597:0;complete -F dotfile
 : 1699973607:0;complete | grep dotfile
@@ -988,22 +974,14 @@ bash 24-bit-color.sh
 : 1699973811:0;zrc
 : 1699973812:0;reset
 : 1699973887:0;setopt complete_aliases
-: 1699973966:0;exit
 : 1699973981:0;dotfile add .config/alacritty
-: 1699973987:0;dotfile status
 : 1699974018:0;complete -o dotfile
-: 1699974023:0;complete -p dotfile
 : 1699974043:0;complete -F _git dotfile
-: 1699974046:0;complete -p dotfile
 : 1699974093:0;complete -o default dotfile
 : 1699974097:0;complete -p dotfile
-: 1699974132:0;dotfile status
 : 1699974173:0;dotfile add .config/lsd
 : 1699974194:0;dotfile add .config/nvim .config/tmux
-: 1699974196:0;dotfile status
 : 1699974224:0;dotfile status -u
-: 1699974245:0;dotfile status
-: 1699974246:0;lla
 : 1699974263:0;lla .vscode
 : 1699974270:0;cat .vscode/argv.json
 : 1699974286:0;lla .vscode/cli
@@ -1013,11 +991,52 @@ bash 24-bit-color.sh
 : 1699974321:0;rm 24-bit-color.sh
 : 1699974333:0;lla .config
 : 1699974340:0;dotfile tracked
-: 1699974354:0;dotfile status
 : 1699974364:0;lla .config/configstore
 : 1699974376:0;lla .config/git
 : 1699974386:0;lla .config/neofetch
 : 1699974399:0;cat .config/neofetch/config.conf
-: 1699974427:0;dotfile status
 : 1699974441:0;dotfile diff './.config/zsh/.zshrc'
 : 1699974465:0;dotfile add -u
+: 1699974499:0;dotfile commit -m "Added configs for:\
+\
+tmux, nvim and alacritty\
+"
+: 1699974504:0;dotfile status
+: 1699974506:0;dotfile olog
+: 1699974525:0;tmux
+: 1699974687:0;nvim .config/tmux/tmux.conf
+: 1699974839:0;cd Development/usr
+: 1699974849:0;exit
+: 1699975774:0;nvim .config/tmux/tmux.conf
+: 1699976868:0;cd .config
+: 1699976879:0;nvim './nvim/init.vim'
+: 1699977309:0;cd nvim
+: 1699977310:0;lt
+: 1699977320:0;touch init.lua
+: 1699977325:0;mkdir lua
+: 1699977331:0;mkdir lua/plugins.lua
+: 1699977335:0;nvim
+: 1699977410:0;ls
+: 1699977416:0;rm init.lua
+: 1699977426:0;touch lua/config.lua
+: 1699977429:0;nvim init.vim
+: 1699977455:0;nvim
+: 1699977486:0;nvim lua/config.lua
+: 1699977525:0;nvim lua/plugins.lua
+: 1699977535:0;rm -r lua/plugins.lua
+: 1699977540:0;touch lua/plugins.lua
+: 1699977546:0;nvim lua/plugins.lua
+: 1699977670:0;subl lua/plugins.lua
+: 1699977701:0;nvim lua/config.lua
+: 1699977727:0;nvim lua/plugins.lua
+: 1699977781:0;nvim
+: 1699977794:0;nvim lua/plugins.lua
+: 1699977904:0;nvim
+: 1699977948:0;nvim lua/plugins.lua
+: 1699977986:0;nvim init.vim
+: 1699978010:0;nvim
+: 1699978050:0;nvim init.vim
+: 1699978185:0;dotfile status
+: 1699978192:0;dotfile add .
+: 1699978195:0;dotfile status
+: 1699978223:0;dotfile commit -am "Added packer and monokai to nvim"

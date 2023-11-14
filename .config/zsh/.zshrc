@@ -61,6 +61,10 @@ unsetopt LIST_AMBIGUOUS
 # Allow wildcards to be cycled through with tab-completion.
 setopt GLOB_COMPLETE
 
+# Enable tab-completion for alias commands (specifically dotfile
+# was not working otherwise)
+setopt COMPLETE_ALIASES
+
 # Make path completion case-insensitive
 unsetopt CASE_GLOB 
 
@@ -83,7 +87,8 @@ alias python='python3'
 alias zrc='source $ZDOTDIR/.zshrc'
 alias zcp='zmv -C'
 alias zln='zmv -L'
-alias dotfile='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME' # For managing dotfiles in ~/
+alias dotfile='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME' # For managing dotfiles in ~/.
+alias tmux='tmux -u' # To enable unicode characters.
 
 
 ### ===========

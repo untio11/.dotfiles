@@ -21,7 +21,6 @@
 : 1699033308:0;npx colortester
 : 1699033684:0;cat Documents/git-test/test-3.txt
 : 1699033702:0;ls -a
-: 1699033737:0;brew upgrade
 : 1699033741:0;npm -v
 : 1699114480:0;echo blah >> test.txt
 : 1699114491:0;gut status
@@ -71,7 +70,6 @@
 : 1699266252:0;la
 : 1699267370:0;cat .viminfo
 : 1699267446:0;locale
-: 1699267664:0;man vim
 : 1699267835:0;cat .gitconfig
 : 1699267841:0;git ll
 : 1699268560:0;brew install --cask visual-studio-code
@@ -358,7 +356,6 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699511791:0;subl prompt.zsh
 : 1699512268:0;brew --prefix
 : 1699512307:0;echo $ZSHCONFIG
-: 1699512582:0;reset
 : 1699512765:0;man vcs-info
 : 1699512780:0;vcs_info
 : 1699512785:0;man vcs_info
@@ -417,14 +414,11 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699519070:0;\ls -al
 : 1699519080:0;\cat .zprofile
 : 1699519098:0;mv .zprofile $ZDOTDIR/.zprofile
-: 1699519123:0;cat .zsh_history
-: 1699519148:0;rm .zsh_history
 : 1699519168:0;rm .zcompdump
 : 1699519191:0;ls -al
 : 1699519204:0;catp .zshenv
 : 1699519244:0;cat $ZDOTDIR/.zprofile $ZDOTDIR/.zshrc
 : 1699519266:0;rm -r .zsh_sessions
-: 1699519335:0;echo $XDG_CONFIG_HOME
 : 1699519341:0;subl .zshenv
 : 1699519514:0;lla .cache
 : 1699519586:0;cd Development
@@ -433,7 +427,6 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699519675:0;cd sherlock
 : 1699519719:0;git diff package.json
 : 1699524633:0;npm run tutorial:run
-: 1699525452:0;ping google.com
 : 1699525566:0;rm -r typings
 : 1699525689:0;npm i
 : 1699525797:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/libs/sherlock/src/lib/derivable/atom.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/libs/sherlock/jest.config.ts'
@@ -496,7 +489,6 @@ Again skipping by default.\
 : 1699612036:0;echo "h\
 what do you want from me?\
 "
-: 1699612060:0;PS2="| "
 : 1699612076:0;echo "\
 what do you wa\
 nt fro\
@@ -559,7 +551,6 @@ hmm\
 also\
 okay\
 "
-: 1699613787:0;echo
 : 1699613795:0;echo "\
 and now\
 then?\
@@ -594,7 +585,6 @@ Pretty nice actually, so Imma keep it at this for now.\
 : 1699615701:0;lla .config/.config/zsh
 : 1699615716:0;rm -r .config/.config
 : 1699617493:0;source $ZDOTDIR/.zshrc
-: 1699617495:0;zrc
 : 1699617633:0;cd Development/sherlock
 : 1699618013:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'reacting'
 : 1699618045:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/4 - inner workings.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
@@ -609,10 +599,7 @@ There's still one part at line 121 where I'm not sure what's happening\
 \
 As always, set to skip by default.\
 "
-: 1699648276:0;echo wow
-: 1699648341:0;git plog
 : 1699650970:0;clear
-: 1699650974:0;npx colortest
 : 1699651401:0;cd Development/politie-sherlock
 : 1699651406:0;cd ../sherlock
 : 1699651410:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/5 - unresolved.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
@@ -681,8 +668,6 @@ with me"
 : 1699824122:0;mkdir 'robin-personal-vault'
 : 1699824127:0;cd robin-personal-vault
 : 1699824167:0;pwd | pbcopy
-: 1699857209:0;cd $XDG_CONFIG_HOME
-: 1699857217:0;cd zsh
 : 1699857232:0;mkdir user-widgets
 : 1699857235:0;cd user-widgets
 : 1699857355:0;touch fuzzy-history fuzzy-find quick-insert
@@ -758,12 +743,9 @@ with me"
 : 1699885085:0;pulumi --cwd pulumi stack select skunkteam/robinkneepkens
 : 1699885236:0;pulumi --cwd pulumi stack select skunkteam/robin
 : 1699885588:0;pulumi --cwd pulumi config set logLocation eu
-: 1699885866:0;cd Development/usr
 : 1699885880:0;git diff libs/common/backend/src/lib/utils/stream-line-splitter.ts
 : 1699886129:0;cd '/Users/robin.kneepkens/Development/usr'
 : 1699886130:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter line too long to handle'
-: 1699886532:0;npm run start
-: 1699887140:0;npm run build
 : 1699887350:0;pulumi --cwd pulumi up --policy-pack ../pulumi-policy
 : 1699887574:0;echo "bla"
 : 1699887880:0;git add './pulumi/Pulumi.robin.yaml'
@@ -771,7 +753,6 @@ with me"
 : 1699887923:0;git last
 : 1699887926:0;git push
 : 1699888555:0;git fetch
-: 1699888559:0;git olog
 : 1699888674:0;git diff
 : 1699888712:0;git checkout './libs/common/backend/src/lib/utils/stream-line-splitter.ts'
 : 1699888721:0;git checkout master
@@ -804,22 +785,17 @@ with me"
 : 1699892235:0;git add './a/blah.txt'
 : 1699892256:0;man test
 : 1699892975:0;git add './a/blah.txt' './test.txt'
-: 1699892978:0;git status
 : 1699893043:0;rc zshr
 : 1699893044:0;source /Users/robin.kneepkens/.config/zsh/.zshrc
-: 1699893059:0;ec zshr
-: 1699893060:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
 : 1699893110:0;ec fu
 : 1699893112:0;subl /Users/robin.kneepkens/.config/zsh/user-widgets/fuzzy-history.zsh
 : 1699893555:0;ec historycon
 : 1699893556:0;subl /Users/robin.kneepkens/.config/zsh/history-config.zsh
 : 1699893650:0;ec promp
 : 1699893651:0;subl /Users/robin.kneepkens/.config/zsh/prompt.zsh
-: 1699894282:0;ls
 : 1699894292:0;touch test-2.txt
 : 1699894296:0;touch test-3.txt
 : 1699894316:0;setopt LIST_AMBIGUOUS
-: 1699894453:0;cd Documents/git-test
 : 1699894491:0;touch tast.txt
 : 1699894506:0;cat tast.txt
 : 1699894693:0;ls $FPATH
@@ -829,51 +805,219 @@ with me"
 : 1699895037:0;echo "$FPATH" | sed "s/:/\n/g"
 : 1699895052:0;echo "$FPATH" | sed "s/:/\n/g" | xargs ls
 : 1699895165:0;man ztodo
-: 1699895393:0;cd
 : 1699895405:0;open Documents/DAF\ Dotfiles\ Reference/readme.md
 : 1699895442:0;git init --bare ~/.dotfiles
 : 1699895476:0;alias dotfile='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 : 1699895497:0;dotfile config --local status.showUntrackedFiles no
-: 1699895537:0;lla
 : 1699895557:0;dotfile add ./.zshenv
-: 1699895559:0;dotfile status
-: 1699895564:0;exit
-: 1699895569:0;dotfile status
 : 1699895650:0;dotfile add './.config/lsd' './.config/git/config'
-: 1699895655:0;cd .config
-: 1699895656:0;ls
-: 1699895670:0;lla karabiner
 : 1699895678:0;cat karabiner/karabiner.json
 : 1699895699:0;dotfile add './karabiner/karabiner.json'
 : 1699895704:0;lla karabiner
 : 1699895715:0;lla karabiner/assets
-: 1699895720:0;lla
 : 1699895730:0;dotfile add zsh/
-: 1699895733:0;dotfile status
 : 1699895741:0;cd zsh
-: 1699895742:0;ls
-: 1699895746:0;lla
 : 1699895752:0;subl .gitignore
-: 1699895798:0;git status
-: 1699895802:0;dotfile status
 : 1699895823:0;dotfile rm -r --cached .zsh_sessions/
-: 1699895827:0;dotfile status
 : 1699895840:0;cat ../lsd/config.yaml
 : 1699895860:0;dotfile add .
-: 1699895862:0;dotfile status
 : 1699895878:0;dotfile tracked
 : 1699895900:0;cat ~/.zshenv
 : 1699895915:0;cat .zsh_history
 : 1699895931:0;rm .zsh_history
-: 1699895935:0;dotfile status
 : 1699895949:0;git rm --cached .zsh_history
 : 1699895956:0;dotfile rm --cached .zsh_history
-: 1699895961:0;dotfile status
-: 1699895986:0;cd
 : 1699895989:0;cd .cache
-: 1699895990:0;ls
 : 1699895996:0;lla zsh/z
 : 1699896017:0;dotfile add './zsh/zsh_history'
 : 1699896040:0;dotfile rm --cached ../.config/zsh/.zcompdump
-: 1699896044:0;dotfile status
 : 1699896064:0;dotfile add -u
+: 1699896074:0;dotfile commit -m "Initial commit"
+: 1699896083:0;dotfile olog
+: 1699899105:0;code Development/usr
+: 1699899139:0;git checkout robin/1335/line-splitter-fix
+: 1699899161:0;npm run build
+: 1699899197:0;npm run start
+: 1699954194:0;brew intsall tmux
+: 1699954202:0;brew install tmux
+: 1699954304:0;brew outdated
+: 1699954326:0;man brew
+: 1699954396:0;brew update
+: 1699954413:0;brew upgrade
+: 1699954620:0;echo damn
+: 1699954632:0;echo wow
+: 1699954664:0;ping
+: 1699954669:0;ping google.com
+: 1699955118:0;subl .config/tmux/tmux.conf
+: 1699955195:0;mkdir .config/tmux/
+: 1699955210:0;touch .config/tmux/tmux.conf
+: 1699955764:0;echo $XDG_CONFIG_HOME
+: 1699956018:0;kl;ad
+: 1699956044:0;tmux detach
+: 1699956051:0;tmux -h
+: 1699956060:0;tmux list
+: 1699956081:0;tmux close-session 0
+: 1699956085:0;man tmux
+: 1699956201:0;tmux start-session Testing
+: 1699956249:0;vim .config/tmux/tmux.conf
+: 1699956314:0;man vim
+: 1699956532:0;brew install neovim
+: 1699956887:0;mkdir nvim
+: 1699956918:0;touch nvim/init.vim
+: 1699957468:0;tmux kill-session -t 0
+: 1699957486:0;tmux list-sessions
+: 1699957754:0;cd .config
+: 1699957964:0;man nvim
+: 1699958606:0;nvim nvim/init.vim
+: 1699958888:0;vim tmux/tmux.conf
+: 1699958900:0;nvim tmux/tmux.conf
+: 1699959235:0;tmux kill-session -a
+: 1699959816:0;tmux -u
+: 1699959973:0;git plog
+: 1699960031:0;bindkey -v
+: 1699960402:0;ec tmu
+: 1699960404:0;subl /Users/robin.kneepkens/.config/tmux/tmux.conf
+: 1699960663:0;tmux set -g default-terminal "screen-256color"
+: 1699960895:0;tmux bind C-b send-prefix
+: 1699960910:0;tmux set -g prefix C-b
+: 1699961380:0;echo $LC_ALL
+: 1699961388:0;echo $LC_CTYPE
+: 1699961392:0;echo $LANG
+: 1699961630:0;tmux set-option -g status-style bg=bright green
+: 1699961659:0;tmux set-option -g status-style bg="bright green"
+: 1699961898:0;tmux exit
+: 1699962036:0;ZSH_TMUX_FORCEUTF8=true
+: 1699962098:0;tmux set-environment -g "LC_ALL" "en_US.UTF-8"
+: 1699962136:0;tmux refresh
+: 1699962289:0;\tmux
+: 1699962299:0;echo "\
+hm\
+ok"
+: 1699962305:0;PS2="| "
+: 1699962314:0;echo "b\
+la
+: 1699962327:0;tmux kill-server
+: 1699962330:0;tmux ls
+: 1699962339:0;tmux kill-session
+: 1699966061:0;echo
+: 1699966106:0;echo this is a bit tight now :/
+: 1699966124:0;echo "\
+what about \
+this now?\
+"
+: 1699966161:0;restart
+: 1699966163:0;refresh
+: 1699966407:0;brew install alacritty
+: 1699966421:0;open alacritty
+: 1699966433:0;open -a alacritty
+: 1699966463:0;brew uninstall alacritty
+: 1699966487:0;brew intsall --cask alacritty
+: 1699966495:0;brew install --cask alacritty
+: 1699966552:0;sudo spctl --master-disable
+: 1699966575:0;sudo spctl --master-enable
+: 1699966618:0;nvim .config/zsh/.zshrc
+: 1699966699:0;cd $XDG_CONFIG_HOME
+: 1699966714:0;mkdir alacritty
+: 1699966717:0;cd alacritty
+: 1699966723:0;touch alacritty.toml
+: 1699966751:0;man 5 alacritty
+: 1699966759:0;man alacritty
+: 1699966823:0;which zsh
+: 1699967059:0;nvim alacritty.toml
+: 1699967124:0;cd
+: 1699967135:0;lt .config/alacritty
+: 1699967205:0;mv .config/alacritty/alacritty.toml .config/alacritty/alacritty.yml
+: 1699967214:0;nvim alacritty.yml
+: 1699967662:0;git status
+: 1699967712:0;cat Documents/Basic.terminal
+: 1699967954:0;tmux attach
+: 1699968035:0;subl ../../.config/alacritty/alacritty.yml
+: 1699968697:0;alacritty
+: 1699969273:0;npx neofetch
+: 1699969492:0;lla
+: 1699969967:0;alacritty -v
+: 1699970293:0;alacritty -v --debug
+: 1699970307:0;alacritty --debug
+: 1699970311:0;alacritty --help
+: 1699970328:0;alacritty -vvv
+: 1699970689:0;tmux -2
+: 1699970747:0;nvim .config/alacritty/alacritty.yml
+: 1699971102:0;nvim .config/lsd/config.yaml
+: 1699971328:0;echo $LS_COLOR
+: 1699971650:0;curl -s https://gist.githubusercontent.com/lifepillar/09a44b8cf0f9397465614e622979107f/raw/24-bit-color.sh >24-bit-color.sh\
+bash 24-bit-color.sh
+: 1699971684:0;./24-bit-color.sh
+: 1699971703:0;bash 24-bit-color.sh
+: 1699971714:0;echo $TERM
+: 1699971742:0;ec init
+: 1699971744:0;subl /Users/robin.kneepkens/.config/nvim/init.vim
+: 1699971834:0;nvim .config/tmux/tmux.conf
+: 1699972050:0;npm install -g neovim
+: 1699972073:0;tmux
+: 1699972164:0;python -m pip install --user --upgrade pynvim
+: 1699972171:0;ls
+: 1699972187:0;npx colortest
+: 1699972307:0;cd Documents/git-test
+: 1699972318:0;cd ~/Development/usr
+: 1699972331:0;cd Development/usr
+: 1699972333:0;git olog
+: 1699972480:0;nvim
+: 1699972637:0;dotfile diff './.config/git/config'
+: 1699972649:0;cat './.config/git/config'
+: 1699972668:0;dotfile checkout './.config/git/config'
+: 1699972672:0;dotfile status
+: 1699972697:0;ec zshr
+: 1699972698:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
+: 1699972860:0;__git_complete
+: 1699972903:0;which __git_complete
+: 1699972928:0;sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist
+: 1699972936:0;locate __git_complete
+: 1699973177:0;ls /usr/share/zsh/5.9/functions/
+: 1699973201:0;find /usr/share/zsh/5.9/functions/ | fzf
+: 1699973252:0;autoload _git
+: 1699973258:0;__git_completion
+: 1699973274:0;_git
+: 1699973489:0;complete -F _git dotfile
+: 1699973495:0;complete -p dotfile
+: 1699973556:0;. /usr/share/zsh/5.9/functions/_git
+: 1699973597:0;complete -F dotfile
+: 1699973607:0;complete | grep dotfile
+: 1699973650:0;complete | grep git
+: 1699973654:0;complete
+: 1699973759:0;setopt complet_aliases
+: 1699973811:0;zrc
+: 1699973812:0;reset
+: 1699973887:0;setopt complete_aliases
+: 1699973966:0;exit
+: 1699973981:0;dotfile add .config/alacritty
+: 1699973987:0;dotfile status
+: 1699974018:0;complete -o dotfile
+: 1699974023:0;complete -p dotfile
+: 1699974043:0;complete -F _git dotfile
+: 1699974046:0;complete -p dotfile
+: 1699974093:0;complete -o default dotfile
+: 1699974097:0;complete -p dotfile
+: 1699974132:0;dotfile status
+: 1699974173:0;dotfile add .config/lsd
+: 1699974194:0;dotfile add .config/nvim .config/tmux
+: 1699974196:0;dotfile status
+: 1699974224:0;dotfile status -u
+: 1699974245:0;dotfile status
+: 1699974246:0;lla
+: 1699974263:0;lla .vscode
+: 1699974270:0;cat .vscode/argv.json
+: 1699974286:0;lla .vscode/cli
+: 1699974296:0;lla .vscode/extensions
+: 1699974306:0;lla
+: 1699974316:0;bash 24-bit-color.sh
+: 1699974321:0;rm 24-bit-color.sh
+: 1699974333:0;lla .config
+: 1699974340:0;dotfile tracked
+: 1699974354:0;dotfile status
+: 1699974364:0;lla .config/configstore
+: 1699974376:0;lla .config/git
+: 1699974386:0;lla .config/neofetch
+: 1699974399:0;cat .config/neofetch/config.conf
+: 1699974427:0;dotfile status
+: 1699974441:0;dotfile diff './.config/zsh/.zshrc'
+: 1699974465:0;dotfile add -u

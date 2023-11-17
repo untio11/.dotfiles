@@ -72,7 +72,7 @@ setopt COMPLETE_ALIASES
 unsetopt CASE_GLOB 
 
 # Set sublime as default editor for programs that refer to $EDITOR
-export EDITOR='subl'
+export EDITOR='nvim'
 
 
 ### ========
@@ -119,14 +119,12 @@ source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 source "$(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 
-### ======================================
-### Always connect to global tmux session
-### ======================================
-if [[ -z "$TMUX" ]]; then
+### =============
+### tmux startup
+### =============
+
+# Only connect to a new tmux window if we're not already
+# in tmux and we're not in the vscode terminal emulator.
+if [[ ! ( -v "TMUX" || -v "VSCODE_INJECTION" ) ]]; then
 	tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
 fi
-
-
-
-
-

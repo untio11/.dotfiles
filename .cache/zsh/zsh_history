@@ -1,15 +1,3 @@
-: 1699030908:0;cd ~/.cache/zsh
-: 1699030920:0;mv zsh_history/ zsh_history
-: 1699030924:0;rm -r zsh_history
-: 1699030933:0;touch zsh_history
-: 1699030946:0;ch
-: 1699030955:0;close
-: 1699030981:0;h so
-: 1699031009:0;cat ~/.cache/zsh/zsh_history
-: 1699031202:0;mkdir Subdirectory
-: 1699031212:0;cd Subdirectory
-: 1699031516:0;cin status
-: 1699031983:0;brew tap homebrew/cask-fonts
 : 1699032565:0;brew install font-hack-nerd-font
 : 1699032583:0;brew install font-fira-nerd-font
 : 1699032597:0;brew install font-fira-mono-nerd-font
@@ -129,7 +117,6 @@
 : 1699284539:0;mv sherlock politie-sherlock
 : 1699284547:0;git clone https://github.com/skunkteam/sherlock.git
 : 1699284556:0;cd politie-sherlock
-: 1699284561:0;git checkout tutorial
 : 1699284851:0;echo $locale
 : 1699284891:0;LC_ALL=C.UTF-8
 : 1699285107:0;man cp
@@ -151,7 +138,6 @@
 : 1699354835:0;defaults write com.apple.dock autohide-time-modifier -int 0; killall Dock
 : 1699355095:0;brew install --cask rectangle
 : 1699370943:0;git checkout -b tuturial
-: 1699370959:0;git lt
 : 1699370996:0;git lt --dir
 : 1699372208:0;git lt --directory-only
 : 1699372805:0;chhh
@@ -160,7 +146,6 @@
 : 1699374129:0;git config --show remote.origin.url
 : 1699374150:0;git remote
 : 1699374203:0;git config --local --get remote.origin.url
-: 1699374245:0;git url
 : 1699374455:0;git rev-parse --abbrev-ref HEAD
 : 1699374593:0;git tag
 : 1699374608:0;git checkout v6.1.0
@@ -200,7 +185,6 @@
 : 1699382346:0;npm i @types/sinon-chai@3.2.2 chai@4.2.0 sinon-chai3.3.0
 : 1699382366:0;npm i @types/sinon-chai@3.2.2 chai@4.2.0 sinon-chai@3.3.0
 : 1699382412:0;npm i chai-immutable@2.0.0-alpha.1
-: 1699382738:0;cat package.json
 : 1699382960:0;npm i @types/sinon-chai@3.2.2 chai@4.2.0 sinon-chai@3.3.0 @types/chai@4.1.7 chai-immutable@2.0.0-alpha.1 -D
 : 1699382997:0;cat package.json | grep chai
 : 1699383062:0;git commit -am "Added sinon and chai back to devDependencies"
@@ -287,7 +271,6 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699453031:0;subl - >out
 : 1699453066:0;find .
 : 1699453078:0;find . | subl -
-: 1699453311:0;echo $EDITOR
 : 1699453332:0;ke
 : 1699453835:0;xev
 : 1699454333:0;gh
@@ -336,7 +319,6 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699463640:0;subl -w /tmp/zsh58132cd1 ;: 'cd '
 : 1699463744:0;git add test.txt
 : 1699463768:0;git commit -m "Added this after some cool tricks with command buffers"
-: 1699463876:0;echo hoi
 : 1699464357:0;subl ~/.zshrc
 : 1699464380:0;subl .gitconfig
 : 1699464497:0;cat out
@@ -367,7 +349,6 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699516642:0;echo blah
 : 1699516690:0;source history-config.zsh
 : 1699516705:0;cat history-config.zsh
-: 1699516706:0;h
 : 1699516980:0;fc
 : 1699516988:0;subl history-config.zsh
 : 1699516996:0;man fc
@@ -429,7 +410,6 @@ Additionally fixed the broken imports of sherlock and sherlock-utils\
 : 1699526537:0;zmv '(*).spec.ts' '$1.test.ts'
 : 1699526744:0;npm ls jest
 : 1699527000:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/1 - intro.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'intro should be clear what to do next'
-: 1699527209:0;npm run tutorial
 : 1699527900:0;git commit -m "Made the tests runnable with jest\
 \
 Use npm run tutorial to run all the test cases in the tutorial directory.\
@@ -439,7 +419,6 @@ Use npm run tutorial to run all the test cases in the tutorial directory.\
 : 1699535716:0;cd tutorial
 : 1699535723:0;npx jest-codemods -d
 : 1699536344:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/1 - intro.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'intro'
-: 1699536969:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/1 - intro.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
 : 1699537205:0;git commit -am "Got test 1 in working order"
 : 1699538316:0;git cd '/Users/robin.kneepkens/Development/sherlock'
 : 1699538361:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/2 - deriving.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
@@ -571,14 +550,12 @@ Pretty nice actually, so Imma keep it at this for now.\
 : 1699614196:0;subl ~/.config/git/config
 : 1699614209:0;git log -2 @
 : 1699614379:0;git update
-: 1699614382:0;git amend
 : 1699614773:0;subl -h
 : 1699615586:0;echo $ZDOTDIR/.zshrc
 : 1699615609:0;lla .config/.config
 : 1699615701:0;lla .config/.config/zsh
 : 1699615716:0;rm -r .config/.config
 : 1699617493:0;source $ZDOTDIR/.zshrc
-: 1699617633:0;cd Development/sherlock
 : 1699618013:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'reacting'
 : 1699618045:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/4 - inner workings.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
 : 1699618475:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'reacting' --watch
@@ -587,14 +564,12 @@ Pretty nice actually, so Imma keep it at this for now.\
 \
 There's still one part at line 121 where I'm not sure what's happening\
 "
-: 1699619697:0;code ../politie-sherlock
 : 1699620405:0;git commit -am "Got test 5 in working order\
 \
 As always, set to skip by default.\
 "
 : 1699650970:0;clear
 : 1699651401:0;cd Development/politie-sherlock
-: 1699651406:0;cd ../sherlock
 : 1699651410:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/5 - unresolved.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
 : 1699718130:0;grep '@skunkteam/sherlock' .
 : 1699718149:0;grep '@skunkteam/sherlock' ./
@@ -602,8 +577,6 @@ As always, set to skip by default.\
 : 1699718214:0;grep -r '@skunkteam/sherlock' .
 : 1699718244:0;grep -r '@skunkteam/sherlock' . | fzf
 : 1699718483:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/3 - reacting.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
-: 1699718496:0;cd '/Users/robin.kneepkens/Development/sherlock'
-: 1699718496:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/7 - conversion.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
 : 1699822069:0;brew search *
 : 1699822096:0;brew search '/[a-zA-z]/'
 : 1699822142:0;brew search '/[a-zA-Z]/' | fzf
@@ -625,7 +598,6 @@ As always, set to skip by default.\
 : 1699823131:0;fzf | xargs -I %1 --verbose cp '"%1" "copy-of-test.txt"'
 : 1699823149:0;cp test.txt copy-of-test.txt
 : 1699823197:0;ls ~
-: 1699823216:0;env
 : 1699823258:0;env | grep warp
 : 1699823279:0;env | grep -i warp
 : 1699823386:0;echo ""
@@ -692,8 +664,6 @@ with me"
 : 1699860300:0;subl quick-config.zsh
 : 1699860423:0;ec zshr --height=12
 : 1699860560:0;source quick-config.zsh
-: 1699863010:0;git branch
-: 1699863015:0;git branch -a
 : 1699863091:0;git checkout -b robin/1335/line-splitter-fix
 : 1699863104:0;code
 : 1699863272:0;[200~mkdir -p $HOME/Library/KeyBindings
@@ -723,9 +693,7 @@ with me"
 : 1699879617:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter other encoding'
 : 1699880478:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter base scenario'
 : 1699882051:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts'
-: 1699882318:0;git commit
 : 1699882693:0;git push -u origin robin/1335/line-splitter-fix
-: 1699883127:0;git diff @^
 : 1699883667:0;git add -u
 : 1699883675:0;git add changelog/draft/internal/1335.md
 : 1699884213:0;./gclogin.sh
@@ -739,8 +707,6 @@ with me"
 : 1699887880:0;git add './pulumi/Pulumi.robin.yaml'
 : 1699887911:0;git commit -m "Added logLocation: eu to pulumi stack config"
 : 1699888712:0;git checkout './libs/common/backend/src/lib/utils/stream-line-splitter.ts'
-: 1699888721:0;git checkout master
-: 1699888723:0;git pull
 : 1699889820:0;cd Development/usr/
 : 1699889937:0;brew install duti
 : 1699889954:0;duti
@@ -815,7 +781,6 @@ with me"
 : 1699896074:0;dotfile commit -m "Initial commit"
 : 1699899105:0;code Development/usr
 : 1699899139:0;git checkout robin/1335/line-splitter-fix
-: 1699899161:0;npm run build
 : 1699899197:0;npm run start
 : 1699954194:0;brew intsall tmux
 : 1699954202:0;brew install tmux
@@ -826,7 +791,6 @@ with me"
 : 1699954620:0;echo damn
 : 1699954632:0;echo wow
 : 1699954664:0;ping
-: 1699954669:0;ping google.com
 : 1699955118:0;subl .config/tmux/tmux.conf
 : 1699955195:0;mkdir .config/tmux/
 : 1699955210:0;touch .config/tmux/tmux.conf
@@ -852,7 +816,6 @@ with me"
 : 1699959816:0;tmux -u
 : 1699959973:0;git plog
 : 1699960031:0;bindkey -v
-: 1699960402:0;ec tmu
 : 1699960663:0;tmux set -g default-terminal "screen-256color"
 : 1699960895:0;tmux bind C-b send-prefix
 : 1699960910:0;tmux set -g prefix C-b
@@ -872,7 +835,6 @@ ok"
 : 1699962305:0;PS2="| "
 : 1699962314:0;echo "b\
 la
-: 1699966061:0;echo
 : 1699966106:0;echo this is a bit tight now :/
 : 1699966124:0;echo "\
 what about \
@@ -903,7 +865,6 @@ this now?\
 : 1699967712:0;cat Documents/Basic.terminal
 : 1699968035:0;subl ../../.config/alacritty/alacritty.yml
 : 1699968697:0;alacritty
-: 1699969273:0;npx neofetch
 : 1699969967:0;alacritty -v
 : 1699970293:0;alacritty -v --debug
 : 1699970307:0;alacritty --debug
@@ -921,10 +882,7 @@ bash 24-bit-color.sh
 : 1699971744:0;subl /Users/robin.kneepkens/.config/nvim/init.vim
 : 1699972050:0;npm install -g neovim
 : 1699972164:0;python -m pip install --user --upgrade pynvim
-: 1699972187:0;npx colortest
 : 1699972307:0;cd Documents/git-test
-: 1699972318:0;cd ~/Development/usr
-: 1699972333:0;git olog
 : 1699972637:0;dotfile diff './.config/git/config'
 : 1699972649:0;cat './.config/git/config'
 : 1699972668:0;dotfile checkout './.config/git/config'
@@ -957,7 +915,6 @@ bash 24-bit-color.sh
 : 1699974270:0;cat .vscode/argv.json
 : 1699974286:0;lla .vscode/cli
 : 1699974296:0;lla .vscode/extensions
-: 1699974306:0;lla
 : 1699974316:0;bash 24-bit-color.sh
 : 1699974321:0;rm 24-bit-color.sh
 : 1699974333:0;lla .config
@@ -973,9 +930,6 @@ bash 24-bit-color.sh
 tmux, nvim and alacritty\
 "
 : 1699974506:0;dotfile olog
-: 1699976879:0;nvim './nvim/init.vim'
-: 1699977309:0;cd nvim
-: 1699977310:0;lt
 : 1699977320:0;touch init.lua
 : 1699977325:0;mkdir lua
 : 1699977331:0;mkdir lua/plugins.lua
@@ -986,44 +940,26 @@ tmux, nvim and alacritty\
 : 1699977670:0;subl lua/plugins.lua
 : 1699977701:0;nvim lua/config.lua
 : 1699977948:0;nvim lua/plugins.lua
-: 1699978010:0;nvim
-: 1699978050:0;nvim init.vim
 : 1699978192:0;dotfile add .
-: 1699978195:0;dotfile status
 : 1699978223:0;dotfile commit -am "Added packer and monokai to nvim"
 : 1699978240:0;ec zsh
 : 1699978718:0;tmux kill-server
-: 1699978766:0;subl /Users/robin.kneepkens/.config/tmux/tmux.conf
-: 1699979144:0;man tmux
 : 1699979888:0;tmux list-clients
 : 1699980415:0;tmux kill-session GLOBAL
 : 1699980428:0;tmux kill session
-: 1699980434:0;tmux kill-session
-: 1699980437:0;tmux ls
-: 1699980621:0;cd Development/usr
 : 1699980640:0;git checkout libs/common/backend/src/lib/utils/stream-line-splitter.ts
 : 1699980644:0;git bb
-: 1699980763:0;code .
-: 1699980823:0;git fetch
 : 1699980852:0;tmux attach GL
 : 1699980896:0;tmux attach
 : 1699980956:0;cd '/Users/robin.kneepkens/Development/usr'
 : 1699980956:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/usr/libs/common/backend/src/lib/utils/stream-line-splitter.spec.ts' -c '/Users/robin.kneepkens/Development/usr/libs/common/backend/jest.config.ts' -t 'lineSplitter line too long to handle'
-: 1699981024:0;git status
-: 1699981029:0;git diff
 : 1699981112:0;git commit -am "Resolved review comments"
-: 1699981124:0;git last
-: 1699981128:0;git push
 : 1699981231:0;ts
-: 1699981422:0;ec
 : 1699981443:0;ec fuzz
 : 1699981445:0;subl /Users/robin.kneepkens/.config/zsh/user-widgets/fuzzy-find.zsh
 : 1699981519:0;zle -la | fzf
 : 1699981535:0;zle -x _fuzzy-find
 : 1699981741:0;VIMODE="${${KEYMAP/vicmd/[n]}/(main|viins)/[i]}"
-: 1699981835:0;ec zshr
-: 1699981835:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
-: 1699981881:0;zrc
 : 1699981887:0;echo $VIMODE
 : 1699981943:0;\
 \
@@ -1031,26 +967,298 @@ echo $KEYMAP
 : 1699981958:0;$vicmd
 : 1699982025:0;bindkey -m
 : 1699982046:0;bindkey
-: 1699982266:0;cd .config
 : 1699982285:0;cd zsh/user-widgets
 : 1699982295:0;cd ..
-: 1699982296:0;ls
 : 1699982300:0;nvim prompt.zsh
-: 1699982607:0;cd
-: 1699982672:0;tmux
-: 1699982710:0;nvim .config/tmux/tmux.conf
-: 1699982861:0;exit
-: 1699982864:0;tmux
-: 1699982868:0;nvim
 : 1699982883:0;nvim -v
-: 1699982895:0;nvim
-: 1699982965:0;dotfile status
-: 1699982972:0;dotfile diff
-: 1699983027:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
-: 1699983063:0;zrc
 : 1699983126:0;\
 echo hoi
 : 1699983129:0;hmm
 : 1699983132:0;echo
 : 1699983155:0;dotfile diff
 : 1699983188:0;dotfile commit -am "Enbled vi mode in zsh and we now always connect to a global tmux session"
+: 1699983192:0;dotfile status
+: 1699983195:0;dotfile plog
+: 1699983254:0;tmux attach -t GLOBAL
+: 1700037182:0;cd ../sherlock
+: 1700037335:0;npm build
+: 1700037339:0;npm run build
+: 1700037398:0;nvim .config/tmux/tmux.conf
+: 1700037432:0;ec tmux
+: 1700037434:0;subl /Users/robin.kneepkens/.config/tmux/tmux.conf
+: 1700042131:0;ping google.com
+: 1700043767:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/libs/sherlock-utils/src/lib/derivable-cache.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/libs/sherlock-utils/jest.config.ts'
+: 1700044757:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/1 - intro.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1700045925:0;code ../politie-sherlock
+: 1700046152:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/7 - conversion.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' --bail=10
+: 1700046701:0;git rm tutorial/7\ -\ conversion.test.ts
+: 1700046747:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/7 - conversion.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1700046757:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/7 - utils.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1700046770:0;git add tutorial/7\ -\ utils.test.ts
+: 1700046872:0;git commit -m "Got tutorial 7 in a working state\
+\
+Currently skipped as always.\
+\
+Also removed some unused pieces of code:\
+- Imports\
+- Outer test suite that didn't do anything useful\
+"
+: 1700047270:0;env
+: 1700047367:0;[[ -v TMUX ]]
+: 1700047374:0;[[ -v TERM ]]
+: 1700047387:0;[[ -v "TERM" ]]
+: 1700047394:0;[[ -v "TMUX" ]]
+: 1700047506:0;[[ ! ( -v TMUX ) ]]
+: 1700047538:0;[[ ! ( -v TMUX || -v VSCODE_INJECTION ) ]]
+: 1700054086:0;git fetch
+: 1700054109:0;git checkout cindy/2794/factuur-overzicht-volgens-design
+: 1700054316:0;vscode .
+: 1700055518:0;cat package.json
+: 1700055545:0;npm run e2e:on-start
+: 1700056267:0;nvim './tmux/tmux.conf'
+: 1700056681:0;nvim ~/Development/sherlock/tutorial/7\ -\ utils.test.ts
+: 1700056913:0;nvim ./nvim/lua/plugins.lua
+: 1700058439:0;git reset --hard @
+: 1700063046:0;nvim './alacritty/alacritty.yml'
+: 1700063801:0;nvim './nvim/init.vim'
+: 1700064039:0;cd nvim
+: 1700064045:0;ls plugin
+: 1700064051:0;ls lua
+: 1700064286:0;nvim ../alacritty/alacritty.yml
+: 1700064777:0;cd .config/alacritty
+: 1700064788:0;mkdir themes
+: 1700064817:0;touch themes/dark-high-sat.yml
+: 1700064910:0;touch themes/monokai-spectrum.yml
+: 1700064918:0;subl themes
+: 1700064929:0;subl alacritty.yml
+: 1700064950:0;nvim ../nvim/init.vim
+: 1700065084:0;nvim ../nvim/lua/config.lua
+: 1700065112:0;nvim ../NVIM/LUA/plugin.LUA
+: 1700065126:0;nvim ../nvim/lua/plugins.lua
+: 1700065640:0;cd ../nvim
+: 1700065646:0;nvim init.vim
+: 1700065767:0;lla ~
+: 1700065799:0;cd ~/Development/usr
+: 1700065803:0;lt
+: 1700065823:0;git lt
+: 1700065832:0;lt libs
+: 1700066149:0;npx nestjs.Dockerfile
+: 1700066173:0;npx neofetch
+: 1700067622:0;nvim smoke.ts
+: 1700067809:0;cd
+: 1700067922:0;cd ~/.config/tmux
+: 1700068763:0;tmux kill-session
+: 1700073036:0;cd .config/tmux
+: 1700073773:0;tmux show-option -w
+: 1700074579:0;subl /Users/robin.kneepkens/.config/nvim/lua/plugins.lua
+: 1700074774:0;nvim /Users/robin.kneepkens/.config/nvim/lua/plugins.lua
+: 1700074778:0;nvim notes.txt
+: 1700074868:0;ec tmu
+: 1700076075:0;tmux
+: 1700076088:0;echo $EDITOR
+: 1700076094:0;EDITOR=nvim
+: 1700076098:0;cd .config
+: 1700076200:0;subl /Users/robin.kneepkens/.config/tmux/notes.txt
+: 1700076246:0;ec zshr
+: 1700076247:0;subl /Users/robin.kneepkens/.config/zsh/.zshrc
+: 1700076266:0;zrc
+: 1700076270:0;ec note
+: 1700076479:0;man tmux
+: 1700076752:0;ec no
+: 1700078899:0;nvim /Users/robin.kneepkens/.config/tmux/tmux.conf
+: 1700078906:0;ec
+: 1700078924:0;nvim /Users/robin.kneepkens/.config/tmux/notes.txt
+: 1700078929:0;cd tmux
+: 1700078930:0;lla
+: 1700078940:0;nvim tmux.conf
+: 1700082155:0;npx colortest
+: 1700082558:0;exit
+: 1700082901:0;tmux ls
+: 1700082903:0;h
+: 1700123634:0;git checkout master
+: 1700123636:0;git pull
+: 1700123748:0;git checkout -b robin/3873/remove-e2e-retry
+: 1700124327:0;npm i -g fuck-you
+: 1700124337:0;fuck node
+: 1700124344:0;fuck java
+: 1700124400:0;netstat -anvp tcp | awk 'NR<3 || /LISTEN/'\
+\
+
+: 1700125528:0;git diff scripts/start.mjs
+: 1700125551:0;git add scripts/jsconfig.json scripts/start.mjs
+: 1700125740:0;git commit
+: 1700125914:0;nvim
+: 1700126104:0;git push -u origin robin/3873/remove-e2e-retry
+: 1700126136:0;git url
+: 1700126288:0;touch changelog/draft/internal/3896.md
+: 1700126775:0;git add changelog/draft/internal/3896.md
+: 1700126795:0;git commit -m "Added changelog entry"
+: 1700140109:0;cd Development/usr
+: 1700140114:0;npm start
+: 1700140183:0;npx wait-on http://localhost:4200 && npm run e2e:on-start\
+
+: 1700141290:0;git checkout -b robin/3897/e2e-first-time-right
+: 1700141307:0;git add apps/dev/ui-e2e/src/support/commands.ts
+: 1700141390:0;git commit -m "createWerkgever now waits until all tasks are finished\
+\
+This should ensure that the polis request doesn't fail.\
+"
+: 1700141402:0;git push -u origin robin/3897/e2e-first-time-right
+: 1700141830:0;touch changelog/draft/internal/3901.md
+: 1700142426:0;git add apps/dev/ui-e2e/src/utils/wizard.ts
+: 1700142430:0;git diff @^
+: 1700142563:0;git commit -m "Added waitForAnimation() in toevoegenDekkingenWizard()\
+\
+This should force Percy to wait until the calendar pop-up is closed before trying to\
+continue, which might be the cause of Cypress 13, 15, and 18 failing.\
+"
+: 1700142568:0;git push
+: 1700147536:0;grep "[task-emulator]" npm-run-log.txt
+: 1700147545:0;grep "\[task-emulator\]" npm-run-log.txt
+: 1700211454:0;code .
+: 1700223790:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/9 - expert.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts' -t 'expert `derivableCache` multiple setups'
+: 1700226374:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/9 - expert.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1700226546:0;cd '/Users/robin.kneepkens/Development/sherlock'
+: 1700226546:0;node 'node_modules/.bin/jest' '/Users/robin.kneepkens/Development/sherlock/tutorial/8 - advanced.test.ts' -c '/Users/robin.kneepkens/Development/sherlock/tutorial/jest.config.ts'
+: 1700226636:0;git add './tutorial/7 - utils.test.ts'
+: 1700226672:0;git restore --staged tutorial/7\ -\ utils.test.ts
+: 1700226679:0;git add tutorial/8\ -\ advanced.test.ts
+: 1700226848:0;git commit -m "Got tutorial 8 in working state\
+\
+Still have to iron out some details probably\
+"
+: 1700226857:0;git add tutorial/9\ -\ expert.test.ts
+: 1700226887:0;git commit -m "Got tutorial 9 in working state\
+\
+Probably have to tweak it a bit more though\
+"
+: 1700226890:0;git dif
+: 1700226911:0;git commit -am "Updated some comments"
+: 1700227154:0;git add tutorial/6\ -\ errors.test.ts
+: 1700227188:0;git commit -m "Added placeholder code for tutorial 6\
+\
+This way it doesn't count as a failed test case when running\
+npm run tutorial.\
+"
+: 1700227539:0;jest tutorial/* -c tutorial/jest.config.ts --watch
+: 1700227554:0;npm run tutorial
+: 1700227616:0;npm run tutorial --watch
+: 1700227657:0;npm run tutorial -- --watch
+: 1700228351:0;git add -i
+: 1700230066:0;git commit -m "Finalized tutorial 1"
+: 1700230200:0;git amend
+: 1700230967:0;git diff tutorial/2\ -\ deriving.test.ts
+: 1700231016:0;git add -p tutorial/2\ -\ deriving.test.ts
+: 1700235212:0;git diff tutorial/1
+: 1700235227:0;git diff tutorial/1\ -\ intro.test.ts
+: 1700235252:0;git add -p
+: 1700235377:0;git last
+: 1700235441:0;git commit -m "Finalized tutorial 2\
+\
+Also updated a comment in tutorial 1 slightly.\
+"
+: 1700235473:0;git checkout -b tutorial/solutions/robin
+: 1700235488:0;git diff
+: 1700235504:0;git add tutorial/1\ -\ intro.test.ts tutorial/2\ -\ deriving.test.ts
+: 1700235521:0;git commit -m "My solutions for tutorial 1 and 2"
+: 1700235537:0;ls
+: 1700235546:0;git status
+: 1700235575:0;git checkout -b tutorial
+: 1700235584:0;git checkout tutorial
+: 1700235609:0;git branch tuturial
+: 1700235736:0;git branch
+: 1700235749:0;git switch tutorial
+: 1700235768:0;git checkout @^
+: 1700235811:0;git switch -c tutorial-base
+: 1700235828:0;git checkout tutorial/solutions/robin
+: 1700235883:0;git branch -m tutorial/solutions/robin tutorial-solutions/robin
+: 1700235901:0;git branch -d tutorial
+: 1700235942:0;git branch -a
+: 1700235967:0;cat .git/refs
+: 1700235975:0;cat .git/refs/heads
+: 1700235998:0;cat .git/refs/heads/tuturial
+: 1700236006:0;rm .git/refs/heads/tuturial
+: 1700236008:0;git olog
+: 1700236058:0;ec alac
+: 1700236446:0;tmux a
+: 1700236471:0;cd Development/sherlock
+: 1700236492:0;git checkout tutorial-base
+: 1700236512:0;git diff tutorial-solutions/robin
+: 1700236562:0;git status
+: 1700236570:0;git last
+: 1700236580:0;git last 2
+: 1700236591:0;ec gitt
+: 1700236896:0;f() {\
+[[ -z $1 ]]; echo a || echo b;\
+}
+: 1700236898:0;f
+: 1700236901:0;f 3
+: 1700236929:0;echo `[[ -z ' ' ]]`
+: 1700236952:0;[[ -z ' ' ]] && echo $?
+: 1700236967:0;[[ -z ' ' ]] && echo $? || echo $?
+: 1700236977:0;[[ -z '' ]] && echo $? || echo $?
+: 1700236987:0;[[ -z '' ]] && echo a: $? || echo b: $?
+: 1700236991:0;[[ -z ' ' ]] && echo a: $? || echo b: $?
+: 1700237051:0;[[ -z ' ' ]] && a=1 || a=2; echo $a
+: 1700237056:0;[[ -z '' ]] && a=1 || a=2; echo $a
+: 1700237115:0;f() { [[ -z $1 ]] $$ a=1 || a=$1; echo $a }
+: 1700237133:0;f() { [[ -z $1 ]] && a=1 || a=$1; echo $a }
+: 1700237136:0;f
+: 1700237138:0;f 4
+: 1700237142:0;f 1
+: 1700237207:0;nvim /Users/robin.kneepkens/.config/git/config
+: 1700237209:0;git last
+: 1700237225:0;ec git
+: 1700237292:0;nvim /Users/robin.kneepkens/.config/git/config
+: 1700237295:0;git last
+: 1700237313:0;git last 1
+: 1700237348:0;ec git
+: 1700237448:0;git config --global -l
+: 1700237455:0;git config --global -l alias
+: 1700237475:0;git config --global -l --get-all alias
+: 1700237513:0;git --global --get-all alias
+: 1700237521:0;git config --global --get-all alias
+: 1700237530:0;git config --global --get-all
+: 1700237541:0;git config --global --get-all 'alias'
+: 1700237588:0;git config --global --get user.name
+: 1700237621:0;git config --global --get alias.olog
+: 1700237644:0;git config --global --get-all alias.
+: 1700237663:0;git config --global --get-regexp alias\..*
+: 1700237686:0;git config --global --list
+: 1700237719:0;git status -sb
+: 1700237731:0;cd ../usr
+: 1700237737:0;git status
+: 1700237741:0;git status -sb
+: 1700237767:0;git log -1 @
+: 1700237772:0;git log -1 @ --stat
+: 1700237869:0;nvim /Users/robin.kneepkens/.config/git/config
+: 1700237873:0;git list-alias
+: 1700237956:0;ec git
+: 1700237979:0;nvim /Users/robin.kneepkens/.config/git/config
+: 1700237981:0;git last
+: 1700237984:0;git last 3
+: 1700238000:0;git -v
+: 1700238050:0;ec git
+: 1700238106:0;nvim /Users/robin.kneepkens/.config/git/config
+: 1700238107:0;git last
+: 1700238111:0;git last 2
+: 1700238114:0;git last 5
+: 1700238122:0;git last 2 --stat
+: 1700238139:0;ec
+: 1700238168:0;nvim /Users/robin.kneepkens/.config/git/config
+: 1700238170:0;git last
+: 1700238174:0;ec
+: 1700238197:0;nvim /Users/robin.kneepkens/.config/git/config
+: 1700238199:0;git last
+: 1700238209:0;git last 4
+: 1700238230:0;dotfile status
+: 1700238347:0;dotfile commit -am "Did loads of stuff\
+\
+Most notably:\
+- Pimped out tmux\
+- Non-vscode shells start in tmux\
+- nvim color themes and surround plugin\
+- Improved 'git last' alias: now also takes\
+  arguments to show last n commits and in-\
+  cludes '--stat' so we see the file changes\
+"

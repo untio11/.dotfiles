@@ -2,9 +2,10 @@
 	name = Robin Kneepkens
 	email = robin@skunk.team
 [alias]
+	list-alias = "! git config --global -l | grep 'alias'"
 	olog = log --oneline --graph --all # Show branching graph with commit titles in terminal.
 	plog = log --pretty=format:'%C(yellow)%h %Cred%ad %Cgreen%an%C(cyan)%d %Creset%s' --date=short --abbrev-commit # Dense, summarized history of all commits contributing to current branch.
-	last = log -1 HEAD # Show commit message of commit that's currently checked out.
+	last = "! f() { [[ -z $1 ]] && amount=1 || amount=$1; git log --stat -$amount HEAD; }; f"# Show the last $1 commit messages. Defaults to 1 when no parameter is given.
 	url = "config --local --get remote.origin.url" # Return just the url of the remote repository "origin".
 	bb = "!open -u `git url`" # Open the remote repository url in default browser. (originally from Bit Bucket, hence 'bb')
 	restore = "!git clean -dfX && git reset --hard @" # Bring tracked files to initial state of current commit. Will only delete files in .gitignore.

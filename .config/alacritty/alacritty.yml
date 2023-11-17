@@ -6,6 +6,9 @@ window:
   dynamic_padding:
     true
 
+  decorations:
+    'none'
+
 font:
   normal:
     family: 'DejaVuSansM Nerd Font Mono'
@@ -15,34 +18,34 @@ font:
 
 colors:
   primary:
-    background: '#181818'
-    foreground: '#ffffff'
+    background: '#222222'
+    foreground: '#f7f1ff'
 
   cursor:
-    cursor:     '#ffffff'
+    cursor:     '#f7f1ff'
 
   selection:
     background: '#7A81FF'
 
   normal:
-    black:      '#181818'
-    red:        '#B11F22'
-    green:      '#35BF3C'
-    yellow:     '#FED425'
-    blue:       '#0096FF'
+    black:      '#171717'
+    red:        '#d81765'
+    green:      '#6FD01A'
+    yellow:     '#F6B841'
+    blue:       '#16b1fb'
     magenta:    '#D783FF'
     cyan:       '#76D6FF'
-    white:      '#C0C0C0'
+    white:      '#ebebeb'
 
   bright:
-    black:      '#4E4E4E'
-    red:        '#EE0003'
-    green:      '#00F900'
-    yellow:     '#FECB00'
-    blue:       '#0959E3'
-    magenta:    '#FF40FF'
-    cyan:       '#00FDFF'
-    white:      '#FFFFFF'
+    black:      '#38252c'
+    red:        '#F2163E'
+    green:      '#80CC33'
+    yellow:     '#FFB000'
+    blue:       '#289cd5'
+    magenta:    '#ff2491'
+    cyan:       '#00D4D4'
+    white:      '#f8f8f8'
 
 draw_bold_text_with_bright_colors:
   true

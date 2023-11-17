@@ -41,7 +41,22 @@ packer.init({
 -- Install your plugins here
 return packer.startup(function(use)
 	use ("wbthomason/packer.nvim") -- Have packer manage itself	
-	use ("tanvirtin/monokai.nvim") -- Monokai color scheme
+	-- Motions --
+	use ("machakann/vim-sandwich") -- Surround motions with sa/sr(b)/sd(b)
+
+	-- Color schemes --
+	-- use ("tanvirtin/monokai.nvim") -- Monokai color scheme
+	use { 
+		"catppuccin/nvim", 
+		as = "catppuccin" 
+	} -- Catppuccin color scheme
+	use ("ful1e5/onedark.nvim") -- Onedark color scheme
+	use ("romainl/Apprentice" ) -- Apprentice color scheme
+	use {"loctvl842/monokai-pro.nvim",
+		config = function()
+			require("monokai-pro").setup()
+		end
+	}
 
 	if PACKER_BOOTSTRAP then
 		require("packer").sync()

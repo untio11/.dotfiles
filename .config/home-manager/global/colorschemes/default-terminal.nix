@@ -17,7 +17,7 @@
 
     # Then bright colors:
 
-    base08 =  "38252C"; # Reddish Black
+    base08 =  "666666"; # Gray
     base09 =  "F2163E"; # Red
     base0A =  "80CC33"; # green
     base0B =  "FFB000"; # yellow

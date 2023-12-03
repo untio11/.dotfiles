@@ -79,7 +79,7 @@
       set -g pane-border-style "fg=white" 
 
       # Status bar message
-      set -g message-style "bg=cyan,fg=brightblack"
+      set -g message-style "bg=cyan,fg=black"
     '';
 
   };

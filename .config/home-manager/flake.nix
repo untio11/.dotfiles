@@ -9,6 +9,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+	plugin-monokai-pro.url = "github:loctvl842/monokai-pro.nvim";
+	plugin-monokai-pro.flake = false;
   };
 
   outputs = { nixpkgs, home-manager, ... }@inputs:

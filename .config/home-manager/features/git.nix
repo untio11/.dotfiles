@@ -16,8 +16,15 @@
       };
     };
 
+	difftastic = {
+		enable = true; # Better diffs using difftastic.
+		display = "side-by-side-show-both"; # "side-by-side", "side-by-side-show-both", or "inline".
+	};
+
     aliases = {
-      list-alias = "! git config --global -l | grep 'alias'"; # List all available aliases.
+      list-alias = "!git config --global -l | grep 'alias'"; # List all available aliases.
+	  
+	  dlog = "!f() { GIT_EXTERNAL_DIFF=${pkgs.difftastic}/bin/difft git log -p --ext-diff $@; }; f"; # Show git log with diffs using difftastic
       
       olog = "log --pretty='%C(auto)%h%C(auto)%d%C(reset) %s %C(brightblack)%<(5,trunc)%an' --color=auto --decorate=short --graph"; # Show branching graph with commit titles in terminal. Only show local refs and remote refs relevant to them.
 
@@ -25,7 +32,7 @@
       
       plog = "log --pretty=format:'%C(yellow)%h %Cred%ad %Cgreen%an%C(cyan)%d %Creset%s' --date=short --abbrev-commit"; # Dense, summarized history of all commits contributing to current branch.
       
-      last = "! f() { [[ -z $1 ]] && amount=1 || amount=$1; git log --stat -$amount HEAD; }; f"; # Show the last $1 commit messages. Defaults to 1 when no parameter is given.
+      last = "!f() { [[ -z $1 ]] && amount=1 || amount=$1; git log --stat -$amount HEAD; }; f"; # Show the last $1 commit messages. Defaults to 1 when no parameter is given.
       
       url = "! git config --local --get remote.origin.url | sed -e s,'\\\.git',,g"; # Return just the url of the remote repository "origin", no .git at the end.
       

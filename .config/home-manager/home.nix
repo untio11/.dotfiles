@@ -15,6 +15,8 @@
     ./features/git.nix
     ./features/alacritty.nix
     ./features/tmux.nix
+	./features/nvim/nvim.nix
+	# ./features/zsh/zsh.nix # Currently unstable, don't want to worry about that now.
   ];
 
   colorScheme = (import ./global/colorschemes/default-terminal.nix);

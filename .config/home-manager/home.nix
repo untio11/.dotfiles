@@ -16,6 +16,7 @@
     ./features/alacritty.nix
     ./features/tmux.nix
     ./features/nvim/nvim.nix
+	./features/direnv.nix
 	# ./features/zsh/zsh.nix # Currently unstable, don't want to worry about that now.
   ];
 

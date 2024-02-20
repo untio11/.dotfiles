@@ -7,7 +7,9 @@
     userName = "Robin Kneepkens";
 
 	ignores = [
+		# I tend to use these directories for temp files
 		".todo/"
+		".scrap/"
 	];
     
     extraConfig = {
@@ -50,7 +52,7 @@
 
 	  branch-url = "!echo `git url`/tree/`git branch --show-current`"; # Print the url of the remote reposity with the current branch checked out.
 
-	  pr-url = "! pr-url() { curr=`git branch --show-current 2> /dev/null || echo null`; if [[ \"$curr\" = null ]]; then return 1; fi; ${pkgs.gh}/bin/gh api -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' \"/search/issues?q=head:$curr\" | jq '.items[0].html_url' | sed -e s/\\\"//g; }; pr=`pr-url`; repo=`git url 2> /dev/null`; if [[ ! -z $repo ]]; then if [[ \"$pr\" == \"$repo\"* ]]; then echo $pr; fi; fi; "; # Print the url of the open PR for the current branch if it exists.
+	  pr-url = "!pr-url() { curr=`git branch --show-current 2> /dev/null || echo null`; if [[ \"$curr\" = null ]]; then return 1; fi; ${pkgs.gh}/bin/gh api -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' \"/search/issues?q=head:$curr\" | jq '.items[0].html_url' | sed -e s/\\\"//g; }; pr=`pr-url`; repo=`git url 2> /dev/null`; if [[ ! -z $repo ]]; then if [[ \"$pr\" == \"$repo\"* ]]; then echo $pr; fi; fi; "; # Print the url of the open PR for the current branch if it exists.
 
 	  pr = "! url=\"`git pr-url`\"; open -u `[[ -n \"$url\" ]] && echo \"$url\" || git branch-url 2> /dev/null` 2> /dev/null && echo \"`[[ -n \"$url\" ]] && echo \"$url\" || git branch-url;`\" || echo \"No (remote) repo.\""; # Open PR (if it exists) of current branch in browser
     };

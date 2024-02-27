@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 
+let
+  # Lets me write a multiline zsh script for git aliases in here, but have it as a single line in result
+  collapse = multiline: builtins.replaceStrings ["\n"] [" "] multiline;
+in
 {
   programs.git = {
     enable = true;
@@ -10,51 +14,117 @@
 		# I tend to use these directories for temp files
 		".todo/"
 		".scrap/"
+    # Gets created by direnv. I use it for flake-defined dev environments.
+    ".direnv"
 	];
     
     extraConfig = {
       credential = {
         helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
       };
+      init = {
+        defaultBranch = "main";
+      };
+      diff.external = collapse ''
+        ${pkgs.difftastic}/bin/difft
+        --color auto
+        --syntax-highlight off
+        --tab-width 4
+        --display side-by-side-show-both
+      '';
     };
 
-	difftastic = {
-		enable = true; # Better diffs using difftastic.
-		display = "side-by-side-show-both"; # "side-by-side", "side-by-side-show-both", or "inline".
-	};
-
     aliases = {
-      list-alias = "!git config --global -l | grep 'alias'"; # List all available aliases.
+      # List all available aliases.
+      list-alias = "!git config --global -l | grep 'alias'"; 
 	  
-	  dlog = "!f() { GIT_EXTERNAL_DIFF=${pkgs.difftastic}/bin/difft git log -p --ext-diff $@; }; f"; # Show git log with diffs using difftastic
+      # Show git log with diffs using difftastic  
+      dlog = collapse ''!
+        dlog() { 
+          GIT_EXTERNAL_DIFF=${pkgs.difftastic}/bin/difft git log -p --ext-diff $@; 
+        };
+        
+        dlog
+      ''; 
       
-      olog = "log --pretty='%C(auto)%h%C(auto)%d%C(reset) %s %C(brightblack)%<(5,trunc)%an' --color=auto --decorate=short --graph"; # Show branching graph with commit titles in terminal. Only show local refs and remote refs relevant to them.
+      # Show branching graph with commit titles in terminal. Only show local refs and remote refs relevant to them.
+      olog = "log --pretty='%C(auto)%h%C(auto)%d%C(reset) %s %C(brightblack)%<(5,trunc)%an' --color=auto --decorate=short --graph"; 
 
-      alog = "olog --all"; # Show branching graph with commit titles in terminal. Show all refs (also remote).
+      # Show branching graph with commit titles in terminal. Show all refs (also remote).
+      alog = "olog --all"; 
       
-      plog = "log --pretty=format:'%C(yellow)%h %Cred%ad %Cgreen%an%C(cyan)%d %Creset%s' --date=short --abbrev-commit"; # Dense, summarized history of all commits contributing to current branch.
+      # Dense, summarized history of all commits contributing to current branch.
+      plog = "log --pretty=format:'%C(yellow)%h %Cred%ad %Cgreen%an%C(cyan)%d %Creset%s' --date=short --abbrev-commit"; 
       
-      last = "!f() { [[ -z $1 ]] && amount=1 || amount=$1; git log --stat -$amount HEAD; }; f"; # Show the last $1 commit messages. Defaults to 1 when no parameter is given.
+      # Show the last $1 commit messages. Defaults to 1 when no parameter is given.  
+      last = collapse ''!
+        last() { 
+          [[ -z $1 ]] && amount=1 || amount=$1; 
+          git log --stat -$amount HEAD; 
+        }; 
+        
+        last
+      ''; 
       
-      url = "! git config --local --get remote.origin.url | sed -e s,'\\\.git',,g"; # Return just the url of the remote repository "origin", no .git at the end.
+      # Return just the url of the remote repository "origin", no .git at the end.
+      url = "!git config --local --get remote.origin.url | sed -e s,'\\\.git',,g"; 
       
-      bb = "!open -u `git url`"; # Open the remote repository url in default browser. (originally from Bit Bucket, hence 'bb')
+      # Open the remote repository url in default browser. (originally from Bit Bucket, hence bb)
+      bb = "!open -u $(git url)"; 
       
-      restore = "!git clean -dfX && git reset --hard @"; # Bring tracked files to initial state of current commit. Will only delete files in .gitignore
+      # Show all tracked files in repo for current branch
+      tracked = "ls-tree --full-tree --name-only -r HEAD"; 
       
-      nuke = "!git clean -dfx && git reset --hard @"; # Bring repository to initial state for current commit. Will delete ALL files that are not in remote.
+      # Show a nicely formatted tree of the git repository. TODO: add .gitignore support
+      lt = "!${pkgs.lsd}/bin/lsd --tree $(git rev-parse --show-toplevel)"; 
       
-      tracked = "ls-tree --full-tree --name-only -r HEAD"; # Show all tracked files in repo for current branch
-      
-      lt = "!${pkgs.lsd}/bin/lsd --tree $(git rev-parse --show-toplevel)"; # Show a nicely formatted tree of the git repository (requires lsd-rs)
-      
-      amend = "commit --amend --no-edit"; # Quickly amend last commit, keeping the old message.
+      # Quickly amend last commit, keeping the old message.
+      amend = "commit --amend --no-edit"; 
 
-	  branch-url = "!echo `git url`/tree/`git branch --show-current`"; # Print the url of the remote reposity with the current branch checked out.
+      # Print the url of the remote reposity with the current branch checked out.
+	    branch-url = "!echo $(git url)/tree/$(git branch --show-current)"; 
 
-	  pr-url = "!pr-url() { curr=`git branch --show-current 2> /dev/null || echo null`; if [[ \"$curr\" = null ]]; then return 1; fi; ${pkgs.gh}/bin/gh api -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' \"/search/issues?q=head:$curr\" | jq '.items[0].html_url' | sed -e s/\\\"//g; }; pr=`pr-url`; repo=`git url 2> /dev/null`; if [[ ! -z $repo ]]; then if [[ \"$pr\" == \"$repo\"* ]]; then echo $pr; fi; fi; "; # Print the url of the open PR for the current branch if it exists.
+      # Print the url of the open PR for the current branch if it exists.  
+	    pr-url = collapse ''!
+        pr-url() { 
+          curr=$(git branch --show-current 2> /dev/null || echo "null"); 
+          if [[ "$curr" == "null" ]]; then 
+            return 1;
+          fi;
 
-	  pr = "! url=\"`git pr-url`\"; open -u `[[ -n \"$url\" ]] && echo \"$url\" || git branch-url 2> /dev/null` 2> /dev/null && echo \"`[[ -n \"$url\" ]] && echo \"$url\" || git branch-url;`\" || echo \"No (remote) repo.\""; # Open PR (if it exists) of current branch in browser
+          ${pkgs.gh}/bin/gh api -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' "/search/issues?q=head:$curr" | jq '.items[0].html_url' | sed -e s/\"//g; 
+        };
+
+        repo=$(git url 2> /dev/null); 
+        if [[ ! -z "$repo" ]]; then 
+          pr=$(pr-url); 
+          if [[ "$pr" == "$repo"* ]]; then 
+            echo "$pr";
+          fi;
+        fi;
+      ''; 
+
+      # Try to open Pull Request page on github of current branch.
+      # If no PR exists, try to open branch in code view on github.
+	    pr = collapse ''!
+        try-open() {
+          if [[ -n "$1" ]]; then
+            echo "$1";
+            open -u "$1";
+            return 0;
+          fi;
+          
+          return 1;
+        };
+        
+        url=$(try-open "$(git pr-url)");
+        if [[ -z "$url" ]]; then  
+          url=$(try-open "$(git branch-url)");
+          if [[ -z "$url" ]]; then
+            echo "No (remote) repo";
+          fi;
+        fi;
+      ''; 
     };
   };
 }

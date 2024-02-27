@@ -6,6 +6,8 @@
   home.username = "robin.kneepkens";
   home.homeDirectory = "/Users/robin.kneepkens";
 
+  # programs.xdg.enable = true;
+
   imports = [
     # Enable nix-colors.
     inputs.nix-colors.homeManagerModule 
@@ -15,9 +17,9 @@
     ./features/git.nix
     ./features/alacritty.nix
     ./features/tmux.nix
-    ./features/nvim/nvim.nix
-	./features/direnv.nix
-	# ./features/zsh/zsh.nix # Currently unstable, don't want to worry about that now.
+    ./features/direnv.nix
+    ./features/helix.nix
+    # ./features/zsh/zsh.nix # Currently unstable, don't want to worry about that now.
   ];
 
   colorScheme = (import ./global/colorschemes/default-terminal.nix);
@@ -29,7 +31,7 @@
   # environment.
   home.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
-    fswatch
+    fswatch # Some plain zsh script of mine depends on this, but remove when I port zsh to nix.
   ];
   
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -37,8 +39,8 @@
   home.file = {
   };
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
+  home.sessionVariables = { # Doesn't work yet, since hm isn't managing my zsh config yet
+    EDITOR = "hx";
   };
   
   # You should not change this value, even if you update Home Manager. If you do

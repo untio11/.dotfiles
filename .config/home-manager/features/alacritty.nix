@@ -8,6 +8,9 @@
         padding = { x = 6; y = 6; };
         dynamic_padding = true;
         decorations = "none";
+        option_as_alt = "OnlyLeft";
+        opacity = 0.8;
+        blur = true;
       };
 
       font = {

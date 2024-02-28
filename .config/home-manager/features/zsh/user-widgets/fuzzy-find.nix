@@ -4,7 +4,8 @@ let
   fuzzy-find-file = "${config.xdg.configHome}/zsh/user-widgets/fuzzy-find.zsh";
 in
 {
-	programs.zsh.initExtraFirst = "source ${fuzzy-find-file}";
+  # Don't put it at the top with initExtraFirst, because setting vi keymap happens afterwards and overrides keybinds
+	programs.zsh.initExtra = "source ${fuzzy-find-file}";
   home.file.fuzzy-find = {
     target = fuzzy-find-file;
     enable = true;

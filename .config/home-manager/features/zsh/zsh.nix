@@ -8,6 +8,7 @@
     sessionVariables = {
       EDITOR = "hx";
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";
+      SHELL = "${pkgs.zsh}/bin/zsh"; # So alactritty actually loads the correct zsh
     };
 
     shellAliases = {
@@ -33,6 +34,7 @@
     };
 
     initExtraFirst = ''## All the way at the top of .zshrc
+
     '';
     initExtraBeforeCompInit = ''## Followed by this.
 
@@ -89,7 +91,13 @@
       zstyle ':completion:*' show-ambiguity true
       zstyle ':completion:*:git*:*' list-packed false
       zstyle ':completion:*approximate*:git-checkout:argument-rest:heads*' hidden true
-      autoload -U compinit; compinit
+      autoload -U compinit
+      if [[ "$HOME/.zshenv" -nt "$ZDOTDIR/.zcompdump" ]]; then
+        echo "[info] Regenerating .zcompdump"
+        compinit
+      else
+        compinit -C
+      fi
     '';
 
     loginExtra = ''## tmux startup. .zlogin is called after .zshrc
@@ -101,6 +109,9 @@
       	tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
       fi
     '';
+
+    profileExtra = "";
+    envExtra = "";
   };
 
   imports = [

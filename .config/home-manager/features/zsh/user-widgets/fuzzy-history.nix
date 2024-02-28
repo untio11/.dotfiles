@@ -5,7 +5,7 @@ let
 in
 {
   # TODO: Idea - perform some smarter history optimization via an external program that rewrites your history based on patterns?
-	programs.zsh.initExtraFirst = "source ${fuzzy-history-file}";
+	programs.zsh.initExtra = "source ${fuzzy-history-file}"; # Don't load before setting vi keymap
   home.file.fuzzy-history = {
     target = fuzzy-history-file;
     enable = true;

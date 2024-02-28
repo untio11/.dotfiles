@@ -10,13 +10,13 @@ in
     userEmail = "robin@skunk.team"; # TODO: Make more modular -> Work vs private? Just in general custom profiles.
     userName = "Robin Kneepkens";
 
-	ignores = [
-		# I tend to use these directories for temp files
-		".todo/"
-		".scrap/"
-    # Gets created by direnv. I use it for flake-defined dev environments.
-    ".direnv"
-	];
+    ignores = [
+    	# I tend to use these directories for temp files
+    	".todo/"
+    	".scrap/"
+      # Gets created by direnv. I use it for flake-defined dev environments.
+      ".direnv"
+    ];
     
     extraConfig = {
       credential = {

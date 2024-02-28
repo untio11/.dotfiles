@@ -43,7 +43,7 @@ in
 			# When searching in the history, never find duplicates multiple times.
 			setopt HIST_FIND_NO_DUPS
 
-		  # Remove redundant whitespace
+			# Remove redundant whitespace
 			setopt HIST_REDUCE_BLANKS
 
 			# Do not execute immediately upon history expansion.

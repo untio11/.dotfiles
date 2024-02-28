@@ -18,6 +18,9 @@ in
 			# (-U autoload w/o substition, -z use zsh style)
 			autoload -Uz add-zsh-hook vcs_info
 
+			# Only enable vcs_info for git
+			zstyle ':vcs_info:*' enable git
+
 			# Enable checking for (un)staged changes, enabling use of %u and %c
 			zstyle ':vcs_info:git:*' check-for-changes true
 

@@ -38,7 +38,7 @@ in
       ###		2: Error
       ###		130: Interrupted with ^c or ESC.
       function _c() {
-      	find "$XDG_CONFIG_HOME" \
+      	find "${config.xdg.configHome}" \
       		-type f \
       		! -path '*/gcloud/*' \
       		! -path '*/.zsh_sessions/*' \

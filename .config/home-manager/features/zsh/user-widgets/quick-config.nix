@@ -43,7 +43,7 @@ in
       		! -path '*/gcloud/*' \
       		! -path '*/.zsh_sessions/*' \
       		! -path '*/automatic_backups/*' \
-      		| fzf -q "$1"
+      		| fzf --reverse --height=12 -q "$1"
       }
 
       ### Use _c to find a config file and edit

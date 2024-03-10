@@ -9,14 +9,15 @@
       EDITOR = "hx";
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";
       SHELL = "${pkgs.zsh}/bin/zsh"; # So alactritty actually loads the correct zsh
+      DIRENV_LOG_FORMAT = ""; # Stop direnv from vomiting on the screen.
     };
 
     shellAliases = {
       ls =      "lsd";
       hm =      "home-manager";
-      la =      "ls -a";
-      lla =     "ls -la";
-      lt =      "ls --tree";
+      la =      "lsd -a --group-dirs first";
+      lla =     "lsd -la --group-dirs first";
+      lt =      "lsd --tree --group-dirs last --no-symlink";
       catp =    "bat";
       cat =     "bat --paging=never";
       subl =    "/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl";

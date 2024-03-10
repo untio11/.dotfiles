@@ -18,7 +18,7 @@
         size = 15;
       };
   
-      colors = with config.colorScheme.colors; {
+      colors = with config.colorScheme.palette; {
         primary = {
           background = "#${base00}";
           foreground = "#${base07}";

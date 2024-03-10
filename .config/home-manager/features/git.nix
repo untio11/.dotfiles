@@ -11,9 +11,9 @@ in
     userName = "Robin Kneepkens";
 
     ignores = [
-    	# I tend to use these directories for temp files
-    	".todo/"
-    	".scrap/"
+      # I tend to use these directories for temp files
+      ".todo/"
+      ".scrap/"
       # Gets created by direnv. I use it for flake-defined dev environments.
       ".direnv"
     ];
@@ -37,7 +37,7 @@ in
     aliases = {
       # List all available aliases.
       list-alias = "!git config --global -l | grep 'alias'"; 
-	  
+    
       # Show git log with diffs using difftastic  
       dlog = collapse ''!
         dlog() { 
@@ -46,7 +46,7 @@ in
         
         dlog
       ''; 
-      
+
       # Show branching graph with commit titles in terminal. Only show local refs and remote refs relevant to them.
       olog = "log --pretty='%C(auto)%h%C(auto)%d%C(reset) %s %C(brightblack)%<(5,trunc)%an' --color=auto --decorate=short --graph"; 
 
@@ -82,10 +82,10 @@ in
       amend = "commit --amend --no-edit"; 
 
       # Print the url of the remote reposity with the current branch checked out.
-	    branch-url = "!echo $(git url)/tree/$(git branch --show-current)"; 
+      branch-url = "!echo $(git url)/tree/$(git branch --show-current)"; 
 
       # Print the url of the open PR for the current branch if it exists.  
-	    pr-url = collapse ''!
+      pr-url = collapse ''!
         pr-url() { 
           curr=$(git branch --show-current 2> /dev/null || echo "null"); 
           if [[ "$curr" == "null" ]]; then 
@@ -106,7 +106,7 @@ in
 
       # Try to open Pull Request page on github of current branch.
       # If no PR exists, try to open branch in code view on github.
-	    pr = collapse ''!
+      pr = collapse ''!
         try-open() {
           if [[ -n "$1" ]]; then
             echo "$1";

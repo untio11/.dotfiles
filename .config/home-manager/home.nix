@@ -33,6 +33,7 @@
     bat # Not really worth more config yet
     fzf
     jq
+    cowsay
   ];
    
   # You should not change this value, even if you update Home Manager. If you do

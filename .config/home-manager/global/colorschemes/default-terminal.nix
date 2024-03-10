@@ -2,7 +2,7 @@
   author = "Robin";
   name = "DefaultTerminal";
   slug = "Default Terminal";
-  colors = {
+  palette = {
 
     # Normal colors first:
     

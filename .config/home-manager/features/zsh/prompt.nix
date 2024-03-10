@@ -2,6 +2,8 @@
 
 let 
 	prompt-file = "${config.xdg.configHome}/zsh/prompt.zsh";
+	prompt = ""; # , , , , , , 󱏿, , , , ⏾, , , 
+	prompt-color = "white";
 in
 {
   programs.zsh.initExtraFirst = "source ${prompt-file}";
@@ -92,7 +94,7 @@ in
 				# only present '$ ' as a prompt to type 
 				# the command when we're not in a Warp terminal.
 				if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
-					PROMPT+='$ '
+					PROMPT+='%F{${prompt-color}}${prompt}%f '
 				fi
 
 			}

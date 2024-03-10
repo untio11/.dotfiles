@@ -6,6 +6,7 @@
     settings = {
       blocks = [ "date" "size" "name" ];
       indicators = true;
+      date = "+%Y-%m-%d %a %X";
     };
   };
 }

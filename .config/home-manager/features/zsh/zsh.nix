@@ -19,7 +19,7 @@
       lt =      "ls --tree";
       catp =    "bat";
       cat =     "bat --paging=never";
-      subl =    "/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl";
+      subl =    "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
       python =  "python3";
       zcp =     "zmv -C";
       zln =     "zmv -L";
@@ -118,6 +118,5 @@
     ./history-config.nix
     ./prompt.nix
     ./user-widgets
-    ./impure.nix
   ];
 }

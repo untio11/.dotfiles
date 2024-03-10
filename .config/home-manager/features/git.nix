@@ -20,7 +20,7 @@ in
     
     extraConfig = {
       credential = {
-        helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+        helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
       };
       init = {
         defaultBranch = "main";

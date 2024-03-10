@@ -3,8 +3,12 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "robin.kneepkens";
-  home.homeDirectory = "/Users/robin.kneepkens";
+  home.username = "untio11";
+  home.homeDirectory = "/home/untio11";
+  home.sessionVariables = {
+    COLORTERM = "truecolor";
+    EDITOR = "hx";
+  };
 
   imports = [
     # Enable nix-colors.
@@ -13,7 +17,6 @@
     # Import programs with their configuration
     ./features/lsd.nix
     ./features/git.nix
-    ./features/alacritty.nix
     ./features/tmux.nix
     ./features/direnv.nix
     ./features/helix.nix
@@ -21,18 +24,15 @@
   ];
 
   colorScheme = (import ./global/colorschemes/default-terminal.nix);
-
-  # Enable Home Manager to install user fonts. Added in home.packages.
-  fonts.fontconfig.enable = true;
-
+  
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
-    fswatch # Some plain zsh script of mine depends on this, but remove when I port zsh to nix.
     bat # Not really worth more config yet
     fzf
     jq
+    wget
+    gh
   ];
    
   # You should not change this value, even if you update Home Manager. If you do

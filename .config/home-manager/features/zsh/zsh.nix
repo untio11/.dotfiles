@@ -23,6 +23,7 @@
       python =  "python3";
       zcp =     "zmv -C";
       zln =     "zmv -L";
+      zrc =     "source $ZDOTDIR/.zshrc";
       dotfile = "git --work-tree=$HOME --git-dir=$HOME/.dotfiles"; # For managing dotfiles in ~/.
       tmux =    "tmux -u"; # To enable unicode characters.
       vim =     "nvim";

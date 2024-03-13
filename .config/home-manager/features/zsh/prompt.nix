@@ -1,9 +1,11 @@
 { pkgs, config, ... }:
 
 let 
-	prompt-file = "${config.xdg.configHome}/zsh/prompt.zsh";
+	# TODO: Make this proper module options.
 	prompt = ""; # , , , , , , 󱏿, , , , ⏾, , , 
 	prompt-color = "white";
+	direnv-prompt = "";
+	prompt-file = "${config.xdg.configHome}/zsh/prompt.zsh";
 in
 {
   programs.zsh.initExtraFirst = "source ${prompt-file}";
@@ -64,7 +66,7 @@ in
 				#	          Abbreviates home directory to `~`
 				#        \n Newline
 				# (trying to format the above comment in helix was a mindfuck lol)
-				PROMPT=$'\n%B%F{green}[%T] %n%b%f %2~\n'
+				PROMPT=$'\n%B%F{green}[%T] %n%b%f''${DIRENV_DIFF+ ${direnv-prompt}} %2~\n'
 
 				# vcs_info_msg_1_ contains information about
 				# current changes. Only run this part of the
@@ -96,7 +98,6 @@ in
 				if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
 					PROMPT+='%F{${prompt-color}}${prompt}%f '
 				fi
-
 			}
 
 			# Printed before prompt lines that are waiting

@@ -41,7 +41,7 @@
   # environment.
   home.packages = with pkgs; [
     # Personal packages
-    (nerdfonts.override { fonts = [ "DejaVuSansMono" ]; })
+    (nerdfonts.override { fonts = [ "DejaVuSansMono" "FiraCode" ]; })
     bat # Not really worth more config yet
     fzf
     cowsay

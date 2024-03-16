@@ -4,19 +4,20 @@
 	inputs = {
 		# Specify the source of Home Manager and Nixpkgs.
 		nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-		nix-colors.url = "github:misterio77/nix-colors";
+		nix-colors = {
+			url = "github:misterio77/nix-colors";
+		};
 		home-manager = {
 			url = "github:nix-community/home-manager";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
-		plugin-monokai-pro = {
-			url = "github:loctvl842/monokai-pro.nvim";
+		zsh-spinner = {
+			url = "github:molovo/revolver";
 			flake = false;
 		};
-		flake-utils.url = "github:numtide/flake-utils";
 	};
 
-	outputs = { nixpkgs, home-manager, flake-utils, ... }@inputs:
+	outputs = { nixpkgs, home-manager, ... }@inputs:
 		let
 			system = "aarch64-darwin";
 			pkgs = nixpkgs.legacyPackages.${system};

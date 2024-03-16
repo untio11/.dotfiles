@@ -5,6 +5,9 @@
   # manage.
   home.username = "robin.kneepkens";
   home.homeDirectory = "/Users/robin.kneepkens";
+  home.sessionVariables = {
+    HM_HOME = "${config.xdg.configHome}/home-manager";
+  };
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.
     settings = {
@@ -16,6 +19,13 @@
         "auto-allocate-uids" # So builds stop giving warnings?
       ];
     };
+  };
+
+  home.file.util = {
+    target = ".util";
+    enable = true;
+    recursive = true;
+    source = "${inputs.self}/util";
   };
 
   imports = [

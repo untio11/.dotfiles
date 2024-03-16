@@ -14,7 +14,7 @@
       };
 
       font = {
-        normal.family = "DejaVuSansM Nerd Font Mono";
+        normal.family = "FiraCode Nerd Font Mono";
         size = 15;
       };
   

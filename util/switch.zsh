@@ -7,7 +7,7 @@ if [[ $? -ne 0 ]]; then
   cat $TMPDIR/hm-switch.log
   exit 1
 else
-  ./result/activate &> hm-switch.log
+  ./result/activate &> $TMPDIR/hm-switch.log
   if [[ $? -ne 0 ]]; then
     echo 'Activation failed:'
     echo ''
@@ -18,6 +18,7 @@ else
     git -C $HM_HOME add -u
     hm_status=$(grep "profile generation" $TMPDIR/hm-switch.log)
     echo "$hm_status"
+    echo "$hm_status" > $HM_HOME/.hswitch-status
     if [[ "$hm_status" == *"reusing"* ]]; then
       exit 3
     else

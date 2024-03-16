@@ -1,12 +1,19 @@
 { config, pkgs, inputs, ... }:
 
+let 
+  hm = "${config.xdg.configHome}/home-manager";
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "robin.kneepkens";
   home.homeDirectory = "/Users/robin.kneepkens";
   home.sessionVariables = {
-    HM_HOME = "${config.xdg.configHome}/home-manager";
+    HM_HOME = hm;
+  };
+  home.shellAliases = {
+    home =    "cd ${hm}";
+    hswitch = "$HOME/.util/switch.zsh";
   };
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.

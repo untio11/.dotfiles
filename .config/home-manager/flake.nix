@@ -20,6 +20,7 @@
 		let
 			system = "aarch64-darwin";
 			pkgs = nixpkgs.legacyPackages.${system};
+			profile = import ./profiles;
 		in {
 			homeConfigurations."robin.kneepkens" = home-manager.lib.homeManagerConfiguration {
 				inherit pkgs;

@@ -18,7 +18,8 @@
 
 	outputs = { nixpkgs, home-manager, flake-utils, ... }@inputs:
 		let
-			pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+			system = "aarch64-darwin";
+			pkgs = nixpkgs.legacyPackages.${system};
 		in {
 			homeConfigurations."robin.kneepkens" = home-manager.lib.homeManagerConfiguration {
 				inherit pkgs;

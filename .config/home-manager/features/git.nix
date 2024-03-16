@@ -16,6 +16,8 @@ in
       ".scrap/"
       # Gets created by direnv. I use it for flake-defined dev environments.
       ".direnv"
+      # MacOS
+      ".DS_Store"
     ];
     
     extraConfig = {

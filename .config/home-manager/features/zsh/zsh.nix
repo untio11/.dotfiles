@@ -20,13 +20,20 @@
       lt =      "lsd --tree --group-dirs last --no-symlink";
       catp =    "bat";
       cat =     "bat --paging=never";
-      subl =    "/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl";
+      subl =    "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
       python =  "python3";
       zcp =     "zmv -C";
       zln =     "zmv -L";
+      zrc =     "source $ZDOTDIR/.zshrc";
       dotfile = "git --work-tree=$HOME --git-dir=$HOME/.dotfiles"; # For managing dotfiles in ~/.
       tmux =    "tmux -u"; # To enable unicode characters.
       vim =     "nvim";
+    };
+
+    dirHashes = {
+      dev = "$HOME/Development";
+      doc = "$HOME/Documents";
+      hm  = "$HOME/.config/home-manager";
     };
 
     syntaxHighlighting = {

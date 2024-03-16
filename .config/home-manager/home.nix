@@ -15,7 +15,6 @@
         "flakes" # The MVP
         "auto-allocate-uids" # So builds stop giving warnings?
       ];
-      auto-allocate-uids = true;
     };
   };
 
@@ -47,11 +46,11 @@
     fzf
     cowsay
     neofetch
-    manix # Search nix/nixos/home-manager options
 
     # SkunkTeam/usr development
     jq
     nodejs_20
+    nodePackages.typescript-language-server
     zulu
     (google-cloud-sdk.withExtraComponents [
       google-cloud-sdk.components.beta

@@ -4,7 +4,7 @@
   programs.helix = {
     enable = true;
     settings = {
-      theme = "nightfox";
+      theme = "new_moon";
 
       editor = {
         cursor-shape.insert = "bar";
@@ -40,6 +40,7 @@
       nil
       marksman
       nodePackages.bash-language-server
+      nodePackages.typescript-language-server
     ];
   };
 }

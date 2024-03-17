@@ -58,7 +58,7 @@ in
   # environment.
   home.packages = with pkgs; [
     # Personal packages
-    (nerdfonts.override { fonts = [ "DejaVuSansMono" "FiraCode" ]; })
+    (nerdfonts.override { fonts = [ "DejaVuSansMono" "FiraCode" "JetBrainsMono" ]; })
     bat # Not really worth more config yet
     fzf
     cowsay
@@ -67,7 +67,6 @@ in
     # SkunkTeam/usr development
     jq
     nodejs_20
-    nodePackages.typescript-language-server
     zulu
     (google-cloud-sdk.withExtraComponents [
       google-cloud-sdk.components.beta

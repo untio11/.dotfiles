@@ -34,6 +34,7 @@ in
         --tab-width 4
         --display side-by-side-show-both
       '';
+      pull.rebase = false;
     };
 
     aliases = {

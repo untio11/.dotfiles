@@ -13,7 +13,7 @@ in
   };
   home.shellAliases = {
     home =    "cd ${hm}";
-    hswitch = "$HOME/.util/switch.zsh";
+    hswitch = "$HOME/.util/hswitch.zsh"; # TODO: This is a weak link to the filename :/
   };
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.

@@ -20,10 +20,12 @@ else
     echo "$hm_status"
     echo "$hm_status" > $HM_HOME/.hswitch-status
     if [[ "$hm_status" == *"reusing"* ]]; then
+      rm .result;
       exit 3
     else
       git -C $HM_HOME status
     fi
   fi
-  exit 0
+  rm ./result;
+  exit 0;
 fi

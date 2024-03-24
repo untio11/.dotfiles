@@ -22,7 +22,6 @@
 			nixos-wsl = rec {
 				system = "x86_64-linux";
 				pkgs = nixpkgs.legacyPackages.${system};
-				# Profile: passing the pkgs when importing.
 				username = "untio11";
 				base-home-dir = "/home";
 				git.extraConfig.credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";

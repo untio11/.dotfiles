@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, profile, ... }:
 
 {
   programs.zsh = {
@@ -20,15 +20,13 @@
       lt =      "lsd --tree --group-dirs last --no-symlink";
       catp =    "bat";
       cat =     "bat --paging=never";
-      subl =    "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
       python =  "python3";
       zcp =     "zmv -C";
       zln =     "zmv -L";
       zrc =     "source $ZDOTDIR/.zshrc";
-      dotfile = "git --work-tree=$HOME --git-dir=$HOME/.dotfiles"; # For managing dotfiles in ~/.
       tmux =    "tmux -u"; # To enable unicode characters.
       vim =     "nvim";
-    };
+    } // profile.zsh.shellAliases; # TODO: move to hm aliases?
 
     dirHashes = {
       dev = "$HOME/Development";
@@ -126,6 +124,5 @@
     ./history-config.nix
     ./prompt.nix
     ./user-widgets
-    ./impure.nix
   ];
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, profile, ... }:
 
 let 
   hm = "${config.xdg.configHome}/home-manager";
@@ -6,8 +6,8 @@ in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "robin.kneepkens";
-  home.homeDirectory = "/Users/robin.kneepkens";
+  home.username = profile.username;
+  home.homeDirectory = with profile; "${base-home-dir}/${username}";
   home.sessionVariables = {
     HM_HOME = hm;
   };

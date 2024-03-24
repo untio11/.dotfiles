@@ -1,24 +1,25 @@
+LOG_DIR="$HM_HOME"
 echo 'Building home manager config'
-home-manager build 2> $TMPDIR/hm-switch.log
+home-manager build 2> $LOG_DIR/hm-switch.log
 
 if [[ $? -ne 0 ]]; then
   echo 'Build failed:'
   echo ''
-  cat $TMPDIR/hm-switch.log
+  cat $LOG_DIR/hm-switch.log
   exit 1
 else
-  ./result/activate &> $TMPDIR/hm-switch.log
+  ./result/activate &> $LOG_DIR/hm-switch.log
   if [[ $? -ne 0 ]]; then
     echo 'Activation failed:'
     echo ''
-    cat $TMPDIR/hm-switch.log
+    cat $LOG_DIR/hm-switch.log
     rm ./result
     exit 2;
   else
     git -C $HM_HOME add -u
-    hm_status=$(grep "profile generation" $TMPDIR/hm-switch.log)
+    hm_status=$(grep "profile generation" $LOG_DIR/hm-switch.log)
     echo "$hm_status"
-    echo "$hm_status" > $HM_HOME/.hswitch-status
+    echo "$hm_status" > $LOG_DIR/.hswitch-status
     if [[ "$hm_status" == *"reusing"* ]]; then
       rm .result;
       exit 3

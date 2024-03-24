@@ -19,11 +19,29 @@
 
 	outputs = { nixpkgs, home-manager, ... }@inputs:
 		let
-			system = "aarch64-darwin";
-			pkgs = nixpkgs.legacyPackages.${system};
-			profile = import ./profiles;
+			nixos-wsl = rec {
+				system = "x86_64-linux";
+				pkgs = nixpkgs.legacyPackages.${system};
+				# Profile: passing the pkgs when importing.
+				username = "untio11";
+				base-home-dir = "/home";
+				git.extraConfig.credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
+				zsh.shellAliases = {
+		      subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
+				};
+			};
+			macos-skunk = rec {
+				system = "aarch64-darwin";
+				pkgs = nixpkgs.legacyPackages.${system};
+				username = "robin.kneepkens";
+				base-home-dir = "/Users";
+				zsh.shellAliases = {
+					subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
+				};
+			};
 		in {
-			homeConfigurations."robin.kneepkens" = home-manager.lib.homeManagerConfiguration {
+			homeConfigurations.${macos-skunk.username} = with macos-skunk; 
+			home-manager.lib.homeManagerConfiguration {
 				inherit pkgs;
 				# Specify your home configuration modules here, for example,
 				# the path to your home.nix.
@@ -32,6 +50,20 @@
 				# to pass through arguments to home.nix
 				extraSpecialArgs = {
 					inherit inputs;
+					profile = macos-skunk;
+				};
+			};
+			homeConfigurations.${nixos-wsl.username} = with nixos-wsl;
+			home-manager.lib.homeManagerConfiguration {
+				inherit pkgs;
+				# Specify your home configuration modules here, for example,
+				# the path to your home.nix.
+				modules = [ ./home.nix ];
+				# Optionally use extraSpecialArgs
+				# to pass through arguments to home.nix
+				extraSpecialArgs = {
+					inherit inputs;
+					profile = nixos-wsl;
 				};
 			};
 		};

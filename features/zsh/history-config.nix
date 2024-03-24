@@ -67,12 +67,16 @@ in
 
 			# Remap arrow keys in insert mode.
 			bindkey "\e[A" _history-search-cmd-mode
+			bindkey "\eOA" _history-search-cmd-mode
 			bindkey "\e[B" history-beginning-search-forward
+			bindkey "\eOB" history-beginning-search-forward
 
 			# Also remap them in command mode, otherwise it'll start doing
 			# normal backward history search instead of content-aware.
 			bindkey -a "\e[A" history-beginning-search-backward
-			bindkey -a "\e[A" history-beginning-search-backward
+			bindkey -a "\e[B" history-beginning-search-backward
+			bindkey -a "\eOA" history-beginning-search-backward
+			bindkey -a "\eOB" history-beginning-search-backward
 		'';
 	};
 }

@@ -1,47 +1,49 @@
-{ config, pkgs, inputs, ... }:
-
 {
-	nixpkgs = {
-		overlays = [
-			(final: prev: {
-				vimPlugins = prev.vimPlugins // {
-					monokai-pro = prev.vimUtils.buildVimPlugin {
-						name = "monokai-pro";
-						src = inputs.plugin-monokai-pro;
-					};
-				};
-			})
-		];
-	};
-	
-	programs.neovim = 
-	let 
-		toLua = str: "lua << EOF\n${str}\nEOF\n";
-		toLuaFile = file: toLua builtins.readFile file;
-	in
-	{
-		enable = true;
-		viAlias = true;
-		vimAlias = true;
-		vimdiffAlias = true;
+  pkgs,
+  inputs,
+  ...
+}: {
+  nixpkgs = {
+    overlays = [
+      (final: prev: {
+        vimPlugins =
+          prev.vimPlugins
+          // {
+            monokai-pro = prev.vimUtils.buildVimPlugin {
+              name = "monokai-pro";
+              src = inputs.plugin-monokai-pro;
+            };
+          };
+      })
+    ];
+  };
 
-		extraConfig = ''
-			${builtins.readFile ./init.vim}
-		'';
+  programs.neovim = let
+    toLua = str: "lua << EOF\n${str}\nEOF\n";
+    toLuaFile = file: toLua builtins.readFile file;
+  in {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
 
-		plugins = with pkgs.vimPlugins; [
-			vim-sandwich
-			nvim-web-devicons
-			{
-				plugin = monokai-pro;
-				config = toLua ''
-					require("monokai-pro").setup({
-						devicons = true,
-						filter = "spectrum",
-						override = function(c) end,
-					})
-				'';
-			}
-		];
-	};
+    extraConfig = ''
+      ${builtins.readFile ./init.vim}
+    '';
+
+    plugins = with pkgs.vimPlugins; [
+      vim-sandwich
+      nvim-web-devicons
+      {
+        plugin = monokai-pro;
+        config = toLua ''
+          require("monokai-pro").setup({
+          	devicons = true,
+          	filter = "spectrum",
+          	override = function(c) end,
+          })
+        '';
+      }
+    ];
+  };
 }

@@ -1,9 +1,12 @@
-{ config, pkgs, inputs, profile, ... }:
-
-let 
-  hm = "${config.xdg.configHome}/home-manager";
-in
 {
+  config,
+  pkgs,
+  inputs,
+  profile,
+  ...
+}: let
+  hm = "${config.xdg.configHome}/home-manager";
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = profile.username;
@@ -12,7 +15,7 @@ in
     HM_HOME = hm;
   };
   home.shellAliases = {
-    home =    "cd ${hm}";
+    home = "cd ${hm}";
     hswitch = "$HOME/.util/hswitch.zsh"; # TODO: This is a weak link to the filename :/
   };
   nix = {
@@ -20,7 +23,7 @@ in
     settings = {
       max-jobs = "auto"; # Set the maximum allowed number of parallel builders equal to #cores on host machine.
       fallback = true; # Automatically fall back to locally building if binary substitution fails.
-      experimental-features = [ 
+      experimental-features = [
         "nix-command" # Enable new-style nix (nix <subcommand> instead of nix-subcommand). Necessary for flakes.
         "flakes" # The MVP
         "auto-allocate-uids" # So builds stop giving warnings?
@@ -37,7 +40,7 @@ in
 
   imports = [
     # Enable nix-colors.
-    inputs.nix-colors.homeManagerModule 
+    inputs.nix-colors.homeManagerModule
 
     # Import programs with their configuration
     ./features/lsd.nix
@@ -49,7 +52,7 @@ in
     ./features/zsh/zsh.nix
   ];
 
-  colorScheme = (import ./global/colorschemes/default-terminal.nix);
+  colorScheme = import ./global/colorschemes/default-terminal.nix;
 
   # Enable Home Manager to install user fonts. Added in home.packages.
   fonts.fontconfig.enable = true;
@@ -58,11 +61,13 @@ in
   # environment.
   home.packages = with pkgs; [
     # Personal packages
-    (nerdfonts.override { fonts = [ "DejaVuSansMono" "FiraCode" "JetBrainsMono" ]; })
+    (nerdfonts.override {fonts = ["DejaVuSansMono" "FiraCode" "JetBrainsMono"];})
     bat # Not really worth more config yet
     fzf
     cowsay
     neofetch
+    alejandra
+    nil
 
     # SkunkTeam/usr development
     jq
@@ -75,7 +80,7 @@ in
     azure-cli
     p7zip
   ];
-   
+
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.

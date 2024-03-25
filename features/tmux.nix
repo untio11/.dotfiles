@@ -1,6 +1,4 @@
-{ pkgs, config, ... }:
-
-{
+{...}: {
   programs.tmux = {
     enable = true;
 
@@ -49,7 +47,7 @@
       set -g status-interval 1
 
       # Left portion of status bar
-      set -g status-left "[#S]" # [SESSION_NAME] 
+      set -g status-left "[#S]" # [SESSION_NAME]
       set -g status-left-length 20
 
       # Center portion of status bar
@@ -76,11 +74,10 @@
 
       # Pane borders
       set -g pane-active-border-style "fg=cyan"
-      set -g pane-border-style "fg=white" 
+      set -g pane-border-style "fg=white"
 
       # Status bar message
       set -g message-style "bg=cyan,fg=black"
     '';
-
   };
 }

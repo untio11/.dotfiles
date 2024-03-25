@@ -1,6 +1,8 @@
-{ pkgs, profile, ... }:
-
 {
+  pkgs,
+  profile,
+  ...
+}: {
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
@@ -12,38 +14,37 @@
       DIRENV_LOG_FORMAT = ""; # Stop direnv from vomiting on the screen.
     };
 
-    shellAliases = {
-      ls =      "lsd";
-      hm =      "home-manager";
-      la =      "lsd -a --group-dirs first";
-      lla =     "lsd -la --group-dirs first";
-      lt =      "lsd --tree --group-dirs last --no-symlink";
-      catp =    "bat";
-      cat =     "bat --paging=never";
-      python =  "python3";
-      zcp =     "zmv -C";
-      zln =     "zmv -L";
-      zrc =     "source $ZDOTDIR/.zshrc";
-      tmux =    "tmux -u"; # To enable unicode characters.
-      vim =     "nvim";
-    } // profile.zsh.shellAliases; # TODO: move to hm aliases?
+    shellAliases =
+      {
+        ls = "lsd";
+        hm = "home-manager";
+        la = "lsd -a --group-dirs first";
+        lla = "lsd -la --group-dirs first";
+        lt = "lsd --tree --group-dirs last --no-symlink";
+        catp = "bat";
+        cat = "bat --paging=never";
+        python = "python3";
+        zcp = "zmv -C";
+        zln = "zmv -L";
+        zrc = "source $ZDOTDIR/.zshrc";
+        tmux = "tmux -u"; # To enable unicode characters.
+        vim = "nvim";
+      }
+      // profile.zsh.shellAliases; # TODO: move to hm aliases?
 
     dirHashes = {
       dev = "$HOME/Development";
       doc = "$HOME/Documents";
-      hm  = "$HOME/.config/home-manager";
+      hm = "$HOME/.config/home-manager";
     };
 
     syntaxHighlighting = {
       enable = true;
-      highlighters = [ "brackets" ]; # In addition to main command syntax highlighting.
+      highlighters = ["brackets"]; # In addition to main command syntax highlighting.
     };
 
-    initExtraFirst = ''## All the way at the top of .zshrc
-
-    '';
-    initExtraBeforeCompInit = ''## Followed by this.
-
+    # initExtraFirst = ''## All the way at the top of .zshrc'';
+    initExtraBeforeCompInit = ''
       ### ========================
       ### Autoloading z functions
       ### ========================
@@ -83,11 +84,12 @@
       setopt COMPLETE_ALIASES
 
       # Make path completion case-insensitive
-      unsetopt CASE_GLOB 
+      unsetopt CASE_GLOB
     '';
-    
-    enableCompletion = true; # Then this in .zshrc
-    completionInit = ''## My inner nerdness knows no bounds
+
+    enableCompletion = true;
+    completionInit = ''
+      ## My inner nerdness knows no bounds
       zstyle ':completion:*' completer _extensions _complete _approximate
       zstyle ':completion:*' menu select
       zstyle ':completion:*:*:*:*:descriptions' format '%F{magenta}%d%f'
@@ -106,18 +108,18 @@
       fi
     '';
 
-    loginExtra = ''## tmux startup. .zlogin is called after .zshrc
+    loginExtra = ''
+      ## tmux startup. .zlogin is called after .zshrc
       ###
       ### Only connect to a new tmux window if we're not already
       ### in tmux, we're not in the vscode terminal emulator, and
       ### we're not not in a warp shell session.
       if [[ ! ( -v "TMUX" || -v "VSCODE_INJECTION" || -v "WARP_IS_LOCAL_SHELL_SESSION" ) ]]; then
-      	tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
+        tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
       fi
     '';
-
-    profileExtra = "";
-    envExtra = "";
+    # profileExtra = "";
+    # envExtra = "";
   };
 
   imports = [

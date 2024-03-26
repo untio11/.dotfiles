@@ -16,7 +16,6 @@ in {
   };
   home.shellAliases = {
     home = "cd ${hm}";
-    hswitch = "$HOME/.util/hswitch.zsh"; # TODO: This is a weak link to the filename :/
   };
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.
@@ -31,12 +30,12 @@ in {
     };
   };
 
-  home.file.util = {
-    target = ".util";
-    enable = true;
-    recursive = true;
-    source = "${inputs.self}/util";
-  };
+  # home.file.util = {
+  #   target = ".util";
+  #   enable = true;
+  #   recursive = true;
+  #   source = "${inputs.self}/util";
+  # };
 
   imports = [
     # Enable nix-colors.
@@ -50,6 +49,7 @@ in {
     ./features/direnv.nix
     ./features/helix.nix
     ./features/zsh/zsh.nix
+    ./util/hswitch.nix
   ];
 
   colorScheme = import ./global/colorschemes/default-terminal.nix;

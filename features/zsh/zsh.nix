@@ -126,5 +126,6 @@
     ./history-config.nix
     ./prompt.nix
     ./user-widgets
+    ./impure.nix
   ];
 }

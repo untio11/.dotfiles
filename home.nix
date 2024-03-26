@@ -30,13 +30,6 @@ in {
     };
   };
 
-  # home.file.util = {
-  #   target = ".util";
-  #   enable = true;
-  #   recursive = true;
-  #   source = "${inputs.self}/util";
-  # };
-
   imports = [
     # Enable nix-colors.
     inputs.nix-colors.homeManagerModule

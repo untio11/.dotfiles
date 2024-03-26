@@ -29,8 +29,7 @@
         zrc = "source $ZDOTDIR/.zshrc";
         tmux = "tmux -u"; # To enable unicode characters.
         vim = "nvim";
-      }
-      // profile.zsh.shellAliases; # TODO: move to hm aliases?
+      } // profile.cfg.zsh.shellAliases;
 
     dirHashes = {
       dev = "$HOME/Development";
@@ -109,7 +108,7 @@
     '';
 
     loginExtra = ''
-      ## tmux startup. .zlogin is called after .zshrc
+      ### tmux startup. .zlogin is called after .zshrc
       ###
       ### Only connect to a new tmux window if we're not already
       ### in tmux, we're not in the vscode terminal emulator, and

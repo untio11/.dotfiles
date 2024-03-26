@@ -1,6 +1,6 @@
 {
-  profile,
   pkgs,
+  profile,
   ...
 }: let
   # Lets me write a multiline zsh script for git aliases in here, but have it as a single line in result
@@ -37,8 +37,7 @@ in {
           --display side-by-side-show-both
         '';
         pull.rebase = false;
-      }
-      // profile.git.extraConfig;
+      };
 
     aliases = {
       # List all available aliases.
@@ -130,5 +129,5 @@ in {
         fi;
       '';
     };
-  };
+  } // profile.cfg.git;
 }

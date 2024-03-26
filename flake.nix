@@ -22,16 +22,7 @@
     home-manager,
     ...
   } @ inputs: let
-    nixos-wsl = rec {
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      username = "untio11";
-      base-home-dir = "/home";
-      git.extraConfig.credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
-      zsh.shellAliases = {
-        subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
-      };
-    };
+    nixos-wsl = (import ./profiles/nixos-wsl.nix { inherit nixpkgs; });
     macos-skunk = rec {
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};

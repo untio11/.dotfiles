@@ -23,16 +23,8 @@
     ...
   } @ inputs: let
     nixos-wsl = (import ./profiles/nixos-wsl.nix { inherit nixpkgs; });
-    macos-skunk = rec {
-      system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-      username = "robin.kneepkens";
-      base-home-dir = "/Users";
-      zsh.shellAliases = {
-        subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
-      };
-      git.extraConfig.credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
-    };
+    macos-skunk = (import ./profiles/work.nix { inherit nixpkgs; });
+    profiles = [ nixos-wsl macos-skunk ];
   in {
     homeConfigurations.${macos-skunk.username} = with macos-skunk;
       home-manager.lib.homeManagerConfiguration {

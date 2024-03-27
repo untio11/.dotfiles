@@ -8,8 +8,8 @@
 in {
   programs.git = {
     enable = true;
-    userEmail = "robin@skunk.team"; # TODO: Make more modular -> Work vs private? Just in general custom profiles.
     userName = "Robin Kneepkens";
+    userEmail = "robin.kneepkens@hotmail.com";
 
     ignores = [
       # I tend to use these directories for temp files

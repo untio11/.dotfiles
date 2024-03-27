@@ -6,7 +6,7 @@
     };
     zsh = {
       shellAliases.subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
-      imports = [./impure.nix];
+      imports = [../features/zsh/impure.nix]; # TODO: make them proper modules!
     };
   };
 in rec {

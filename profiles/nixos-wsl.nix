@@ -11,7 +11,7 @@
 in rec {
   inherit cfg;
   system = "x86_64-linux";
-  pkgs = import nixpkgs { inherit system; };
+  pkgs = import nixpkgs {inherit system;};
   username = "untio11";
   base-home-dir = "/home";
 }

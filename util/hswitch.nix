@@ -1,4 +1,8 @@
-{config, pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
   util-dir = ".util";
   hswitch-file = "${util-dir}/hswitch";
 in {
@@ -28,6 +32,7 @@ in {
           rm ./result
           exit 2;
         else
+          ${pkgs.alejandra}/bin/alejandra --quiet $HM_HOME/*/*.nix
           git -C $HM_HOME add -u
           hm_status=$(grep "profile generation" $LOG_DIR/hm-switch.log)
           echo "$hm_status"

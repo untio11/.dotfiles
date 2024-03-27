@@ -22,18 +22,13 @@
     home-manager,
     ...
   } @ inputs: let
-    nixos-wsl = (import ./profiles/nixos-wsl.nix { inherit nixpkgs; });
-    macos-skunk = (import ./profiles/work.nix { inherit nixpkgs; });
-    profiles = [ nixos-wsl macos-skunk ];
+    nixos-wsl = import ./profiles/nixos-wsl.nix {inherit nixpkgs;};
+    macos-skunk = import ./profiles/work.nix {inherit nixpkgs;};
   in {
     homeConfigurations.${macos-skunk.username} = with macos-skunk;
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
         modules = [./home.nix];
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
         extraSpecialArgs = {
           inherit inputs;
           profile = macos-skunk;
@@ -42,11 +37,7 @@
     homeConfigurations.${nixos-wsl.username} = with nixos-wsl;
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
         modules = [./home.nix];
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
         extraSpecialArgs = {
           inherit inputs;
           profile = nixos-wsl;

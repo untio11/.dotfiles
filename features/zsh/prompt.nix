@@ -1,6 +1,6 @@
-{config, ...}: let
+{config, profile, ...}: let
   # TODO: Make this proper module options.
-  prompt = ""; # , , , , , , 󱏿, , , , ⏾, , , 
+  prompt = profile.cfg.prompt; # , , , , , , 󱏿, , , , ⏾, , , 
   prompt-color = "white";
   direnv-prompt = "";
   prompt-file = "${config.xdg.configHome}/zsh/prompt.zsh";

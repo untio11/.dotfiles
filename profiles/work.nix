@@ -1,10 +1,12 @@
 {nixpkgs}: let
   cfg = {
+    prompt = "";
     git = {
       userEmail = "robin@skunk.team";
     };
     zsh = {
       shellAliases.subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
+      imports = [./impure.nix];
     };
   };
 in rec {

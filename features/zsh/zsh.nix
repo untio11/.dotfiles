@@ -125,6 +125,5 @@
     ./history-config.nix
     ./prompt.nix
     ./user-widgets
-    ./impure.nix
-  ];
+  ] ++ profile.cfg.zsh.imports;
 }

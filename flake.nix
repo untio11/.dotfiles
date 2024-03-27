@@ -11,7 +11,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zsh-spinner = {
+    revolver = {
       url = "github:molovo/revolver";
       flake = false;
     };

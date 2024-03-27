@@ -86,15 +86,7 @@
         "type": "github"
       }
     },
-    "root": {
-      "inputs": {
-        "home-manager": "home-manager",
-        "nix-colors": "nix-colors",
-        "nixpkgs": "nixpkgs",
-        "zsh-spinner": "zsh-spinner"
-      }
-    },
-    "zsh-spinner": {
+    "revolver": {
       "flake": false,
       "locked": {
         "lastModified": 1601473992,
@@ -108,6 +100,14 @@
         "owner": "molovo",
         "repo": "revolver",
         "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nix-colors": "nix-colors",
+        "nixpkgs": "nixpkgs",
+        "revolver": "revolver"
       }
     }
   },

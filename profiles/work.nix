@@ -11,6 +11,7 @@
       };
       imports = [../features/zsh/impure.nix]; # TODO: make them proper modules!
     };
+    helix.theme = "new_moon";
   };
 in rec {
   inherit cfg;

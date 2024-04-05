@@ -4,18 +4,6 @@
   ...
 }: let
   fuzzy-find-file = "${config.xdg.configHome}/zsh/user-widgets/fuzzy-find.zsh";
-  # exclusion-list = [
-  #   "*node_modules*"
-  #   "*target*"
-  #   "*.git*"
-  #   "*.direnv*"
-  #   "*.DS_Store*"
-  #   "*emulator-export*"
-  #   "*dist*"
-  #   "*.angular*"
-  # ];
-  # exclusion = path: "! -path '${path}' \\";
-  # blocklist = with builtins; concatStringsSep "\n" (map exclusion exclusion-list);
 in {
   # Don't put it at the top with initExtraFirst, because setting vi keymap happens afterwards and overrides keybinds
   programs.zsh.initExtra = "source ${fuzzy-find-file}";

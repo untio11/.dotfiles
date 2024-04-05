@@ -117,7 +117,7 @@
         tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
       fi
     '';
-    # profileExtra = "";
+    profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };"; # TODO: Find a nicer way to only define this for work profile.
     # envExtra = "";
   };
 

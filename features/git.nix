@@ -36,6 +36,7 @@ in {
           --tab-width 4
           --display side-by-side-show-both
         '';
+        core.pager = "${pkgs.bat}/bin/bat --style=plain";
         pull.rebase = false;
       };
 

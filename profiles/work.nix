@@ -5,7 +5,10 @@
       userEmail = "robin@skunk.team";
     };
     zsh = {
-      shellAliases.subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
+      shellAliases = {
+        subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
+        # nxtm = "nxtm"; TODO: see profileExtra in zsh.nix
+      };
       imports = [../features/zsh/impure.nix]; # TODO: make them proper modules!
     };
   };

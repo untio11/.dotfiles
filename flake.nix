@@ -1,8 +1,9 @@
 {
-  description = "Home Manager configuration of robin.kneepkens";
+  description = "My Home Manager configurations for home and work.";
 
   inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
+    # The Nix package repository. It contains the derivations of the packages
+    # that we install with home manager.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-colors = {
       url = "github:misterio77/nix-colors";

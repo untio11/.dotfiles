@@ -29,6 +29,7 @@
         zrc = "source $ZDOTDIR/.zshrc";
         tmux = "tmux -u"; # To enable unicode characters.
         vim = "nvim";
+        pkgsearch = "nix search nixpkgs";
       } // profile.cfg.zsh.shellAliases;
 
     dirHashes = {

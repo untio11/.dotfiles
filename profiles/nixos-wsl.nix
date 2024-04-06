@@ -2,7 +2,9 @@
   cfg = {
     prompt = "";
     git = {
-      extraConfig.credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
+      extraConfig.credential = {
+        helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
+      };
       userEmail = "robin.kneepkens@hotmail.com";
     };
     zsh = {

@@ -1,8 +1,11 @@
 {nixpkgs}: let
-  cfg = {
+  pre-cfg = pkgs: {
     prompt = "";
     git = {
       userEmail = "robin@skunk.team";
+      extraConfig.credential = {
+        helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+      };
     };
     zsh = {
       shellAliases = {
@@ -14,7 +17,7 @@
     helix.theme = "new_moon";
   };
 in rec {
-  inherit cfg;
+  cfg = pre-cfg pkgs;
   system = "aarch64-darwin";
   pkgs = nixpkgs.legacyPackages.${system};
   username = "robin.kneepkens";

@@ -42,6 +42,7 @@ in {
     ./features/direnv.nix
     ./features/helix.nix
     ./features/zsh/zsh.nix
+    ./features/ov.nix
     ./util/hswitch.nix
   ];
 
@@ -55,12 +56,11 @@ in {
   home.packages = with pkgs; [
     # Personal packages
     (nerdfonts.override {fonts = ["DejaVuSansMono" "FiraCode" "JetBrainsMono"];})
-    bat # Not really worth more config yet
+    bat
     fzf
     cowsay
     neofetch
-    alejandra
-    nil
+    ov # No nice home manager module with options, so config file manually placed by ./features/ov.nix
 
     # SkunkTeam/usr development
     jq

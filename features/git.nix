@@ -36,7 +36,15 @@ in {
           --tab-width 4
           --display side-by-side-show-both
         '';
-        core.pager = "${pkgs.bat}/bin/bat --style=plain";
+        core.pager = "${pkgs.ov}/bin/ov -F";
+        pager = let
+          ov = "${pkgs.ov}/bin/ov -F";
+        in {
+          # From: https://noborus.github.io/ov/git/index.html
+          diff = "${ov} --section-delimiter '--- \\w+$' --section-header"; # Modified to be compatible with difftastic.
+          log = "${ov} --section-delimiter '^commit' --section-header-num 3";
+          show = "${ov} --header 3";
+        };
         pull.rebase = false;
       };
 

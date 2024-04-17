@@ -7,6 +7,9 @@ in {
     text = ''
       KeyBind:
         - previous_section: "`"
+      StyleSectionLine:
+        Underline: true
+        Background: "black"
     '';
   };
 }

@@ -12,6 +12,7 @@
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";
       SHELL = "${pkgs.zsh}/bin/zsh"; # So alactritty actually loads the correct zsh
       DIRENV_LOG_FORMAT = ""; # Stop direnv from vomiting on the screen.
+      BAT_PAGER = "${pkgs.ov}/bin/ov -F -H3";
     };
 
     shellAliases =
@@ -21,8 +22,7 @@
         la = "lsd -a --group-dirs first";
         lla = "lsd -la --group-dirs first";
         lt = "lsd --tree --group-dirs last --no-symlink";
-        catp = "bat";
-        cat = "bat --paging=never";
+        cat = "bat --wrap=never";
         python = "python3";
         zcp = "zmv -C";
         zln = "zmv -L";
@@ -30,7 +30,8 @@
         tmux = "tmux -u"; # To enable unicode characters.
         vim = "nvim";
         pkgsearch = "nix search nixpkgs";
-      } // profile.cfg.zsh.shellAliases;
+      }
+      // profile.cfg.zsh.shellAliases;
 
     dirHashes = {
       dev = "$HOME/Development";
@@ -122,9 +123,11 @@
     # envExtra = "";
   };
 
-  imports = [
-    ./history-config.nix
-    ./prompt.nix
-    ./user-widgets
-  ] ++ profile.cfg.zsh.imports;
+  imports =
+    [
+      ./history-config.nix
+      ./prompt.nix
+      ./user-widgets
+    ]
+    ++ profile.cfg.zsh.imports;
 }

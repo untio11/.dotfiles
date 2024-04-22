@@ -38,7 +38,7 @@ in {
         ov = "${pkgs.ov}/bin/ov -F";
       in {
         # From: https://noborus.github.io/ov/git/index.html
-        diff = "${ov} --section-delimiter '--- \\w+$' --section-header"; # Modified to be compatible with difftastic.
+        diff = "${ov} --section-delimiter '--- \\w+(?:\(.+\))?$' --section-header"; # Modified to be compatible with difftastic.
         log = "${ov} --section-delimiter '^commit' --section-header-num 3";
         olog = "${ov} --section-delimiter '[\\*|]\\s+[a-z0-9]+ \\(.+\\)' --section-header-num 0"; # Hopefully picks branches as headers?
         show = "${ov} --header 3";

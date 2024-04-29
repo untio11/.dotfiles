@@ -7,12 +7,13 @@
     enable = true;
     defaultKeymap = "viins";
     dotDir = ".config/zsh";
-    sessionVariables = {
+    sessionVariables = with pkgs; {
       EDITOR = "hx";
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";
-      SHELL = "${pkgs.zsh}/bin/zsh"; # So alactritty actually loads the correct zsh
+      SHELL = "${zsh}/bin/zsh"; # So alactritty actually loads the correct zsh
       DIRENV_LOG_FORMAT = ""; # Stop direnv from vomiting on the screen.
-      BAT_PAGER = "${pkgs.ov}/bin/ov -F -H3";
+      BAT_PAGER = "${ov}/bin/ov -F -H3";
+      MANPAGER = "${ov}/bin/ov --section-delimiter '^[^\\s]' --section-header";
     };
 
     shellAliases =

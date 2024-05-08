@@ -13,8 +13,9 @@ in {
 
     ignores = [
       # I tend to use these directories for temp files
-      ".todo/"
-      ".scrap/"
+      ".todo/*"
+      ".scrap/*"
+      ".scratch/*"
       # Gets created by direnv. I use it for flake-defined dev environments.
       ".direnv"
       # MacOS
@@ -40,7 +41,7 @@ in {
         # From: https://noborus.github.io/ov/git/index.html
         diff = "${ov} --section-delimiter '--- \\w+(?:\(.+\))?$' --section-header"; # Modified to be compatible with difftastic.
         log = "${ov} --section-delimiter '^commit' --section-header-num 3";
-        olog = "${ov} --section-delimiter '[\\*|]\\s+[a-z0-9]+ \\(.+\\)' --section-header-num 0"; # Hopefully picks branches as headers?
+        olog = "${ov} --section-delimiter '[\\*|/\\\\]\\s+[a-z0-9]+ \\(.+\\)' --section-header-num 0"; # Hopefully picks branches as headers?
         show = "${ov} --header 3";
       };
       pull.rebase = false;

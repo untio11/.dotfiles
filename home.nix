@@ -72,6 +72,7 @@ in {
     awscli2
     azure-cli
     p7zip
+    protobuf
   ];
 
   # You should not change this value, even if you update Home Manager. If you do

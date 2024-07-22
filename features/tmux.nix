@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   programs.tmux = {
     enable = true;
 
@@ -14,7 +14,7 @@
     extraConfig = ''
       # Reload config file with prefix-r hotkey
       unbind r
-      bind r source-file "$XDG_CONFIG_HOME/tmux/tmux.conf" \; display "Reloaded tmux config"
+      bind r source-file "${config.xdg.configHome}/tmux/tmux.conf" \; display "Reloaded tmux config"
 
       # Also renumber windows on deletion
       set -g renumber-windows on
@@ -67,7 +67,7 @@
       set -g automatic-rename-format "#{?window_zoomed_flag,>#{pane_current_command}<, #{pane_current_command} }"
 
       # Current window
-      set -g window-status-current-style "double-underscore bold"
+      set -g window-status-current-style "fg=white,double-underscore bold"
 
       # Last active window
       set -g window-status-last-style "curly-underscore"

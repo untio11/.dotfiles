@@ -44,5 +44,11 @@
           profile = nixos-wsl;
         };
       };
+    templates = {
+      rust-basic = {
+        path = ./templates/rust-basic;
+        description = "Basic cargo/nix rust project, ready to go.";
+      };
+    };
   };
 }

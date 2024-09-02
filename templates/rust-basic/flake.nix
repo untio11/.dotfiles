@@ -1,5 +1,5 @@
 {
-  description = "Model my accounting in Rust and manage it with Nix because why not.";
+  description = "Basic rust project flake with dev environment ready to go.";
 
   inputs = {
     rust-overlay.url = "github:oxalica/rust-overlay";

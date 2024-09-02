@@ -22,6 +22,7 @@ in {
     settings = {
       max-jobs = "auto"; # Set the maximum allowed number of parallel builders equal to #cores on host machine.
       fallback = true; # Automatically fall back to locally building if binary substitution fails.
+      trusted-users = ["untio11"]; # So devenv can manage cachix cache for me.
       experimental-features = [
         "nix-command" # Enable new-style nix (nix <subcommand> instead of nix-subcommand). Necessary for flakes.
         "flakes" # The MVP
@@ -61,6 +62,7 @@ in {
     cowsay
     neofetch
     ov # No nice home manager module with options, so config file manually placed by ./features/ov.nix
+    devenv
 
     # SkunkTeam/usr development
     jq

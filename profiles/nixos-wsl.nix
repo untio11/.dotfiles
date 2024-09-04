@@ -11,7 +11,7 @@
       shellAliases.subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
       imports = [];
     };
-    helix.theme = "base16_transparent";
+    helix.theme = "flexoki_dark";
   };
 in rec {
   inherit cfg;

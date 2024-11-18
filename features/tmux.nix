@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   programs.tmux = {
     enable = true;
 
@@ -10,6 +14,8 @@
     mouse = true;
     prefix = "C-Space";
     terminal = "screen-256color";
+    shell = "${pkgs.zsh}/bin/zsh";
+    sensibleOnTop = false;
 
     extraConfig = ''
       # Reload config file with prefix-r hotkey

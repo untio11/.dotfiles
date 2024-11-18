@@ -72,6 +72,7 @@ in {
     (google-cloud-sdk.withExtraComponents [
       google-cloud-sdk.components.beta
     ])
+    python311
     awscli2
     azure-cli
     p7zip

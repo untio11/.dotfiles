@@ -19,6 +19,7 @@ in {
   };
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.
+    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
     settings = {
       max-jobs = "auto"; # Set the maximum allowed number of parallel builders equal to #cores on host machine.
       fallback = true; # Automatically fall back to locally building if binary substitution fails.

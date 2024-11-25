@@ -49,21 +49,29 @@
             check.command = "clippy";
           };
         };
+        nixd = {
+          command = "${pkgs.nixd}/bin/nixd";
+          config = {
+            formatting = {command = ["${pkgs.alejandra}/bin/alejandra --quiet"];};
+          };
+        };
       };
       language = [
         {
           name = "nix";
+          language-servers = ["nixd"];
           auto-format = true;
           roots = ["flake.nix" "flake.lock" "default.nix"];
+          file-types = ["nix"];
           formatter = {
-            command = "alejandra";
+            command = "${pkgs.alejandra}/bin/alejandra";
             args = ["--quiet"];
           };
         }
       ];
     };
     extraPackages = with pkgs; [
-      nil
+      nixd
       marksman
       nodePackages.bash-language-server
       nodePackages.typescript-language-server

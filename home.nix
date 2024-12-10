@@ -9,13 +9,12 @@
 in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = profile.username;
-  home.homeDirectory = with profile; "${base-home-dir}/${username}";
-  home.sessionVariables = {
-    HM_HOME = hm;
-  };
-  home.shellAliases = {
-    home = "cd ${hm}";
+  home = {
+    username = profile.username;
+    homeDirectory = with profile; "${base-home-dir}/${username}";
+    sessionVariables = {
+      HM_HOME = hm;
+    };
   };
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.

@@ -56,7 +56,7 @@ in {
       # When in insert mode, up arrow should start backward history
       # search and also put us into command mode. Makes it a lot
       # easier to edit the command that we just found ('A' to go to
-      # end of line to add a flag? :smirk:)
+      # end of line to add a flag? 😏)
       function _history-search-cmd-mode() {
         zle history-beginning-search-backward;
         zle vi-cmd-mode;

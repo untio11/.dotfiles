@@ -56,48 +56,48 @@ in {
       ### This will be run every time before the prompt
       ### is printed by adding it as a precmd hook.
       function _generate-prompt() {
-      #        \n New line.
-      #        %B Start bold formatting.
-      # %F{green} Start green text coloring.
-      #      [%T] Print 24 hour time in square brackets.
-      #        %n Print user name.
-      #      %b%f Stop bold and color formatting
-      #       %2~ Print current directory and its parent dir.
-      #           Abbreviates home directory to `~`
-      #        \n Newline
-      # (trying to format the above comment in helix was a mindfuck lol)
-      PROMPT=$'\n%B%F{green}[%T] %n%b%f''${DIRENV_DIFF+ ${direnv-prompt}} %2~\n'
+        #        \n New line.
+        #        %B Start bold formatting.
+        # %F{green} Start green text coloring.
+        #      [%T] Print 24 hour time in square brackets.
+        #        %n Print user name.
+        #      %b%f Stop bold and color formatting
+        #       %2~ Print current directory and its parent dir.
+        #           Abbreviates home directory to `~`
+        #        \n Newline
+        # (trying to format the above comment in helix was a mindfuck lol)
+        PROMPT=$'\n%B%F{green}[%T] %n%b%f''${DIRENV_DIFF+ ${direnv-prompt}} %2~\n'
 
-      # vcs_info_msg_1_ contains information about
-      # current changes. Only run this part of the
-      # prompt generation if it contains information.
-      if [[ ! -z $vcs_info_msg_1_ ]]; then
-      # Bold formatted and cyan colored.
-      # Print in square brackets:
-      #     * for unstaged changes
-      #     + for staged changes
-      # Ending bold and color formatting.
-      # Followed by a space.
-      PROMPT+=$'%B%F{cyan}[''${vcs_info_msg_1_}]%f%B '
-      fi
+        # vcs_info_msg_1_ contains information about
+        # current changes. Only run this part of the
+        # prompt generation if it contains information.
+        if [[ ! -z $vcs_info_msg_1_ ]]; then
+          # Bold formatted and cyan colored.
+          # Print in square brackets:
+          #     * for unstaged changes
+          #     + for staged changes
+          # Ending bold and color formatting.
+          # Followed by a space.
+          PROMPT+=$'%B%F{cyan}[''${vcs_info_msg_1_}]%f%B '
+        fi
 
-      # vcs_info_0_ contains information about
-      # the current repository and branch. Also
-      # only run this part if there's actual
-      # information (e.g. we're in a git repo).
-      if [[ ! -z $vcs_info_msg_0_ ]]; then
-      # Also bold and cyan formatting.
-      # Print repo-name/branch-name
-      # Stop bold and color formatting.
-      # Insert newline.
-      PROMPT+=$'%B%F{cyan}''${vcs_info_msg_0_}%f%b\n'
-      fi
+        # vcs_info_0_ contains information about
+        # the current repository and branch. Also
+        # only run this part if there's actual
+        # information (e.g. we're in a git repo).
+        if [[ ! -z $vcs_info_msg_0_ ]]; then
+          # Also bold and cyan formatting.
+          # Print repo-name/branch-name
+          # Stop bold and color formatting.
+          # Insert newline.
+          PROMPT+=$'%B%F{cyan}''${vcs_info_msg_0_}%f%b\n'
+        fi
 
-      # only present '$ ' as a prompt to type
-      # the command when we're not in a Warp terminal.
-      if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
-      PROMPT+='%F{${prompt-color}}${prompt}%f '
-      fi
+        # only present '$ ' as a prompt to type
+        # the command when we're not in a Warp terminal.
+        if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
+          PROMPT+='%F{${prompt-color}}${prompt}%f '
+        fi
       }
 
       # Printed before prompt lines that are waiting
@@ -108,9 +108,9 @@ in {
       # the starting character of the command in both
       # terminals.
       if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
-      export PS2='  %F{white}↳%f '
+        export PS2='  %F{white}↳%f '
       else
-      export PS2='%F{white}↳%f '
+        export PS2='%F{white}↳%f '
       fi
 
       # Add vcs_info and _generate-prompt as pre-command hook

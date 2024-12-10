@@ -41,7 +41,6 @@ in rec {
       helix
       lsd
       bat
-      hello
     ];
 
     programs = {

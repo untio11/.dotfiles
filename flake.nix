@@ -51,7 +51,7 @@
         };
       };
     # Home desktop wsl. NixOS config.
-    nixosConfigurations.nixos = with nixos-wsl;
+    nixosConfigurations.${nixos-wsl.hostName} = with nixos-wsl;
       nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [

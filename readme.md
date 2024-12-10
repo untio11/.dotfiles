@@ -1,36 +1,33 @@
-# Dotfile Backup
-[Source](https://www.atlassian.com/git/tutorials/dotfiles) for more elaboration on the steps.  
-**NOTE:** In my setup, I renamed `/.cfg` to `/.dotfiles` and the `config` alias to `dotfile`.
+# Machine Configs
 
-## Creating a repo to manage dotfiles in user home directory:
-```
-git init --bare $HOME/.dotfiles
-alias dotfile='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
-dotfile config --local status.showUntrackedFiles no
+This repo contains configurations for my different machines. This includes `home-manager` configs,
+as well as NixOS configs.
 
-# Consider adding the alias to your shell config:
-echo "alias dotfile='git --work-tree=$HOME' --git-dir=$HOME/.dotfiles" >> $HOME/.bashrc
-```
+## Home Manager
 
-After this setup, dotfiles should be managed like one normally would, but using `dotfile` instead of `git`:
-```
-dotfile status
-dotfile add .vimrc
-dotfile commit -m "Add vimrc"
-dotfile add .bashrc
-dotfile commit -m "Add bashrc"
-dotfile push
-```
+Clone this repo to `~/.config/home-manager`.
 
-## Restoring from repo to new machine:
-**The commands below overwrite any existing files with the same name, so be cautious!**
+## NixOS Config
 
+Currently only using this for my wsl box (pokke-village). Set up by having `/etc/nixos/flake.nix`
+point to the home manager flake:
 ```
-cd ~
-git clone --bare https://github.com/untio11/.dotfiles.git $HOME/.dotfiles
-alias dotfile='git --work-tree=$HOME --git-dir=$HOME/.dotfiles'
-dotfile config --local status.showUntrackedFiles no
+{
+  description = "Just a wrapper around my core config.";
 
-# Careful!
-dotfile checkout --force
+  inputs = {
+    hm-flake.url = "git+file:/home/untio11/.config/home-manager";
+  };
+
+  outputs = { hm-flake, ... }: let
+    hostName = "pokke-village";
+  in {
+    nixosConfigurations.${hostName} = hm-flake.nixosConfigurations.${hostName};
+  };
+}
 ```
+**NOTE:** To build a new NixOS generation:
+- Update the `nixos-wsl.nix` profile in the `home-manager` flake.
+- Commit the changes.
+- Update the flake in `/etc/nixos`.
+- `sudo nixos-rebuild switch`

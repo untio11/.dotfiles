@@ -1,4 +1,8 @@
-{config, profile, ...}: let
+{
+  config,
+  profile,
+  ...
+}: let
   # TODO: Make this proper module options.
   prompt = profile.cfg.prompt; # , , , , , , 󱏿, , , , ⏾, , , 
   prompt-color = "white";

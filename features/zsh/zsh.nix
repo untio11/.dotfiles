@@ -31,6 +31,8 @@
         tmux = "tmux -u"; # To enable unicode characters.
         vim = "nvim";
         pkgsearch = "nix search nixpkgs";
+        # Quickly change directory to current git repo root.
+        cdgr = "cd \"$(git rev-parse --show-toplevel)\"";
       }
       // profile.cfg.zsh.shellAliases;
 

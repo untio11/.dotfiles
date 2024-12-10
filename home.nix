@@ -57,7 +57,9 @@ in {
   # environment.
   home.packages = with pkgs; [
     # Personal packages
-    (nerdfonts.override {fonts = ["DejaVuSansMono" "FiraCode" "JetBrainsMono"];})
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.dejavu-sans-mono
     bat
     fzf
     cowsay

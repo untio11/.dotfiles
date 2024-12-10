@@ -15,6 +15,9 @@ in {
     sessionVariables = {
       HM_HOME = hm;
     };
+    shellAliases = {
+      home = "cd ${hm}";
+    };
   };
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.

@@ -4,6 +4,7 @@
     git = {
       extraConfig.credential = {
         helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+        credentialStore = "gpg";
       };
       userEmail = "robin.kneepkens@hotmail.com";
     };

@@ -23,7 +23,7 @@ in {
     ];
 
     extraConfig = {
-      credential.helper = profile.cfg.git.extraConfig.credential.helper;
+      credential = profile.cfg.git.extraConfig.credential;
       init = {
         defaultBranch = "main";
       };

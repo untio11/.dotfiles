@@ -29,6 +29,7 @@
   } @ inputs: let
     nixos-wsl = import ./profiles/nixos-wsl.nix {inherit nixpkgs;};
     macos-skunk = import ./profiles/work.nix {inherit nixpkgs;};
+    nixos-native = import ./profiles/nixos-native.nix {inherit nixpkgs;};
   in {
     # Work macbook. Home manager only.
     homeConfigurations.${macos-skunk.username} = with macos-skunk;
@@ -41,13 +42,23 @@
         };
       };
     # Home desktop wsl. Home manager.
-    homeConfigurations.${nixos-wsl.username} = with nixos-wsl;
+    homeConfigurations."${nixos-wsl.username}@${nixos-wsl.hostName}" = with nixos-wsl;
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [./home.nix];
         extraSpecialArgs = {
           inherit inputs;
           profile = nixos-wsl;
+        };
+      };
+    # Home server. Home manager config.
+    homeConfigurations."${nixos-native.username}@${nixos-native.hostName}" = with nixos-native;
+      home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [./home.nix];
+        extraSpecialArgs = {
+          inherit inputs;
+          profile = nixos-native;
         };
       };
     # Home desktop wsl. NixOS config.

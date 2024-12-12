@@ -39,14 +39,14 @@ in {
     inputs.nix-colors.homeManagerModule
 
     # Import programs with their configuration
-    ./features/lsd.nix
-    ./features/git.nix
-    ./features/alacritty.nix
-    ./features/tmux.nix
-    ./features/direnv.nix
-    ./features/helix.nix
-    ./features/zsh/zsh.nix
-    ./features/ov.nix
+    ./programs/lsd.nix
+    ./programs/git.nix
+    ./programs/alacritty.nix
+    ./programs/tmux.nix
+    ./programs/direnv.nix
+    ./programs/helix.nix
+    ./programs/zsh/zsh.nix
+    ./programs/ov.nix
     ./util/hswitch.nix
   ];
 

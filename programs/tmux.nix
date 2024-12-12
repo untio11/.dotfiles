@@ -38,7 +38,7 @@
       set -g focus-events on
 
       # Fix colors
-      set -as terminal-features ",$TERM:RGB"
+      set -ag terminal-overrides ",$TERM:RGB"
 
       # Kill panes quicker
       unbind x

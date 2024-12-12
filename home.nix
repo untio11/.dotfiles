@@ -5,20 +5,46 @@
   profile,
   ...
 }: let
+  # Note: the `xdg.*Home` properties use `home.homeDirectory` as a base.
   hm = "${config.xdg.configHome}/home-manager";
 in {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home = {
-    username = profile.username;
-    homeDirectory = with profile; "${base-home-dir}/${username}";
+  home = with profile; {
+    inherit username;
+    homeDirectory = "${base-home-dir}/${username}";
     sessionVariables = {
       HM_HOME = hm;
     };
     shellAliases = {
       home = "cd ${hm}";
     };
+    packages = with pkgs; [
+      # Personal packages
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.fira-code
+      nerd-fonts.dejavu-sans-mono
+      bat
+      fzf
+      cowsay
+      neofetch
+      ov # No nice home manager module with options, so config file manually placed by ./programs/ov.nix
+      devenv
+
+      # SkunkTeam/usr development
+      jq
+      nodejs_20
+      zulu
+      (google-cloud-sdk.withExtraComponents [
+        google-cloud-sdk.components.beta
+      ])
+      python311
+      awscli2
+      azure-cli
+      p7zip
+      protobuf
+    ];
+    stateVersion = "23.05";
   };
+
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.
     nixPath = ["nixpkgs=${inputs.nixpkgs}"];
@@ -50,44 +76,10 @@ in {
     ./util/hswitch.nix
   ];
 
+  # Expose the `nix-colors` color scheme under `config.colorScheme`.
   colorScheme = import ./global/colorschemes/default-terminal.nix;
-
-  # Enable Home Manager to install user fonts. Added in home.packages.
+  # Enable Home Manager to install user fonts. Added in `home.packages`.
   fonts.fontconfig.enable = true;
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = with pkgs; [
-    # Personal packages
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    nerd-fonts.dejavu-sans-mono
-    bat
-    fzf
-    cowsay
-    neofetch
-    ov # No nice home manager module with options, so config file manually placed by ./features/ov.nix
-    devenv
-
-    # SkunkTeam/usr development
-    jq
-    nodejs_20
-    zulu
-    (google-cloud-sdk.withExtraComponents [
-      google-cloud-sdk.components.beta
-    ])
-    python311
-    awscli2
-    azure-cli
-    p7zip
-    protobuf
-  ];
-
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.05"; # Please read the comment before changing.
-
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

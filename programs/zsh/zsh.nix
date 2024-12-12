@@ -1,12 +1,13 @@
 {
   pkgs,
   profile,
+  config,
   ...
 }: {
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     sessionVariables = with pkgs; {
       EDITOR = "hx";
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";
@@ -16,24 +17,22 @@
       MANPAGER = "${ov}/bin/ov --section-delimiter '^[^\\s]' --section-header";
     };
 
-    shellAliases =
-      {
-        ls = "lsd";
-        hm = "home-manager";
-        la = "lsd -a --group-dirs first";
-        lla = "lsd -la --group-dirs first";
-        lt = "lsd --tree --group-dirs last --no-symlink";
-        cat = "bat --wrap=never";
-        python = "python3";
-        zcp = "zmv -C";
-        zln = "zmv -L";
-        zrc = "source $ZDOTDIR/.zshrc";
-        tmux = "tmux -u"; # To enable unicode characters.
-        pkgsearch = "nix search nixpkgs";
-        # Quickly change directory to current git repo root.
-        cdgr = "cd \"$(git rev-parse --show-toplevel)\"";
-      }
-      // profile.cfg.zsh.shellAliases;
+    shellAliases = {
+      ls = "lsd";
+      hm = "home-manager";
+      la = "lsd -a --group-dirs first";
+      lla = "lsd -la --group-dirs first";
+      lt = "lsd --tree --group-dirs last --no-symlink";
+      cat = "bat --wrap=never";
+      python = "python3";
+      zcp = "zmv -C";
+      zln = "zmv -L";
+      zrc = "source $ZDOTDIR/.zshrc";
+      tmux = "tmux -u"; # To enable unicode characters.
+      pkgsearch = "nix search nixpkgs";
+      # Quickly change directory to current git repo root.
+      cdgr = "cd \"$(git rev-parse --show-toplevel)\"";
+    };
 
     dirHashes = {
       dev = "$HOME/Development";
@@ -121,8 +120,6 @@
         tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
       fi
     '';
-    profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };"; # TODO: Find a nicer way to only define this for work profile.
-    # envExtra = "";
   };
 
   imports =
@@ -131,5 +128,5 @@
       ./prompt.nix
       ./user-widgets
     ]
-    ++ profile.cfg.zsh.imports;
+    ++ profile.zsh.extraImports;
 }

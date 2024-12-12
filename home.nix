@@ -51,7 +51,7 @@ in {
     settings = {
       max-jobs = "auto"; # Set the maximum allowed number of parallel builders equal to #cores on host machine.
       fallback = true; # Automatically fall back to locally building if binary substitution fails.
-      trusted-users = ["untio11"]; # So devenv can manage cachix cache for me.
+      trusted-users = [profile.username]; # So devenv can manage cachix cache for me.
       experimental-features = [
         "nix-command" # Enable new-style nix (nix <subcommand> instead of nix-subcommand). Necessary for flakes.
         "flakes" # The MVP
@@ -61,6 +61,7 @@ in {
   };
 
   imports = [
+    profile.cfg
     # Enable nix-colors.
     inputs.nix-colors.homeManagerModule
 

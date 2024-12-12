@@ -1,16 +1,23 @@
 {
   config,
-  profile,
+  lib,
   ...
 }: let
-  # TODO: Make this proper module options.
-  prompt = profile.cfg.prompt; # , , , , , , 󱏿, , , , ⏾, , , 
   prompt-color = "white";
   direnv-prompt = "";
   prompt-file = "${config.xdg.configHome}/zsh/prompt.zsh";
 in {
-  programs.zsh.initExtraFirst = "source ${prompt-file}";
-  home.file.prompt = {
+  options = {
+    profile.prompt = with lib;
+      mkOption {
+        type = types.str;
+        default = "$";
+        example = "One of: , , , , , , 󱏿, , , , ⏾, , , ";
+        description = "The string that will be shown by the shell when waiting for user input.";
+      };
+  };
+  config.programs.zsh.initExtraFirst = "source ${prompt-file}";
+  config.home.file.prompt = {
     target = prompt-file;
     enable = true;
     text = ''
@@ -60,13 +67,14 @@ in {
         #        %B Start bold formatting.
         # %F{green} Start green text coloring.
         #      [%T] Print 24 hour time in square brackets.
-        #        %n Print user name.
+        #     %n@%m Print user name @ hostname.
         #      %b%f Stop bold and color formatting
+        # {DIR[..]} Insert ${direnv-prompt} if direnv loaded an environment.
         #       %2~ Print current directory and its parent dir.
         #           Abbreviates home directory to `~`
         #        \n Newline
         # (trying to format the above comment in helix was a mindfuck lol)
-        PROMPT=$'\n%B%F{green}[%T] %n%b%f''${DIRENV_DIFF+ ${direnv-prompt}} %2~\n'
+        PROMPT=$'\n%B%F{green}[%T] %n%m%b%f''${DIRENV_DIFF+ ${direnv-prompt}} %2~\n'
 
         # vcs_info_msg_1_ contains information about
         # current changes. Only run this part of the
@@ -93,10 +101,10 @@ in {
           PROMPT+=$'%B%F{cyan}''${vcs_info_msg_0_}%f%b\n'
         fi
 
-        # only present '$ ' as a prompt to type
+        # only present '${config.profile.prompt} ' as a prompt to type
         # the command when we're not in a Warp terminal.
         if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
-          PROMPT+='%F{${prompt-color}}${prompt}%f '
+          PROMPT+='%F{${prompt-color}}${config.profile.prompt}%f '
         fi
       }
 

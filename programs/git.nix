@@ -1,15 +1,10 @@
-{
-  pkgs,
-  profile,
-  ...
-}: let
+{pkgs, ...}: let
   # Lets me write a multiline zsh script for git aliases in here, but have it as a single line in result
   collapse = multiline: builtins.replaceStrings ["\n"] [" "] multiline;
 in {
   programs.git = {
     enable = true;
     userName = "Robin Kneepkens";
-    userEmail = profile.cfg.git.userEmail;
 
     ignores = [
       # I tend to use these directories for temp files
@@ -23,7 +18,6 @@ in {
     ];
 
     extraConfig = {
-      credential = profile.cfg.git.extraConfig.credential;
       init = {
         defaultBranch = "main";
       };

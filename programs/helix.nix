@@ -1,13 +1,7 @@
-{
-  pkgs,
-  profile,
-  ...
-}: {
+{pkgs, ...}: {
   programs.helix = {
     enable = true;
     settings = {
-      theme = profile.cfg.helix.theme;
-
       editor = {
         cursor-shape.insert = "bar";
         line-number = "relative";

@@ -5,14 +5,14 @@
 }:
 # Should imported from flake.nix with rust overlay pkgs
 let
-  rust = pkgs.rust-bin.stable.latest.default.override {
-    targets = [];
-    extensions = [
-      "rust-src"
-      "rust-std"
-      "rust-analyzer"
-    ];
-  };
+  rust = pkgs.rust-bin.selectLatestNightlyWith (toolchain:
+    toolchain.default.override {
+      extensions = [
+        "rust-src"
+        "rust-std"
+        "rust-analyzer"
+      ];
+    });
 in
   pkgs.mkShell {
     inherit name shellHook;
@@ -24,10 +24,9 @@ in
     ];
 
     packages = with pkgs; [
-      nil
+      nixd
       rust-analyzer
-      rustup
-      darwin.apple_sdk.frameworks.WebKit
+      alejandra
     ];
 
     RUST_BACKTRACE = 1;

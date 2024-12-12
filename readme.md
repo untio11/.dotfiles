@@ -11,7 +11,7 @@ Clone this repo to `~/.config/home-manager`.
 
 Currently only using this for my wsl box (pokke-village). Set up by having `/etc/nixos/flake.nix`
 point to the home manager flake:
-```
+```nix
 {
   description = "Just a wrapper around my core config.";
 

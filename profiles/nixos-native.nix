@@ -55,7 +55,7 @@ in rec {
           "nix-command"
           "flakes"
         ];
-        trusted-users = ["root" username];
+        trusted-users = [username];
       };
     };
     console.keyMap = "dvorak";

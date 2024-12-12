@@ -33,7 +33,7 @@ in rec {
         "nix-command"
         "flakes"
       ];
-      trusted-users = ["root" username];
+      trusted-users = [username];
     };
 
     environment.systemPackages = with pkgs; [

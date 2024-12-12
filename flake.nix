@@ -71,6 +71,18 @@
           nixos-configuration
         ];
       };
+    # Home server. NixOS config.
+    nixosConfigurations.${nixos-native.hostName} = with nixos-native;
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          {
+            nix.registry.nixpkgs.flake = nixpkgs;
+            nix.nixPath = ["nixpkgs=${nixpkgs}"];
+          }
+          nixos-configuration
+        ];
+      };
     templates = {
       rust-basic = {
         path = ./templates/rust-basic;

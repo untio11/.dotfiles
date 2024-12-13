@@ -1,23 +1,21 @@
 {nixpkgs}: let
   pre-cfg = pkgs: {
-    prompt = "󱏿";
-    git = {
+    profile = {
+      prompt = "󱏿";
+    };
+    programs.git = {
       extraConfig.credential = {
         helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
         credentialStore = "gpg";
       };
       userEmail = "robin.kneepkens@hotmail.com";
     };
-    zsh = {
-      shellAliases = {};
-      imports = [];
-    };
-    helix.theme = "penumbra+";
+    helix.settings.theme = "penumbra+";
   };
 in rec {
-  cfg = pre-cfg pkgs;
   system = "x86_64-linux";
   pkgs = import nixpkgs {inherit system;};
+  cfg = pre-cfg pkgs;
   username = "untio11";
   hostName = "gathering-hub";
   base-home-dir = "/home";
@@ -111,11 +109,11 @@ in rec {
 
     fileSystems = {
       "/" = {
-        device = "/dev/sda2"; # SSD
+        device = "/dev/disk/by-uuid/8d57c9c0-ac30-47bd-b659-3b9dc4b5de29"; # SSD
         fsType = "ext4";
       };
       "/boot" = {
-        device = "/dev/sda1"; # SSD
+        device = "/dev/disk/by-uuid/015C-82D5"; # SSD
         fsType = "vfat";
       };
       "/data" = {
@@ -124,7 +122,7 @@ in rec {
       };
     };
     swapDevices = [
-      {device = "/dev/sda3";} # SSD
+      {device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355";} # SSD
     ];
 
     system.stateVersion = "23.05";

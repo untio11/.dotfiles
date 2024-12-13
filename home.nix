@@ -61,10 +61,10 @@ in {
   };
 
   imports = [
+    # Include the profile specific config. Introduces `config.profile` with some extra properties.
     profile.cfg
     # Enable nix-colors.
     inputs.nix-colors.homeManagerModule
-
     # Import programs with their configuration
     ./programs/lsd.nix
     ./programs/git.nix

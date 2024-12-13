@@ -1,23 +1,21 @@
 {nixpkgs}: let
   pre-cfg = pkgs: {
-    prompt = "󱏿";
-    git = {
+    profile = {
+      prompt = "󱏿";
+    };
+    programs.git = {
       extraConfig.credential = {
         helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
         credentialStore = "gpg";
       };
       userEmail = "robin.kneepkens@hotmail.com";
     };
-    zsh = {
-      shellAliases = {};
-      imports = [];
-    };
-    helix.theme = "penumbra+";
+    helix.settings.theme = "penumbra+";
   };
 in rec {
-  cfg = pre-cfg pkgs;
   system = "x86_64-linux";
   pkgs = import nixpkgs {inherit system;};
+  cfg = pre-cfg pkgs;
   username = "untio11";
   hostName = "gathering-hub";
   base-home-dir = "/home";

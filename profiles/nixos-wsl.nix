@@ -1,8 +1,6 @@
 {nixpkgs}: let
   cfg = {
-    profile = {
-      prompt = "";
-    };
+    profile.prompt = "";
     programs = {
       git = {
         extraConfig.credential = {
@@ -18,10 +16,10 @@
   };
 in rec {
   # This should be a home manager module.
-  inherit cfg;
-  zsh.extraImports = [];
   system = "x86_64-linux";
   pkgs = import nixpkgs {inherit system;};
+  inherit cfg;
+  zsh.extraImports = [];
   username = "untio11";
   hostName = "pokke-village";
   base-home-dir = "/home";
@@ -47,6 +45,7 @@ in rec {
       helix
       lsd
       bat
+      git
     ];
 
     programs = {

@@ -1,8 +1,6 @@
 {nixpkgs}: let
   pre-cfg = pkgs: {
-    profile = {
-      prompt = "󱏿";
-    };
+    profile.prompt = "󱏿";
     programs.git = {
       extraConfig.credential = {
         helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
@@ -16,8 +14,8 @@ in rec {
   system = "x86_64-linux";
   pkgs = import nixpkgs {inherit system;};
   cfg = pre-cfg pkgs;
-  username = "untio11";
   zsh.extraImports = [];
+  username = "untio11";
   hostName = "gathering-hub";
   base-home-dir = "/home";
   nixos-configuration = {

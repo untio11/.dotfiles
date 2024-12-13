@@ -1,25 +1,41 @@
 {nixpkgs}: let
   pre-cfg = pkgs: {
-    prompt = "";
-    git = {
-      userEmail = "robin@skunk.team";
-      extraConfig.credential = {
-        helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+    profile.prompt = "";
+    programs = {
+      git = {
+        userEmail = "robin@skunk.team";
+        extraConfig.credential = {
+          helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
+        };
       };
-    };
-    zsh = {
-      shellAliases = {
-        subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
-        # nxtm = "nxtm"; TODO: see profileExtra in zsh.nix
+      zsh = {
+        shellAliases = {
+          subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
+          # nxtm = "nxtm"; TODO: see profileExtra in zsh.nix
+        };
+        profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
       };
-      imports = [../features/zsh/impure.nix]; # TODO: make them proper modules!
+      helix.settings.theme = "new_moon";
     };
-    helix.theme = "new_moon";
+    home.packages = with pkgs; [
+      jq
+      nodejs_20
+      zulu
+      (google-cloud-sdk.withExtraComponents [
+        google-cloud-sdk.components.beta
+      ])
+      python311
+      awscli2
+      azure-cli
+      p7zip
+      protobuf
+    ];
   };
 in rec {
-  cfg = pre-cfg pkgs;
   system = "aarch64-darwin";
   pkgs = nixpkgs.legacyPackages.${system};
+  cfg = pre-cfg pkgs;
+  zsh.extraImports = [../programs/zsh/impure.nix];
   username = "robin.kneepkens";
   base-home-dir = "/Users";
 }

@@ -28,19 +28,6 @@ in {
       neofetch
       ov # No nice home manager module with options, so config file manually placed by ./programs/ov.nix
       devenv
-
-      # SkunkTeam/usr development
-      jq
-      nodejs_20
-      zulu
-      (google-cloud-sdk.withExtraComponents [
-        google-cloud-sdk.components.beta
-      ])
-      python311
-      awscli2
-      azure-cli
-      p7zip
-      protobuf
     ];
     stateVersion = "23.05";
   };

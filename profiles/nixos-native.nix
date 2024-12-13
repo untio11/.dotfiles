@@ -10,13 +10,14 @@
       };
       userEmail = "robin.kneepkens@hotmail.com";
     };
-    helix.settings.theme = "penumbra+";
+    programs.helix.settings.theme = "penumbra+";
   };
 in rec {
   system = "x86_64-linux";
   pkgs = import nixpkgs {inherit system;};
   cfg = pre-cfg pkgs;
   username = "untio11";
+  zsh.extraImports = [];
   hostName = "gathering-hub";
   base-home-dir = "/home";
   nixos-configuration = {

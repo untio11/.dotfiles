@@ -1,13 +1,12 @@
 {
   pkgs,
   profile,
-  config,
   ...
 }: {
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    dotDir = "${config.xdg.configHome}/zsh";
+    dotDir = ".config/zsh"; # Path relative to ~/
     sessionVariables = with pkgs; {
       EDITOR = "hx";
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";

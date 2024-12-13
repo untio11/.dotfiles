@@ -109,20 +109,20 @@ in rec {
 
     fileSystems = {
       "/" = {
-        device = "/dev/sda2"; # SSD
+        device = "/dev/disk/by-uuid/8d57c9c0-ac30-47bd-b659-3b9dc4b5de29"; # SSD
         fsType = "ext4";
       };
       "/boot" = {
-        device = "/dev/sda1"; # SSD
+        device = "/dev/disk/by-uuid/015C-82D5"; # SSD
         fsType = "vfat";
       };
       "/data" = {
-        device = "/dev/sdb1"; # HDD
+        device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-8957850bd3a"; # HDD
         fsType = "ext4";
       };
     };
     swapDevices = [
-      {device = "/dev/sda3";} # SSD
+      {device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355";} # SSD
     ];
 
     system.stateVersion = "23.05";

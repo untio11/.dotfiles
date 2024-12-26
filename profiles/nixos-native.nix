@@ -115,10 +115,10 @@ in rec {
         device = "/dev/disk/by-uuid/015C-82D5"; # SSD
         fsType = "vfat";
       };
-      "/data" = {
-        device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-8957850bd3a"; # HDD
-        fsType = "ext4";
-      };
+      # "/data" = {
+      #   device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-8957850bd3a"; # HDD
+      #   fsType = "ext4";
+      # };
     };
     swapDevices = [
       {device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355";} # SSD

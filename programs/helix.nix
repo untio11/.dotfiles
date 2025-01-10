@@ -40,7 +40,7 @@
       language-server = {
         rust-analyzer = {
           config = {
-            check.command = "cargo-clippy"; # Use `cargo-clippy` as that points to the local toolchain version of `clippy`.
+            check.command = "clippy"; # Use `cargo-clippy` as that points to the local toolchain version of `clippy`.
           };
         };
         nixd = {

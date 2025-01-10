@@ -9,7 +9,12 @@
         userEmail = "robin.kneepkens@hotmail.com";
       };
       zsh = {
-        shellAliases.subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
+        shellAliases = {
+          subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
+          chrome = "/mnt/c/Program\\ Files/Google/Chrome/Application/chrome.exe";
+          chropen = "chropen";
+        };
+        profileExtra = "chropen() { /mnt/c/Program\\ Files/Google/Chrome/Application/chrome.exe \"file://wsl.localhost/NixOS$(realpath $1)\" }";
       };
       helix.settings.theme = "flexoki_dark";
     };

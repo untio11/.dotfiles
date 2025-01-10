@@ -94,17 +94,6 @@ in rec {
     # Locale/internationalisation properties.
     time.timeZone = "Europe/Amsterdam";
     i18n.defaultLocale = "en_US.UTF-8";
-    i18n.extraLocaleSettings = {
-      LC_ADDRESS = "nl_NL.UTF-8";
-      LC_IDENTIFICATION = "nl_NL.UTF-8";
-      LC_MEASUREMENT = "nl_NL.UTF-8";
-      LC_MONETARY = "nl_NL.UTF-8";
-      LC_NAME = "nl_NL.UTF-8";
-      LC_NUMERIC = "nl_NL.UTF-8";
-      LC_PAPER = "nl_NL.UTF-8";
-      LC_TELEPHONE = "nl_NL.UTF-8";
-      LC_TIME = "nl_NL.UTF-8";
-    };
 
     fileSystems = {
       "/" = {
@@ -115,10 +104,10 @@ in rec {
         device = "/dev/disk/by-uuid/015C-82D5"; # SSD
         fsType = "vfat";
       };
-      "/data" = {
-        device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-8957850bd3a"; # HDD
-        fsType = "ext4";
-      };
+      # "/data" = {
+      #   device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-8957850bd3a"; # HDD
+      #   fsType = "ext4";
+      # };
     };
     swapDevices = [
       {device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355";} # SSD

@@ -11,7 +11,6 @@
       zsh = {
         shellAliases = {
           subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";
-          # nxtm = "nxtm"; TODO: see profileExtra in zsh.nix
         };
         profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
       };

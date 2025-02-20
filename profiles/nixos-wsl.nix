@@ -46,7 +46,6 @@ in rec {
     };
 
     environment.systemPackages = with pkgs; [
-      git
       helix
       lsd
       bat

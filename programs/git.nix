@@ -97,7 +97,7 @@ in {
             return 1;
           fi;
 
-          ${pkgs.gh}/bin/gh api -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' "/search/issues?q=head:$curr" | jq '.items[0].html_url' | sed -e s/\"//g;
+          ${pkgs.gh}/bin/gh api -H 'Accept: application/vnd.github+json' -H 'X-GitHub-Api-Version: 2022-11-28' "/search/issues?q=head:$curr" | ${pkgs.jq}/bin/jq '.items[0].html_url' | sed -e s/\"//g;
         };
 
         repo=$(git url 2> /dev/null);

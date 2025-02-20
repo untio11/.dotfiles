@@ -28,6 +28,7 @@ in {
       neofetch
       ov # No nice home manager module with options, so config file manually placed by ./programs/ov.nix
       devenv
+      nix
     ];
     stateVersion = "23.05";
   };

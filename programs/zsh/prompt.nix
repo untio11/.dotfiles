@@ -74,7 +74,7 @@ in {
         #           Abbreviates home directory to `~`
         #        \n Newline
         # (trying to format the above comment in helix was a mindfuck lol)
-        PROMPT=$'\n%B%F{green}[%T] %n%m%b%f''${DIRENV_DIFF+ ${direnv-prompt}} %2~\n'
+        PROMPT=$'\n%B%F{green}[%T] %n%m%b%f''${IN_NIX_SHELL+ ${direnv-prompt}} %2~\n'
 
         # vcs_info_msg_1_ contains information about
         # current changes. Only run this part of the

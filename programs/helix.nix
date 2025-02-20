@@ -6,7 +6,6 @@
         cursor-shape.insert = "bar";
         line-number = "relative";
         cursorline = true;
-        file-picker.hidden = false; # I think so .files show up in picker
         indent-guides.render = true;
         completion-trigger-len = 1;
         true-color = true;

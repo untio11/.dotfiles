@@ -21,14 +21,10 @@ in {
       init = {
         defaultBranch = "main";
       };
-      diff.external = collapse ''
-        ${pkgs.difftastic}/bin/difft
-        --color auto
-        --syntax-highlight off
-        --tab-width 4
-        --display side-by-side-show-both
-      '';
-      core.pager = "${pkgs.ov}/bin/ov -F";
+      core = {
+        pager = "${pkgs.ov}/bin/ov -F";
+        fsmonitor = true;
+      };
       pager = let
         ov = "${pkgs.ov}/bin/ov -F";
       in {
@@ -39,6 +35,28 @@ in {
         show = "${ov} --header 3";
       };
       pull.rebase = false;
+      branch.sort = "committerdate"; # Sort branches by date, not alphabetically.
+      column.ui = "auto"; # Display long lists (tags, branches) in columns.
+      tag.sort = "version:refname"; # Sort version tags numerically.
+      diff = {
+        algorithm = "histogram"; # Use better diff algorithm (when not using difftastic.)
+        colorMoved = "plain"; # Color moved lines differently.
+        mnemonicPrefix = true; # Instead of a/ b/ prefixes, use i/ for index, w/ working dir, c/ commit.
+        renames = true; # Detect renamed files.
+        external = collapse ''
+          ${pkgs.difftastic}/bin/difft
+          --color auto
+          --syntax-highlight off
+          --tab-width 4
+          --display side-by-side-show-both
+        '';
+      };
+      fetch = {
+        # Prune stuff locally that's deleted upstream.
+        prune = true;
+        pruneTags = true;
+      };
+      commit.verbose = true; # Show the diff in the commit message editor.
     };
 
     aliases = {

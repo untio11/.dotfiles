@@ -14,7 +14,7 @@
         };
         profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
       };
-      helix.settings.theme = "new_moon";
+      helix.settings.theme = "bogster";
       direnv.stdlib = ''
         source_up_if_exists .envrc.usr-flake
       '';

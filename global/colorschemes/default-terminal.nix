@@ -19,7 +19,7 @@
     base0A = "80CC33"; # green
     base0B = "FFB000"; # yellow
     base0C = "289CD5"; # blue
-    base0D = "FF2491"; # magenta
+    base0D = "F736C4"; # magenta
     base0E = "00D4D4"; # cyan
     base0F = "F8F8F8"; # white
   };

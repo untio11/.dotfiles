@@ -29,6 +29,7 @@ in {
       ov # No nice home manager module with options, so config file manually placed by ./programs/ov.nix
       devenv
       nix
+      jujutsu
     ];
     stateVersion = "23.05";
   };

@@ -29,7 +29,6 @@ in {
       ov # No nice home manager module with options, so config file manually placed by ./programs/ov.nix
       devenv
       nix
-      jujutsu
     ];
     stateVersion = "23.05";
   };
@@ -57,6 +56,7 @@ in {
     # Import programs with their configuration
     ./programs/lsd.nix
     ./programs/git.nix
+    ./programs/jujutsu.nix
     ./programs/alacritty.nix
     ./programs/tmux.nix
     ./programs/direnv.nix

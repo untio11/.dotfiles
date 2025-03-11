@@ -8,6 +8,9 @@
         };
         userEmail = "robin.kneepkens@hotmail.com";
       };
+      jujutsu.settings = {
+        user.email = "robin.kneepkens@hotmail.com";
+      };
       zsh = {
         shellAliases = {
           subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";

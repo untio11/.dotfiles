@@ -8,6 +8,9 @@
           helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
         };
       };
+      jujutsu.settings = {
+        user.email = "robin@skunk.team";
+      };
       zsh = {
         shellAliases = {
           subl = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl";

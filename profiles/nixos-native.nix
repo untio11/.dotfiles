@@ -8,6 +8,9 @@
       };
       userEmail = "robin.kneepkens@hotmail.com";
     };
+    jujutsu.settings = {
+      user.email = "robin.kneepkens@hotmail.com";
+    };
     programs.helix.settings.theme = "penumbra+";
   };
 in rec {

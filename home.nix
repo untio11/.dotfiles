@@ -4,10 +4,12 @@
   inputs,
   profile,
   ...
-}: let
+}:
+let
   # Note: the `xdg.*Home` properties use `home.homeDirectory` as a base.
   hm = "${config.xdg.configHome}/home-manager";
-in {
+in
+{
   home = with profile; {
     inherit username;
     homeDirectory = "${base-home-dir}/${username}";
@@ -35,11 +37,11 @@ in {
 
   nix = {
     package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.
-    nixPath = ["nixpkgs=${inputs.nixpkgs}"];
+    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     settings = {
       max-jobs = "auto"; # Set the maximum allowed number of parallel builders equal to #cores on host machine.
       fallback = true; # Automatically fall back to locally building if binary substitution fails.
-      trusted-users = [profile.username]; # So devenv can manage cachix cache for me.
+      trusted-users = [ profile.username ]; # So devenv can manage cachix cache for me.
       experimental-features = [
         "nix-command" # Enable new-style nix (nix <subcommand> instead of nix-subcommand). Necessary for flakes.
         "flakes" # The MVP

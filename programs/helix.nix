@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.helix = {
     enable = true;
     settings = {
@@ -31,8 +32,17 @@
 
       keys.normal = {
         # See https://docs.helix-editor.com/remapping.html#special-keys-and-modifiers
-        A-up = ["extend_to_line_bounds" "delete_selection" "move_line_up" "paste_before"]; # Alt-up: move selection up
-        A-down = ["extend_to_line_bounds" "delete_selection" "paste_after"]; # Alt-down: move selection down
+        A-up = [
+          "extend_to_line_bounds"
+          "delete_selection"
+          "move_line_up"
+          "paste_before"
+        ]; # Alt-up: move selection up
+        A-down = [
+          "extend_to_line_bounds"
+          "delete_selection"
+          "paste_after"
+        ]; # Alt-down: move selection down
       };
     };
     languages = {
@@ -44,21 +54,21 @@
         };
         nixd = {
           command = "${pkgs.nixd}/bin/nixd";
-          config = {
-            formatting = {command = ["${pkgs.alejandra}/bin/alejandra --quiet"];};
-          };
         };
       };
       language = [
         {
           name = "nix";
-          language-servers = ["nixd"];
+          language-servers = [ "nixd" ];
           auto-format = true;
-          roots = ["flake.nix" "flake.lock" "default.nix"];
-          file-types = ["nix"];
+          roots = [
+            "flake.nix"
+            "flake.lock"
+            "default.nix"
+          ];
+          file-types = [ "nix" ];
           formatter = {
-            command = "${pkgs.alejandra}/bin/alejandra";
-            args = ["--quiet"];
+            command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
           };
         }
       ];
@@ -68,7 +78,6 @@
       marksman
       nodePackages.bash-language-server
       nodePackages.typescript-language-server
-      alejandra
     ];
   };
 }

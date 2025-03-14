@@ -37,8 +37,6 @@ in {
           rm ./result
           exit 2;
         else
-          ${revolver} update 'Formatting Nix files.'
-          ${pkgs.alejandra}/bin/alejandra --quiet $HM_HOME/*/*.nix
           ${revolver} stop
           git -C $HM_HOME add -u
           hm_status=$(grep "profile generation" $LOG_DIR/hm-switch.log)

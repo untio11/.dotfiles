@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   programs.helix = {
     enable = true;
     settings = {
@@ -59,14 +58,14 @@
       language = [
         {
           name = "nix";
-          language-servers = [ "nixd" ];
+          language-servers = ["nixd"];
           auto-format = true;
           roots = [
             "flake.nix"
             "flake.lock"
             "default.nix"
           ];
-          file-types = [ "nix" ];
+          file-types = ["nix"];
           formatter = {
             command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
           };

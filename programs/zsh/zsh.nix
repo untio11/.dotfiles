@@ -22,7 +22,7 @@
       la = "lsd -a --group-dirs first";
       lla = "lsd -la --group-dirs first";
       lt = "lsd --tree --group-dirs last --no-symlink";
-      cat = "bat --wrap=never";
+      cat = "bat --wrap=never --theme='OneHalfDark'";
       python = "python3";
       zcp = "zmv -C";
       zln = "zmv -L";

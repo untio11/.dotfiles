@@ -106,20 +106,20 @@ in {
         if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
           PROMPT+='%F{${prompt-color}}${config.profile.prompt}%f '
         fi
-      }
 
-      # Printed before prompt lines that are waiting
-      # for a closing '"'. For example, a multiline
-      # echo or git commit message.
-      # Only indent when we're not in a Warp terminal.
-      # By doing this, the prompt is aligned with
-      # the starting character of the command in both
-      # terminals.
-      if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
-        export PS2='  %F{white}↳%f '
-      else
-        export PS2='%F{white}↳%f '
-      fi
+        # Printed before prompt lines that are waiting
+        # for a closing '"'. For example, a multiline
+        # echo or git commit message.
+        # Only indent when we're not in a Warp terminal.
+        # By doing this, the prompt is aligned with
+        # the starting character of the command in both
+        # terminals.
+        if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
+          export PS2='  %F{white}↳%f '
+        else
+          export PS2='%F{white}↳%f '
+        fi
+      }
 
       # Add vcs_info and _generate-prompt as pre-command hook
       # widgets. These are called before the prompt is printed

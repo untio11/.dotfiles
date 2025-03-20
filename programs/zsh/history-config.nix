@@ -1,6 +1,8 @@
-{config, ...}: let
+{ config, ... }:
+let
   history-config = "${config.xdg.configHome}/zsh/history-config.zsh";
-in {
+in
+{
   programs.zsh = {
     history = {
       # Non-default history file location
@@ -11,7 +13,7 @@ in {
       size = 1000000;
     };
 
-    initExtra = "source ${history-config}";
+    initContent = "source ${history-config}";
   };
 
   home.file.history-config = {

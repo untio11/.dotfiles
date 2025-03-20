@@ -1,7 +1,9 @@
-{config, ...}: let
+{ config, lib, ... }:
+let
   quick-config-file = "${config.xdg.configHome}/zsh/user-widgets/quick-config.zsh";
-in {
-  programs.zsh.initExtraFirst = "source ${quick-config-file}";
+in
+{
+  programs.zsh.initContent = lib.mkBefore "source ${quick-config-file}";
   home.file.quick-config = {
     target = quick-config-file;
     enable = true;

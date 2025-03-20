@@ -1,8 +1,10 @@
-{config, ...}: let
+{ config, ... }:
+let
   quick-insert-file = "${config.xdg.configHome}/zsh/user-widgets/quick-insert.zsh";
-in {
+in
+{
   # Don't load at the top of the file: vi keymap would override keybinds
-  programs.zsh.initExtra = "source ${quick-insert-file}";
+  programs.zsh.initContent = "source ${quick-insert-file}";
   home.file.quick-insert = {
     target = quick-insert-file;
     enable = true;

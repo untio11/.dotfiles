@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   programs.alacritty = {
     enable = true;
     settings = {
@@ -16,7 +17,7 @@
 
       font = {
         normal.family = "FiraCode Nerd Font Mono";
-        size = 15;
+        size = 10;
       };
 
       colors = with config.colorScheme.palette; {

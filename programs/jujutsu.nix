@@ -1,14 +1,22 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.jujutsu = {
     enable = true;
     settings = {
       user.name = "Robin Kneepkens";
       aliases = {
         # Short log with no paging for quick reference
-        lg = ["log" "-n10" "--no-pager"];
+        lg = [
+          "log"
+          "-n10"
+          "--no-pager"
+        ];
       };
       ui = {
-        pager = ["${pkgs.ov}/bin/ov" "-F"];
+        pager = [
+          "${pkgs.ov}/bin/ov"
+          "-F"
+        ];
         diff.tool = [
           "${pkgs.difftastic}/bin/difft"
           "--color=always"
@@ -22,7 +30,7 @@
 
       # Start of condition options:
       "--scope" = [
-        {"--when.commands" = ["diff"];}
+        { "--when.commands" = [ "diff" ]; }
         {
           ui.pager = [
             "${pkgs.ov}/bin/ov"
@@ -31,9 +39,11 @@
             "--section-header"
           ];
         }
+        # { "--when.commands" = [ "status" ]; }
+        # { ui.paginate = "never"; }
       ];
     };
   };
   # Enable dynamic command completions. See: https://jj-vcs.github.io/jj/latest/install-and-setup/#dynamic_1
-  programs.zsh.initExtra = "source <(COMPLETE=zsh ${pkgs.jujutsu}/bin/jj)";
+  programs.zsh.initContent = "source <(COMPLETE=zsh ${pkgs.jujutsu}/bin/jj)";
 }

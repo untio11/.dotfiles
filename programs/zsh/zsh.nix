@@ -1,8 +1,10 @@
 {
   pkgs,
   profile,
+  lib,
   ...
-}: {
+}:
+{
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
@@ -17,11 +19,11 @@
     };
 
     shellAliases = {
-      ls = "lsd";
+      ls = lib.mkForce "lsd";
       hm = "home-manager";
-      la = "lsd -a --group-dirs first";
-      lla = "lsd -la --group-dirs first";
-      lt = "lsd --tree --group-dirs last --no-symlink";
+      la = lib.mkForce "lsd -a --group-dirs first"; # lsd provides `la` as alias, but I want this definition
+      lla = lib.mkForce "lsd -la --group-dirs first";
+      lt = lib.mkForce "lsd --tree --group-dirs last --no-symlink";
       cat = "bat --wrap=never --theme='OneHalfDark'";
       python = "python3";
       zcp = "zmv -C";
@@ -41,11 +43,10 @@
 
     syntaxHighlighting = {
       enable = true;
-      highlighters = ["brackets"]; # In addition to main command syntax highlighting.
+      highlighters = [ "brackets" ]; # In addition to main command syntax highlighting.
     };
 
-    # initExtraFirst = ''## All the way at the top of .zshrc'';
-    initExtraBeforeCompInit = ''
+    initContent = lib.mkBefore ''
       ### ========================
       ### Autoloading z functions
       ### ========================
@@ -121,11 +122,9 @@
     '';
   };
 
-  imports =
-    [
-      ./history-config.nix
-      ./prompt.nix
-      ./user-widgets
-    ]
-    ++ profile.zsh.extraImports;
+  imports = [
+    ./history-config.nix
+    ./prompt.nix
+    ./user-widgets
+  ] ++ profile.zsh.extraImports;
 }

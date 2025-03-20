@@ -2,13 +2,16 @@
   config,
   lib,
   ...
-}: let
+}:
+let
   prompt-color = "white";
   direnv-prompt = "";
   prompt-file = "${config.xdg.configHome}/zsh/prompt.zsh";
-in {
+in
+{
   options = {
-    profile.prompt = with lib;
+    profile.prompt =
+      with lib;
       mkOption {
         type = types.str;
         default = "$";
@@ -16,7 +19,7 @@ in {
         description = "The string that will be shown by the shell when waiting for user input.";
       };
   };
-  config.programs.zsh.initExtraFirst = "source ${prompt-file}";
+  config.programs.zsh.initContent = lib.mkBefore "source ${prompt-file}";
   config.home.file.prompt = {
     target = prompt-file;
     enable = true;

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.helix = {
     enable = true;
     settings = {
@@ -11,6 +12,8 @@
         true-color = true;
         color-modes = true;
         popup-border = "all";
+
+        inline-diagnostics.cursor-line = "warning";
 
         statusline = {
           left = [
@@ -58,14 +61,14 @@
       language = [
         {
           name = "nix";
-          language-servers = ["nixd"];
+          language-servers = [ "nixd" ];
           auto-format = true;
           roots = [
             "flake.nix"
             "flake.lock"
             "default.nix"
           ];
-          file-types = ["nix"];
+          file-types = [ "nix" ];
           formatter = {
             command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
           };

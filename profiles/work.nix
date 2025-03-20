@@ -1,4 +1,5 @@
-{nixpkgs}: let
+{ nixpkgs }:
+let
   pre-cfg = pkgs: {
     profile.prompt = "";
     programs = {
@@ -36,11 +37,12 @@
       protobuf
     ];
   };
-in rec {
+in
+rec {
   system = "aarch64-darwin";
   pkgs = nixpkgs.legacyPackages.${system};
   cfg = pre-cfg pkgs;
-  zsh.extraImports = [../programs/zsh/impure.nix];
+  zsh.extraImports = [ ../programs/zsh/impure.nix ];
   username = "robin.kneepkens";
   base-home-dir = "/Users";
 }

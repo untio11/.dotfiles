@@ -1,7 +1,9 @@
-{pkgs, ...}: let
+{ pkgs, ... }:
+let
   # Lets me write a multiline zsh script for git aliases in here, but have it as a single line in result
-  collapse = multiline: builtins.replaceStrings ["\n"] [" "] multiline;
-in {
+  collapse = multiline: builtins.replaceStrings [ "\n" ] [ " " ] multiline;
+in
+{
   programs.git = {
     enable = true;
     userName = "Robin Kneepkens";
@@ -25,15 +27,17 @@ in {
         pager = "${pkgs.ov}/bin/ov -F";
         fsmonitor = true;
       };
-      pager = let
-        ov = "${pkgs.ov}/bin/ov -F";
-      in {
-        # From: https://noborus.github.io/ov/git/index.html
-        diff = "${ov} --section-delimiter '--- \\w+(?:\(.+\))?$' --section-header"; # Modified to be compatible with difftastic.
-        log = "${ov} --section-delimiter '^commit' --section-header-num 3";
-        olog = "${ov} --section-delimiter '[\\*|/\\\\]\\s+[a-z0-9]+ \\(.+\\)' --section-header-num 0"; # Hopefully picks branches as headers?
-        show = "${ov} --header 3";
-      };
+      pager =
+        let
+          ov = "${pkgs.ov}/bin/ov -F";
+        in
+        {
+          # From: https://noborus.github.io/ov/git/index.html
+          diff = "${ov} --section-delimiter '--- \\w+(?:\(.+\))?$' --section-header"; # Modified to be compatible with difftastic.
+          log = "${ov} --section-delimiter '^commit' --section-header-num 3";
+          olog = "${ov} --section-delimiter '[\\*|/\\\\]\\s+[a-z0-9]+ \\(.+\\)' --section-header-num 0"; # Hopefully picks branches as headers?
+          show = "${ov} --header 3";
+        };
       pull.rebase = false;
       branch.sort = "committerdate"; # Sort branches by date, not alphabetically.
       column.ui = "auto"; # Display long lists (tags, branches) in columns.

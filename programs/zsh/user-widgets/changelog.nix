@@ -1,7 +1,9 @@
-{config, ...}: let
+{ config, lib, ... }:
+let
   changelog-shortcut-file = "${config.xdg.configHome}/zsh/user-widgets/changelog-shortcut.zsh";
-in {
-  programs.zsh.initExtraFirst = "source ${changelog-shortcut-file}";
+in
+{
+  programs.zsh.initContent = lib.mkBefore "source ${changelog-shortcut-file}";
   home.file.changelog-shortcut = {
     target = changelog-shortcut-file;
     enable = true;

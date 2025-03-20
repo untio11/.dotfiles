@@ -1,11 +1,14 @@
 {
   pkgs,
   config,
+  lib,
   ...
-}: let
+}:
+let
   watch-file-run-file = "${config.xdg.configHome}/zsh/user-widgets/watch-file-run.zsh";
-in {
-  programs.zsh.initExtraFirst = "source ${watch-file-run-file}";
+in
+{
+  programs.zsh.initContent = lib.mkBefore "source ${watch-file-run-file}";
   home.file.watch-file-run = {
     target = watch-file-run-file;
     enable = true;

@@ -2,11 +2,13 @@
   pkgs,
   config,
   ...
-}: let
+}:
+let
   fuzzy-find-file = "${config.xdg.configHome}/zsh/user-widgets/fuzzy-find.zsh";
-in {
-  # Don't put it at the top with initExtraFirst, because setting vi keymap happens afterwards and overrides keybinds
-  programs.zsh.initExtra = "source ${fuzzy-find-file}";
+in
+{
+  # Don't put it at the top with `initContent = lib.mkBefore`, because setting vi keymap happens afterwards and overrides keybinds
+  programs.zsh.initContent = "source ${fuzzy-find-file}";
   home.file.fuzzy-find = {
     target = fuzzy-find-file;
     enable = true;

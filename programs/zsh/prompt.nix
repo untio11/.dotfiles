@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -52,15 +53,30 @@ in
       # default value.
       zstyle ':vcs_info:*' max-exports '2'
 
+      # Set a custom hook for determining the git branchname that also works for 
+      # colocated jujutsu repositories.
+      zstyle ':vcs_info:git+set-message:*' hooks git_branchname
+
+      # Actual implementation of the set-message hook:
+      function +vi-git_branchname() {
+        local branch_name=''${hook_com[branch_orig]}
+        if [[ $branch_name == heads/* ]] || [[ $branch_name == jj/* ]] || [[ $branch_name == tags/* ]]; then
+          hook_com[branch]=$(${pkgs.jujutsu}/bin/jj git_branch) # git_branch alias defined in ../jujutsu.nix
+          hook_com[vcs]="jj"
+          return 0
+        fi
+        hook_com[vcs]="git"
+      }
+
       # See https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information
       # for the substitution valuables used below. `formats`
       # is used in normal contexts.
-      zstyle ':vcs_info:git:*' formats ' %b' '%u%c' # Nerd font branch icon
+      zstyle ':vcs_info:git:*' formats ' %s%b' '%u%c' # Nerd font branch icon
 
       # `actionformats` is used when git is the process
       # of merging, cherry-picking, rebasing or other
       # interactive situations.
-      zstyle ':vcs_info:git:*' actionformats ' %b (%%U%a%%u)' '%u%c'
+      zstyle ':vcs_info:git:*' actionformats ' %s%b (%%U%a%%u)' '%u%c'
 
       ### The actual function used to generate the prompt.
       ### This will be run every time before the prompt

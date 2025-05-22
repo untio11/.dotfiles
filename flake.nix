@@ -12,9 +12,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-colors = {
-      url = "github:misterio77/nix-colors";
-    };
+    nix-colors.url = "github:misterio77/nix-colors";
     # For animated spinner in hswitch command.
     revolver = {
       url = "github:molovo/revolver";

@@ -25,7 +25,7 @@ let
     };
     home.packages = with pkgs; [
       jq
-      nodejs_20
+      nodejs_22
       zulu
       (google-cloud-sdk.withExtraComponents [
         google-cloud-sdk.components.beta

@@ -108,13 +108,16 @@ in
       # Quickly amend last commit, keeping the old message.
       amend = "commit --amend --no-edit";
 
+      # Get git branch name, with fallback in case of jujutsu repository.
+      branch-name = "![[ -n $(git branch --show-current) ]] && echo $(git branch --show-current) || echo $(${pkgs.jujutsu}/bin/jj git_branch);";
+
       # Print the url of the remote reposity with the current branch checked out.
-      branch-url = "!echo $(git url)/tree/$(git branch --show-current)";
+      branch-url = "!echo $(git url)/tree/$(git branch-name)";
 
       # Print the url of the open PR for the current branch if it exists.
       pr-url = collapse ''
         !pr-url() {
-          curr=$(git branch --show-current 2> /dev/null || echo "null");
+          curr=$(git branch-name 2> /dev/null || echo "null");
           if [[ "$curr" == "null" ]]; then
             return 1;
           fi;

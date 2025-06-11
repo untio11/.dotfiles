@@ -1,4 +1,5 @@
-{nixpkgs}: let
+{ nixpkgs }:
+let
   cfg = {
     profile.prompt = "";
     programs = {
@@ -22,56 +23,64 @@
       helix.settings.theme = "flexoki_dark";
     };
   };
-in rec {
+in
+rec {
   # This should be a home manager module.
   system = "x86_64-linux";
-  pkgs = import nixpkgs {inherit system;};
+  pkgs = import nixpkgs { inherit system; };
   inherit cfg;
-  zsh.extraImports = [];
+  zsh.extraImports = [ ];
   username = "untio11";
   hostName = "pokke-village";
   base-home-dir = "/home";
   # NixOS Module
-  nixos-configuration = {pkgs, ...}: {
-    networking.hostName = hostName;
-    wsl = {
-      enable = true;
-      defaultUser = username;
-      startMenuLaunchers = true;
-    };
+  nixos-configuration =
+    { pkgs, ... }:
+    {
+      networking.hostName = hostName;
+      wsl = {
+        enable = true;
+        defaultUser = username;
+        startMenuLaunchers = true;
+      };
 
-    nix.settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
+      nix.settings = {
+        experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+        trusted-users = [ username ];
+      };
+
+      environment.systemPackages = with pkgs; [
+        helix
+        lsd
+        bat
+        git
+        wget
       ];
-      trusted-users = [username];
-    };
 
-    environment.systemPackages = with pkgs; [
-      helix
-      lsd
-      bat
-      git
-    ];
-
-    programs = {
-      nix-ld.enable = true;
-      zsh.enable = true;
-    };
-
-    users.users = {
-      root = {
-        # Otherwise I get an error when logging in as root.
-        extraGroups = ["root"];
+      programs = {
+        nix-ld.enable = true;
+        zsh.enable = true;
+        direnv = {
+          enable = true;
+          enableZshIntegration = true;
+        };
       };
-      # untio11
-      "${username}" = {
-        home = "${base-home-dir}/${username}";
-        shell = pkgs.zsh;
-      };
-    };
 
-    system.stateVersion = "23.11";
-  };
+      users.users = {
+        root = {
+          # Otherwise I get an error when logging in as root.
+          extraGroups = [ "root" ];
+        };
+        # untio11
+        "${username}" = {
+          home = "${base-home-dir}/${username}";
+          shell = pkgs.zsh;
+        };
+      };
+
+      system.stateVersion = "23.11";
+    };
 }

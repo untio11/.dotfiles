@@ -50,7 +50,7 @@
           "${pkgs.ov}/bin/ov"
           "-F"
         ];
-        diff.tool = [
+        diff-formatter = [
           "${pkgs.difftastic}/bin/difft"
           "--color=always"
           "--syntax-highlight=off"

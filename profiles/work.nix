@@ -11,14 +11,16 @@ let
       };
       jujutsu.settings = {
         user.email = "robin@skunk.team";
-        # TODO: Some script/alias to automate checking out for review.
-        # Needs to:
-        # - checkout a branch/bookmark: jj new <bookmark>
-        # - start tracking it: jj b track <bookmark>
-        # - start tracking in git: git branch --set-upstream-to=origin/<bookmark> <bookmark>
-        # - check out the branch in git: git checkout <bookmark>
-        #
-        # After jj starts tracking, we can use the `jj git_branch` alias.
+        aliases = {
+          # TODO: Some script/alias to automate checking out for review.
+          # Needs to:
+          # - checkout a branch/bookmark: jj new <bookmark>
+          # - start tracking it: jj b track <bookmark>
+          # - start tracking in git: git branch --set-upstream-to=origin/<bookmark> <bookmark>
+          # - check out the branch in git: git checkout <bookmark>
+          #
+          # After jj starts tracking, we can use the `jj git_branch` alias.
+        };
       };
       zsh = {
         shellAliases = {

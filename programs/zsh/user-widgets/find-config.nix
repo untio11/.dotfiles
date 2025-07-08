@@ -16,25 +16,31 @@ in
       ### recurse upwards if it's not found.
       function find-config() {
         local base_dir=$(
-            proto=$(realpath ''${2-$PWD})
-            if [[ -f $proto ]]; then
-                dirname "$proto"
-            elif [[ -d $proto ]]; then
-                echo "$proto"
-            else
-                echo "$proto" is not a file or directory.
-                exit 1
-            fi
+          proto=$(realpath ''${2-$PWD})
+          if [[ -f $proto ]]; then
+            dirname "$proto"
+          elif [[ -d $proto ]]; then
+            echo "$proto"
+          else
+            exit 1
+          fi
         )
+        
+        # Couldn't find the file or directory
+        if [[ $? = 1 ]]; then
+          echo "Not a file or directory: $2"
+          exit 1
+        fi
+        
         local target="$base_dir/$1"
 
         if [ -f "$target" ]; then
-            printf '%s\n' "$target"
+          printf '%s\n' "$target"
         elif [ "$base_dir" = / ]; then
-            false
+          false
         else
-            # Recurse upwards, works because of the realpath call at the start.
-            find-config "$1" "$base_dir/.."
+          # Recurse upwards, works because of the realpath call at the start.
+          find-config "$1" "$base_dir/.."
         fi
       }
     '';

@@ -59,8 +59,6 @@
           "$left"
           "$right"
         ];
-        # TODO: Some alias to easily review branches (sync git remote mainly)
-        # Also for creating a new branch and pushing it with --allow-new at remote.
       };
 
       revset-aliases = {

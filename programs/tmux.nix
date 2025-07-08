@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   programs.tmux = {
     enable = true;
 
@@ -18,6 +19,10 @@
     sensibleOnTop = false;
 
     extraConfig = ''
+      # Slow down mouse scrolling so it's actually usable
+      bind -Tcopy-mode WheelUpPane send -N1 -X scroll-up
+      bind -Tcopy-mode WheelDownPane send -N1 -X scroll-down
+
       # Reload config file with prefix-r hotkey
       unbind r
       bind r source-file "${config.xdg.configHome}/tmux/tmux.conf" \; display "Reloaded tmux config"

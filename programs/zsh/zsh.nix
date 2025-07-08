@@ -114,9 +114,8 @@
       ### tmux startup. .zlogin is called after .zshrc
       ###
       ### Only connect to a new tmux window if we're not already
-      ### in tmux, we're not in the vscode terminal emulator, and
-      ### we're not not in a warp shell session.
-      if [[ ! ( -v "TMUX" || -v "VSCODE_INJECTION" || -v "WARP_IS_LOCAL_SHELL_SESSION" ) ]]; then
+      ### in tmux we're not not in a warp shell session.
+      if [[ ! ( -v "TMUX" || -v "WARP_IS_LOCAL_SHELL_SESSION" ) ]]; then
         tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
       fi
     '';

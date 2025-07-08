@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   imports = [
     # C-f:  fuzzy find in line
     ./fuzzy-find.nix
@@ -12,5 +13,7 @@
     ./changelog.nix
     # `watch-file-run`: watch a file for save events, run command.
     ./watch-file-run.nix
+    # 'find-config': try to find a file in the current directory or closest ancestor.
+    ./find-config.nix
   ];
 }

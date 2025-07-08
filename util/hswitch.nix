@@ -3,11 +3,13 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   util-dir = ".util";
   hswitch-file = "${util-dir}/hswitch";
   revolver = "${inputs.revolver}/revolver";
-in {
+in
+{
   home.shellAliases.hswitch = "${config.home.homeDirectory}/${hswitch-file}";
   home.file.hswitch = {
     executable = true;
@@ -38,7 +40,6 @@ in {
           exit 2;
         else
           ${revolver} stop
-          git -C $HM_HOME add -u
           hm_status=$(grep "profile generation" $LOG_DIR/hm-switch.log)
           echo "$hm_status"
           echo "$hm_status" > $LOG_DIR/hswitch-status
@@ -46,7 +47,8 @@ in {
             rm ./result;
             exit 3
           else
-            git -C $HM_HOME status
+            # Jujutsu status:
+            jj -R $HM_HOME s
           fi
         fi
         rm ./result;

@@ -39,6 +39,7 @@
       dev = "$HOME/Development";
       doc = "$HOME/Documents";
       hm = "$HOME/.config/home-manager";
+      void = "$HOME/Development/personal/.Void";
     };
 
     syntaxHighlighting = {

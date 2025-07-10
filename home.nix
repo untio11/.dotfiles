@@ -68,6 +68,7 @@ in
     ./programs/zsh/zsh.nix
     ./programs/ov.nix
     ./util/hswitch.nix
+    # ./programs/ghostty.nix # Broken on macOS
   ];
 
   # Expose the `nix-colors` color scheme under `config.colorScheme`.

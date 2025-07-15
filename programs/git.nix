@@ -8,6 +8,7 @@ in
     enable = true;
     userName = "Robin Kneepkens";
 
+    lfs.enable = true;
     ignores = [
       # I tend to use these directories for temp files
       ".todo/*"

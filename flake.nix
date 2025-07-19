@@ -33,6 +33,7 @@
     in
     {
       # Work macbook. Home manager only.
+      # home-manager switch --flake .#robin.kneepkens
       homeConfigurations.${macos-skunk.username} =
         with macos-skunk;
         home-manager.lib.homeManagerConfiguration {
@@ -44,6 +45,7 @@
           };
         };
       # Home desktop wsl. Home manager.
+      # nix run home-manager/master -- switch --flake .#untio11@pokke-village
       homeConfigurations."${nixos-wsl.username}@${nixos-wsl.hostName}" =
         with nixos-wsl;
         home-manager.lib.homeManagerConfiguration {
@@ -55,6 +57,7 @@
           };
         };
       # Home server. Home manager config.
+      # nix run home-manager/master -- switch --flake .#untio11@gathering-hub
       homeConfigurations."${nixos-native.username}@${nixos-native.hostName}" =
         with nixos-native;
         home-manager.lib.homeManagerConfiguration {
@@ -66,6 +69,7 @@
           };
         };
       # Home desktop wsl. NixOS config.
+      # sudo nixos-rebuild switch --flake .#pokke-village
       nixosConfigurations.${nixos-wsl.hostName} =
         with nixos-wsl;
         nixpkgs.lib.nixosSystem {
@@ -77,6 +81,7 @@
           ];
         };
       # Home server. NixOS config.
+      # sudo nixos-rebuild switch --flake .#gathering-hub
       nixosConfigurations.${nixos-native.hostName} =
         with nixos-native;
         nixpkgs.lib.nixosSystem {

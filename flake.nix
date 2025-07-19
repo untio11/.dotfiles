@@ -8,6 +8,10 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    wslpath = {
+      url = "github:laurent22/wslpath";
+      flake = false;
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,7 +31,10 @@
       ...
     }@inputs:
     let
-      nixos-wsl = import ./profiles/nixos-wsl.nix { inherit nixpkgs; };
+      nixos-wsl = import ./profiles/nixos-wsl.nix {
+        inherit nixpkgs;
+        wslpath = inputs.wslpath;
+      };
       macos-skunk = import ./profiles/work.nix { inherit nixpkgs; };
       nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs; };
     in

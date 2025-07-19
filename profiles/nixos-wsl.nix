@@ -1,4 +1,4 @@
-{ nixpkgs }:
+{ nixpkgs, wslpath }:
 let
   cfg = {
     profile.prompt = "";
@@ -15,10 +15,12 @@ let
       zsh = {
         shellAliases = {
           subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
-          chrome = "/mnt/c/Program\\ Files/Google/Chrome/Application/chrome.exe";
-          chropen = "chropen";
+          explorer = "/mnt/c/Windows/explorer.exe";
         };
-        profileExtra = "chropen() { /mnt/c/Program\\ Files/Google/Chrome/Application/chrome.exe \"file://wsl.localhost/NixOS$(realpath $1)\" }";
+        profileExtra = ''
+          # Broken: expects an installation of php in /usr/bin. 
+          wslpath() { ${wslpath}/wslpath $@ }
+        '';
       };
       helix.settings.theme = "flexoki_dark";
     };

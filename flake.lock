@@ -145,7 +145,24 @@
         "nix-colors": "nix-colors",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
-        "revolver": "revolver"
+        "revolver": "revolver",
+        "wslpath": "wslpath"
+      }
+    },
+    "wslpath": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1524825482,
+        "narHash": "sha256-u/27MJhvtd2NXn0SShbEISyEszcyYxoapUJkkREb6E8=",
+        "owner": "laurent22",
+        "repo": "wslpath",
+        "rev": "b9e739c654274e600dca6a2435f8a40db24036fd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "laurent22",
+        "repo": "wslpath",
+        "type": "github"
       }
     }
   },

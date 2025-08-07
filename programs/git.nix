@@ -26,7 +26,6 @@ in
       };
       core = {
         pager = "${pkgs.ov}/bin/ov -F";
-        fsmonitor = true;
       };
       pager =
         let
@@ -90,7 +89,7 @@ in
         !last() {
           [[ -z $1 ]] && amount=1 || amount=$1;
             git log --stat -$amount HEAD;
-          };
+        };
         last
       '';
 
@@ -155,6 +154,14 @@ in
             echo "No (remote) repo";
           fi;
         fi;
+      '';
+      jj-review = collapse ''
+        !jj-review() {
+          branch_name=$(git branch-name);
+          git checkout $branch_name;
+          git branch --set-upstream-to=origin/$branch_name $branch_name
+        };
+        jj-review
       '';
     };
   };

@@ -29,9 +29,6 @@ let
         profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
       };
       helix.settings.theme = "carbonfox";
-      direnv.stdlib = ''
-        source_up_if_exists .envrc.usr-flake
-      '';
     };
     home.packages = with pkgs; [
       jq

@@ -1,4 +1,4 @@
-{ nixpkgs, wslpath }:
+{ nixpkgs }:
 let
   cfg = {
     profile.prompt = "";
@@ -17,10 +17,6 @@ let
           subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
           explorer = "/mnt/c/Windows/explorer.exe";
         };
-        profileExtra = ''
-          # Broken: expects an installation of php in /usr/bin. 
-          wslpath() { ${wslpath}/wslpath $@ }
-        '';
       };
       helix.settings.theme = "flexoki_dark";
     };

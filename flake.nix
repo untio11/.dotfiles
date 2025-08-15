@@ -13,12 +13,18 @@
       flake = false;
     };
     home-manager = {
+      # Manage dotfiles/user profiles via Nix.
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      # Manage MacOS via Nix.
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-colors.url = "github:misterio77/nix-colors";
-    # For animated spinner in hswitch command.
     revolver = {
+      # For animated spinner in hswitch command.
       url = "github:molovo/revolver";
       flake = false;
     };
@@ -28,6 +34,7 @@
     {
       nixpkgs,
       home-manager,
+      nix-darwin,
       ...
     }@inputs:
     let
@@ -39,7 +46,8 @@
       nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs; };
     in
     {
-      # Work macbook. Home manager only.
+      # Work macbook. Home manager.
+      # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#robin.kneepkens
       # home-manager switch --flake .#robin.kneepkens
       homeConfigurations.${macos-skunk.username} =
         with macos-skunk;
@@ -50,6 +58,14 @@
             inherit inputs;
             profile = macos-skunk;
           };
+        };
+      # Work macbook. Nix Darwin.
+      # Bootstrap: sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin/master#darwin-rebuild -- switch --flake .#Yukomo
+      # Normal: sudo darwin-rebuild switch --flake .#Yukomo
+      darwinConfigurations.${macos-skunk.hostname} =
+        with macos-skunk;
+        nix-darwin.lib.darwinSystem {
+          modules = [ nix-darwin-configuration ];
         };
       # Home desktop wsl. Home manager.
       # nix run home-manager/master -- switch --flake .#untio11@pokke-village

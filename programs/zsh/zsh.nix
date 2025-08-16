@@ -2,13 +2,14 @@
   pkgs,
   profile,
   lib,
+  config,
   ...
 }:
 {
   programs.zsh = {
     enable = true;
     defaultKeymap = "viins";
-    dotDir = ".config/zsh"; # Path relative to ~/
+    dotDir = "${config.xdg.configHome}/zsh";
     sessionVariables = with pkgs; {
       EDITOR = "hx";
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";
@@ -127,5 +128,6 @@
     ./history-config.nix
     ./prompt.nix
     ./user-widgets
-  ] ++ profile.zsh.extraImports;
+  ]
+  ++ profile.zsh.extraImports;
 }

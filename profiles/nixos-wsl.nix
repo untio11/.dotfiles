@@ -1,5 +1,6 @@
-{ nixpkgs }:
+{ nixpkgs, self }:
 let
+  hostname = "pokke-village";
   cfg = {
     profile.prompt = "";
     programs = {
@@ -18,7 +19,11 @@ let
           explorer = "/mnt/c/Windows/explorer.exe";
         };
       };
-      helix.settings.theme = "flexoki_dark";
+      helix = {
+        settings.theme = "flexoki_dark";
+        languages.language-server.nixd.config.options.nixos.expr =
+          "(builtins.getFlake \"${self}\").nixosConfigurations.\"${hostname}\".options";
+      };
     };
   };
 in
@@ -29,13 +34,13 @@ rec {
   inherit cfg;
   zsh.extraImports = [ ];
   username = "untio11";
-  hostName = "pokke-village";
+  inherit hostname;
   base-home-dir = "/home";
   # NixOS Module
   nixos-configuration =
     { pkgs, ... }:
     {
-      networking.hostName = hostName;
+      networking.hostName = hostname;
       wsl = {
         enable = true;
         defaultUser = username;

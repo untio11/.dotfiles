@@ -21,7 +21,7 @@ in
       function _fuzzy-history() {
         local command=$( \
           ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | \
-          fzf --height=12 --reverse --tac | \
+          fzf --height=12 --reverse --tac --no-sort | \
           sed 's/ *[0-9]* *//' \
         )
 

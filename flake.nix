@@ -31,26 +31,27 @@
       nixpkgs,
       home-manager,
       nix-darwin,
+      self,
       ...
     }@inputs:
     let
       nixos-wsl = import ./profiles/nixos-wsl.nix {
-        inherit nixpkgs;
+        inherit nixpkgs self;
       };
-      macos-skunk = import ./profiles/work.nix { inherit nixpkgs; };
-      nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs; };
+      macos-skunk = import ./profiles/work.nix { inherit nixpkgs self; };
+      nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs self; };
     in
     {
       # Work macbook. Home manager.
       # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#robin.kneepkens
       # home-manager switch --flake .#robin.kneepkens
-      homeConfigurations.${macos-skunk.username} =
+      homeConfigurations."${macos-skunk.username}@${macos-skunk.hostname}" =
         with macos-skunk;
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit inputs;
+            inherit inputs self;
             profile = macos-skunk;
           };
         };
@@ -64,34 +65,34 @@
         };
       # Home desktop wsl. Home manager.
       # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#untio11@pokke-village
-      homeConfigurations."${nixos-wsl.username}@${nixos-wsl.hostName}" =
+      homeConfigurations."${nixos-wsl.username}@${nixos-wsl.hostname}" =
         with nixos-wsl;
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit inputs;
+            inherit inputs self;
             profile = nixos-wsl;
           };
         };
       # Home server. Home manager config.
       # nix run home-manager/master -- switch --flake .#untio11@gathering-hub
-      homeConfigurations."${nixos-native.username}@${nixos-native.hostName}" =
+      homeConfigurations."${nixos-native.username}@${nixos-native.hostname}" =
         with nixos-native;
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit inputs;
+            inherit inputs self;
             profile = nixos-native;
           };
         };
       # Home desktop wsl. NixOS config.
       # Normal: sudo nixos-rebuild switch --flake .#pokke-village
-      nixosConfigurations.${nixos-wsl.hostName} =
+      nixosConfigurations.${nixos-wsl.hostname} =
         with nixos-wsl;
         nixpkgs.lib.nixosSystem {
-          inherit system;
+          inherit system self;
           modules = [
             { nix.registry.nixpkgs.flake = nixpkgs; }
             inputs.nixos-wsl.nixosModules.wsl
@@ -100,10 +101,10 @@
         };
       # Home server. NixOS config.
       # sudo nixos-rebuild switch --flake .#gathering-hub
-      nixosConfigurations.${nixos-native.hostName} =
+      nixosConfigurations.${nixos-native.hostname} =
         with nixos-native;
         nixpkgs.lib.nixosSystem {
-          inherit system;
+          inherit system self;
           modules = [
             {
               nix.registry.nixpkgs.flake = nixpkgs;

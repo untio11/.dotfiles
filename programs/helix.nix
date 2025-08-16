@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  self,
+  profile,
+  ...
+}:
 {
   programs.helix = {
     enable = true;
@@ -56,6 +61,10 @@
         };
         nixd = {
           command = "${pkgs.nixd}/bin/nixd";
+          config = {
+            # Should add completion of home-manager options to nixd, but seems to not really work.
+            options.home-manager.expr = "(builtins.getFlake \"${self}\").homeConfigurations.\"${profile.username}@${profile.hostname}\".options";
+          };
         };
       };
       language = [

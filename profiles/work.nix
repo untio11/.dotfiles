@@ -1,5 +1,6 @@
-{ nixpkgs }:
+{ nixpkgs, self }:
 let
+  hostname = "Yukomo";
   pre-cfg = pkgs: {
     profile.prompt = "";
     programs = {
@@ -25,7 +26,11 @@ let
       zsh = {
         profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
       };
-      helix.settings.theme = "carbonfox";
+      helix = {
+        settings.theme = "carbonfox";
+        languages.language-server.nixd.config.options.darwin.expr =
+          "(builtins.getFlake \"${self}\").darwinConfigurations.\"${hostname}\".options";
+      };
     };
     home.packages = with pkgs; [
       jq
@@ -43,12 +48,12 @@ let
   };
 in
 rec {
+  inherit hostname;
   system = "aarch64-darwin";
   pkgs = nixpkgs.legacyPackages.${system};
   cfg = pre-cfg pkgs;
   zsh.extraImports = [ ../programs/zsh/impure.nix ];
   username = "robin.kneepkens";
-  hostname = "Yukomo";
   base-home-dir = "/Users";
   nix-darwin-configuration =
     { ... }:

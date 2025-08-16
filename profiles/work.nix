@@ -63,9 +63,10 @@ rec {
         stateVersion = 6;
         defaults.smb.NetBIOSName = hostname;
       };
-      # Should allow touchId authentication for sudo, but
-      # doesn't work in tmux sadly.
-      security.pam.services.sudo_local.touchIdAuth = true;
+      security.pam.services.sudo_local = {
+        touchIdAuth = true; # Enable touchID to authenticate sudo.
+        reattach = true; # Fix so touchID sudo authentication also works in tmux.
+      };
 
       # Setting this make Nix Darwin ignore all other options inside nixpkgs.
       # Just inherit the version of pkgs we configure via home-manager.

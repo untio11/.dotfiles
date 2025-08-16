@@ -3,14 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # For home desktop wsl system.
     nixos-wsl = {
+      # NixOS WSL compatibility. For home desktop WSL system.
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    wslpath = {
-      url = "github:laurent22/wslpath";
-      flake = false;
     };
     home-manager = {
       # Manage dotfiles/user profiles via Nix.
@@ -40,7 +36,6 @@
     let
       nixos-wsl = import ./profiles/nixos-wsl.nix {
         inherit nixpkgs;
-        wslpath = inputs.wslpath;
       };
       macos-skunk = import ./profiles/work.nix { inherit nixpkgs; };
       nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs; };
@@ -68,7 +63,7 @@
           modules = [ nix-darwin-configuration ];
         };
       # Home desktop wsl. Home manager.
-      # nix run home-manager/master -- switch --flake .#untio11@pokke-village
+      # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#untio11@pokke-village
       homeConfigurations."${nixos-wsl.username}@${nixos-wsl.hostName}" =
         with nixos-wsl;
         home-manager.lib.homeManagerConfiguration {
@@ -92,7 +87,7 @@
           };
         };
       # Home desktop wsl. NixOS config.
-      # sudo nixos-rebuild switch --flake .#pokke-village
+      # Normal: sudo nixos-rebuild switch --flake .#pokke-village
       nixosConfigurations.${nixos-wsl.hostName} =
         with nixos-wsl;
         nixpkgs.lib.nixosSystem {

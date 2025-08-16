@@ -102,8 +102,8 @@ rec {
             };
           }
           "obsidian"
-          "rectangle" # Windows-like keyboard shortcuts for resizing windows.
-          "karabiner-elements" # Rebinding caps-lock to backspace.
+          "rectangle" # Windows-like keyboard shortcuts for resizing windows. Import other/RectangleConfig.json
+          "karabiner-elements" # Rebinding caps-lock to backspace. See other/karabiner.json
           "syncthing-app"
           "visual-studio-code"
           "font-fira-mono-nerd-font"

@@ -158,10 +158,10 @@ in
       jj-review = collapse ''
         !jj-review() {
           branch_name=$(git branch-name);
-          git checkout $branch_name;
-          git branch --set-upstream-to=origin/$branch_name $branch_name;
+          git checkout "$branch_name";
+          git branch --set-upstream-to="origin/$branch_name" "$branch_name";
         };
-        jj-review
+        jj-review;
       '';
     };
   };

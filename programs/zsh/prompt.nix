@@ -93,7 +93,7 @@ in
         #           Abbreviates home directory to `~`
         #        \n Newline
         # (trying to format the above comment in helix was a mindfuck lol)
-        PROMPT=$'\n%B%F{green}[%T] %n%m%b%f''${IN_NIX_SHELL+ ${direnv-prompt}} %2~\n'
+        PROMPT=$'\n%B%F{green}[%T] %n%m%b%f''${DIRENV_DIFF+ ${direnv-prompt}} %2~\n'
 
         # vcs_info_msg_1_ contains information about
         # current changes. Only run this part of the
@@ -122,8 +122,14 @@ in
 
         # only present '${config.profile.prompt} ' as a prompt to type
         # the command when we're not in a Warp terminal.
+        # Colors the prompt '${prompt-color}' if the exit code of the
+        # previous command was 0, otherwise colors red.
+        #             %(?   start ternary, check exit code of previous command
+        #    .true-option
+        #   .false-option
+        #               )   close ternary
         if [[ -z "$WARP_IS_LOCAL_SHELL_SESSION" ]]; then
-          PROMPT+='%F{${prompt-color}}${config.profile.prompt}%f '
+          PROMPT+='%(?.%F{${prompt-color}}.%F{red})${config.profile.prompt}%f '
         fi
 
         # Printed before prompt lines that are waiting

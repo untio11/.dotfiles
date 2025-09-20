@@ -14,7 +14,6 @@
       EDITOR = "hx";
       WORDCHARS = "*?[]~=&;!#$%^(){}<>";
       SHELL = "${zsh}/bin/zsh"; # So alactritty actually loads the correct zsh
-      DIRENV_LOG_FORMAT = ""; # Stop direnv from vomiting on the screen.
       BAT_PAGER = "${ov}/bin/ov -F -H3";
       MANPAGER = "${ov}/bin/ov --section-delimiter '^[^\\s]' --section-header";
     };

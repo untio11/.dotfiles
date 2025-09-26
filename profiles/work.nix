@@ -25,7 +25,7 @@ let
       };
       zsh = {
         profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
-
+        dirHashes.void = "$HOME/Development/personal/.Void";
       };
       helix = {
         settings.theme = "carbonfox";

@@ -14,6 +14,7 @@ let
         user.email = "robin.kneepkens@hotmail.com";
       };
       zsh = {
+        dirHashes.void = "$HOME/Development/.Void";
         shellAliases = {
           subl = "/mnt/c/Program\\ Files/Sublime\\ Text/subl.exe";
           explorer = "/mnt/c/Windows/explorer.exe";
@@ -24,6 +25,10 @@ let
         languages.language-server.nixd.config.options.nixos.expr =
           "(builtins.getFlake \"${self}\").nixosConfigurations.\"${hostname}\".options";
       };
+    };
+    home.sessionVariables = {
+      # So I can refer to this from the .Void project.
+      OBSIDIAN_PERSONAL_VAULT = "/mnt/d/Obsidian/robin-personal-vault";
     };
   };
 in

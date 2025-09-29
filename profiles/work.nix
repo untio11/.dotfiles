@@ -25,12 +25,17 @@ let
       };
       zsh = {
         profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
+
       };
       helix = {
         settings.theme = "carbonfox";
         languages.language-server.nixd.config.options.darwin.expr =
           "(builtins.getFlake \"${self}\").darwinConfigurations.\"${hostname}\".options";
       };
+    };
+    home.sessionVariables = {
+      # So I can refer to this from the .Void project.
+      OBSIDIAN_PERSONAL_VAULT = "$HOME/Documents/Obsidian/robin-personal-vault";
     };
     home.packages = with pkgs; [
       jq
@@ -44,6 +49,7 @@ let
       azure-cli
       p7zip
       protobuf
+      blueutil
     ];
   };
 in
@@ -114,6 +120,7 @@ rec {
           "visual-studio-code"
           "font-fira-mono-nerd-font"
           "font-hack-nerd-font"
+          "localsend"
         ];
         # brew install ${name}
         brews = [

@@ -45,7 +45,6 @@ in
         if [[ -d "./changelog/draft/$CATEGORY" ]]; then
           ENTRY="./changelog/draft/$CATEGORY/$PR_NUMBER$SEQUENCE_NR.md"
           touch "$ENTRY"
-          git add "$ENTRY"
           code "$ENTRY" "./changelog/README.md"
           return 0
         fi

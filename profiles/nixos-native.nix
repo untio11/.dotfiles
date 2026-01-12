@@ -1,4 +1,8 @@
-{ nixpkgs, self, ... }:
+{
+  nixpkgs,
+  self,
+  overlays,
+}:
 let
   hostname = "gathering-hub";
   pre-cfg = pkgs: {
@@ -22,7 +26,7 @@ let
 in
 rec {
   system = "x86_64-linux";
-  pkgs = import nixpkgs { inherit system; };
+  pkgs = import nixpkgs { inherit system overlays; };
   cfg = pre-cfg pkgs;
   zsh.extraImports = [ ];
   username = "untio11";

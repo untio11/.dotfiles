@@ -1,4 +1,8 @@
-{ nixpkgs, self }:
+{
+  nixpkgs,
+  self,
+  overlays,
+}:
 let
   hostname = "Yukomo";
   pre-cfg = pkgs: {
@@ -27,6 +31,7 @@ let
       };
       helix = {
         settings.theme = "carbonfox";
+        extraPackages = [ pkgs.vscode-langservers-extracted ];
         languages.language-server.nixd.config.options.darwin.expr =
           "(builtins.getFlake \"${self}\").darwinConfigurations.\"${hostname}\".options";
       };
@@ -55,7 +60,7 @@ in
 rec {
   inherit hostname;
   system = "aarch64-darwin";
-  pkgs = nixpkgs.legacyPackages.${system};
+  pkgs = import nixpkgs { inherit system overlays; };
   cfg = pre-cfg pkgs;
   zsh.extraImports = [ ../programs/zsh/impure.nix ];
   username = "robin.kneepkens";

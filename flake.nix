@@ -24,6 +24,7 @@
       url = "github:molovo/revolver";
       flake = false;
     };
+    helix.url = "github:helix-editor/helix";
   };
 
   outputs =
@@ -35,11 +36,12 @@
       ...
     }@inputs:
     let
+      overlays = [ inputs.helix.overlays.default ];
       nixos-wsl = import ./profiles/nixos-wsl.nix {
-        inherit nixpkgs self;
+        inherit nixpkgs self overlays;
       };
-      macos-skunk = import ./profiles/work.nix { inherit nixpkgs self; };
-      nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs self; };
+      macos-skunk = import ./profiles/work.nix { inherit nixpkgs self overlays; };
+      nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs self overlays; };
     in
     {
       # Work macbook. Home manager.

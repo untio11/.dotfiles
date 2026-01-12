@@ -1,4 +1,8 @@
-{ nixpkgs, self, ... }:
+{
+  nixpkgs,
+  self,
+  overlays,
+}:
 let
   hostname = "pokke-village";
   cfg = {
@@ -33,7 +37,7 @@ in
 rec {
   # This should be a home manager module.
   system = "x86_64-linux";
-  pkgs = import nixpkgs { inherit system; };
+  pkgs = import nixpkgs { inherit system overlays; };
   inherit cfg;
   zsh.extraImports = [ ];
   username = "untio11";

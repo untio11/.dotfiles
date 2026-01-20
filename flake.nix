@@ -51,7 +51,7 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit inputs self;
+            inherit inputs;
             profile = macos-skunk;
           };
         };
@@ -71,7 +71,7 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit inputs self;
+            inherit inputs;
             profile = nixos-wsl;
           };
         };
@@ -83,7 +83,7 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit inputs self;
+            inherit inputs;
             profile = nixos-native;
           };
         };
@@ -92,7 +92,7 @@
       nixosConfigurations.${nixos-wsl.hostname} =
         with nixos-wsl;
         nixpkgs.lib.nixosSystem {
-          inherit system self;
+          inherit system;
           modules = [
             { nix.registry.nixpkgs.flake = nixpkgs; }
             inputs.nixos-wsl.nixosModules.wsl
@@ -104,7 +104,7 @@
       nixosConfigurations.${nixos-native.hostname} =
         with nixos-native;
         nixpkgs.lib.nixosSystem {
-          inherit system self;
+          inherit system;
           modules = [
             {
               nix.registry.nixpkgs.flake = nixpkgs;

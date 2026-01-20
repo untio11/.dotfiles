@@ -1,4 +1,4 @@
-{ nixpkgs, self }:
+{ nixpkgs, self, ... }:
 let
   hostname = "pokke-village";
   cfg = {
@@ -77,6 +77,7 @@ rec {
         };
       };
 
+      time.timeZone = "Europe/Amsterdam";
       users.users = {
         root = {
           # Otherwise I get an error when logging in as root.

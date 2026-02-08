@@ -4,11 +4,9 @@ let
   pre-cfg = pkgs: {
     profile.prompt = "";
     programs = {
-      git = {
-        userEmail = "robin@skunk.team";
-        extraConfig.credential = {
-          helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
-        };
+      git.settings = {
+        user.email = "robin@skunk.team";
+        credential.helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
       };
       jujutsu.settings = {
         user.email = "robin@skunk.team";

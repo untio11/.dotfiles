@@ -3,12 +3,12 @@ let
   hostname = "gathering-hub";
   pre-cfg = pkgs: {
     profile.prompt = "󱏿";
-    programs.git = {
-      extraConfig.credential = {
+    programs.git.settings = {
+      user.email = "robin.kneepkens@hotmail.com";
+      credential = {
         helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
         credentialStore = "gpg";
       };
-      userEmail = "robin.kneepkens@hotmail.com";
     };
     jujutsu.settings = {
       user.email = "robin.kneepkens@hotmail.com";

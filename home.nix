@@ -3,6 +3,7 @@
   pkgs,
   inputs,
   profile,
+  self,
   ...
 }:
 let
@@ -32,7 +33,7 @@ in
       devenv
       nix
       nixd
-      nixfmt-rfc-style # Nix code formatter
+      nixfmt # Nix code formatter
     ];
     stateVersion = "23.05";
   };

@@ -4,11 +4,9 @@ let
   cfg = {
     profile.prompt = "";
     programs = {
-      git = {
-        extraConfig.credential = {
-          helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
-        };
-        userEmail = "robin.kneepkens@hotmail.com";
+      git.settings = {
+        user.email = "robin.kneepkens@hotmail.com";
+        credential.helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe";
       };
       jujutsu.settings = {
         user.email = "robin.kneepkens@hotmail.com";

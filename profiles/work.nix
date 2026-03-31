@@ -53,7 +53,7 @@ let
       azure-cli
       p7zip
       protobuf
-      blueutil
+      # blueutil # CLI bluetooth interface
     ];
   };
 in

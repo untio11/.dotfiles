@@ -146,6 +146,40 @@ in
         fi
       }
 
+      ### Pre-execution hook to start a timer. Necessary to measure elapsed time
+      ### of the previous command to be displayed in the RPROMPT.
+      function _start-timer() {
+        timer=$(($(print -P %D{%s%6.}) / 1000))
+      }
+
+      ### Pre-command hook that renders the RPROMPT. Display the execution time
+      ### of the previously run command.
+      function _generate-rprompt() {
+        if [ $timer ]; then
+          local now=$(($(print -P %D{%s%6.}) / 1000))
+          local d_ms=$(($now - $timer))
+          local d_s=$((d_ms / 1000))
+          local ms=$((d_ms % 1000))
+          local s=$((d_s % 60))
+          local m=$(((d_s / 60) % 60))
+          local h=$((d_s / 3600))
+          
+          if ((h > 0)); then elapsed=''${h}h''${m}m
+          elif ((m > 0)); then elapsed=''${m}m''${s}s
+          elif ((s >= 10)); then elapsed=''${s}.$((ms / 100))s
+          elif ((s > 0)); then elapsed=''${s}.$((ms / 10))s
+          else elapsed=''${ms}ms
+          fi
+
+          # Light gray color.
+          export RPROMPT="%F{#${config.colorScheme.palette.base08}}''${elapsed}%{$reset_color%}"
+          unset timer
+        fi
+      }
+
+      add-zsh-hook preexec _start-timer
+      add-zsh-hook precmd _generate-rprompt
+
       # Add vcs_info and _generate-prompt as pre-command hook
       # widgets. These are called before the prompt is printed
       # to the console.

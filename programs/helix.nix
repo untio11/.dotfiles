@@ -87,8 +87,8 @@
     extraPackages = with pkgs; [
       nixd
       marksman
-      nodePackages.bash-language-server
-      nodePackages.typescript-language-server
+      bash-language-server
+      typescript-language-server
     ];
   };
 }

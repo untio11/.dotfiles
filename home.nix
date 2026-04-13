@@ -28,7 +28,7 @@ in
       bat
       fzf
       cowsay
-      neofetch
+      fastfetch
       ov # No nice home manager module with options, so config file manually placed by ./programs/ov.nix
       devenv
       nix

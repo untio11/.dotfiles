@@ -59,7 +59,7 @@ in
         fi
 
         local completion="$( \
-          ${pkgs.fd}/bin/fd | fzf -q "$query" --height=12 --reverse \
+          ${pkgs.fd}/bin/fd | fzf -q "$query" --height=12 --reverse --scheme=path \
         )"
 
         if [[ ! -z "$completion" ]]; then

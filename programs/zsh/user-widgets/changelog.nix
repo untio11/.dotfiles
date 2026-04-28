@@ -36,7 +36,7 @@ in
           echo
           echo "With:"
           echo "    [PR_NUMBER]:      Number of the PR. Don't provide leading '#'"
-          echo "    [CATEGORY]:       One of {" $(ls ./changelog/draft | sed -E 's,([a-z]+)/,"\1",g') "}"
+          echo "    [CATEGORY]:       One of {" $(ls ./changelog/draft | sed -E 's,([a-z\-]+)/,"\1",g') "}"
           echo "    [SEQUENCE_NR?]:   Optional sequence number when you want to add more changelog entries per PR"
           echo
           return 2

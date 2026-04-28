@@ -54,6 +54,7 @@ let
       p7zip
       protobuf
       # blueutil # CLI bluetooth interface
+      gemini-cli
     ];
   };
 in
@@ -125,6 +126,7 @@ rec {
           "font-fira-mono-nerd-font"
           "font-hack-nerd-font"
           "localsend"
+          "antigravity"
         ];
         # brew install ${name}
         brews = [

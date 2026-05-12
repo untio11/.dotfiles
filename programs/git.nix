@@ -17,6 +17,8 @@ in
       ".direnv"
       # MacOS
       ".DS_Store"
+      # Conversation logs from Antigravity
+      ".antigravitycli/*"
     ];
 
     settings = {

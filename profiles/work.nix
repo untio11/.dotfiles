@@ -40,6 +40,10 @@ let
       # So I can refer to this from the .Void project.
       OBSIDIAN_PERSONAL_VAULT = "$HOME/Documents/Obsidian/robin-personal-vault";
     };
+    home.sessionPath = [
+      # Antigravity CLI install location:
+      "$HOME/.local/bin"
+    ];
     home.packages = with pkgs; [
       jq
       jiq # Interactive jq query editor
@@ -55,6 +59,7 @@ let
       protobuf
       # blueutil # CLI bluetooth interface
       gemini-cli
+      wget
     ];
   };
 in
@@ -132,6 +137,7 @@ rec {
         brews = [
           "pulumi" # TODO: Uninstall when usr flake merges pulumi-bin fix.
           "duti" # Open markdown in chrome: `duti -s com.google.Chrome md`
+          "direnv" # So it's available in Antigravity
         ];
         taps = [
           "pulumi/tap" # TODO: Probably also remove this when I remove global pulumi.

@@ -58,8 +58,8 @@ let
       p7zip
       protobuf
       # blueutil # CLI bluetooth interface
-      gemini-cli
       wget
+      github-cli # gh
     ];
   };
 in

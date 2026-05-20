@@ -27,6 +27,7 @@ in
       nerd-fonts.dejavu-sans-mono
       bat
       fzf
+      fd # Replacement for find
       cowsay
       fastfetch
       ov # No nice home manager module with options, so config file manually placed by ./programs/ov.nix
@@ -34,6 +35,7 @@ in
       nix
       nixd
       nixfmt # Nix code formatter
+      poppler-utils # PDF tools such as pdftotext and pdfinfo
     ];
     stateVersion = "23.05";
   };

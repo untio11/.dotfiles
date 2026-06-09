@@ -104,6 +104,7 @@ rec {
           autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
           upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
           cleanup = "zap";
+          extraFlags = [ "--force" ]; # Necessary for "zap" cleanup.
         };
         # brew install --cask ${name}
         casks = [

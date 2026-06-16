@@ -60,6 +60,7 @@ let
       # blueutil # CLI bluetooth interface
       wget
       github-cli # gh
+      hyperfine # Benchmarking
     ];
   };
 in

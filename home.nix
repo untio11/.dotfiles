@@ -49,6 +49,7 @@ in
       dates = "monthly";
     };
     settings = {
+      sandbox = true;
       max-jobs = "auto"; # Set the maximum allowed number of parallel builders equal to #cores on host machine.
       fallback = true; # Automatically fall back to locally building if binary substitution fails.
       trusted-users = [ profile.username ]; # So devenv can manage cachix cache for me.

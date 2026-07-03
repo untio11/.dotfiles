@@ -134,6 +134,7 @@ rec {
           "font-hack-nerd-font"
           "localsend"
           "antigravity"
+          "stremio"
         ];
         # brew install ${name}
         brews = [

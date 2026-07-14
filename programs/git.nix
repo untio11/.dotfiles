@@ -19,6 +19,8 @@ in
       ".DS_Store"
       # Conversation logs from Antigravity
       ".antigravitycli/*"
+      # Jujutsu conflict working dirs
+      ".jjconflict*"
     ];
 
     settings = {

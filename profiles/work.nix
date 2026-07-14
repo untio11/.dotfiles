@@ -113,17 +113,13 @@ rec {
           "1password-cli"
           {
             name = "alacritty";
-            args = {
-              no_quarantine = true;
-            };
+            args.no_quarantine = true;
           }
           "docker-desktop"
           {
             # Three finger tap for scroll-wheel click.
             name = "middleclick";
-            args = {
-              no_quarantine = true;
-            };
+            args.no_quarantine = true;
           }
           "obsidian"
           "rectangle" # Windows-like keyboard shortcuts for resizing windows. Import other/RectangleConfig.json

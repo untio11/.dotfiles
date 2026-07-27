@@ -61,6 +61,7 @@ let
       wget
       github-cli # gh
       hyperfine # Benchmarking
+      watchman # For jujutsu in nixpkgs repo
     ];
   };
 in

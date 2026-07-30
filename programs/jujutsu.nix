@@ -69,11 +69,19 @@
       };
 
       revset-aliases = {
-        # All commits contributing to the current head (@) that aren't in remote master (trunk) yet.
-        branch_commits = "present(trunk())::present(@) | present(trunk())..present(@)";
+        # All commits contributing to the current head (@) and its descendants (@::) that aren't in remote master (trunk) yet.
+        branch_commits = "present(trunk())::present(@) | present(trunk())..present(@) | present(@)::";
         # Find the first ancestor commit of the current head that's also a bookmark.
         closest_bookmark = "latest(::present(@) & bookmarks())";
       };
+
+      templates.draft_commit_description = ''
+        concat(
+          builtin_draft_commit_description,
+          "\nJJ: -------------\n",
+          indent("JJ: ", diff.color_words()) 
+        )   
+      '';
 
       # Start of conditional options:
       "--scope" =
@@ -84,6 +92,18 @@
           {
             "--when" = {
               commands = [ "diff" ];
+            };
+            ui.pager = [
+              ov
+              "-F"
+              # Matches difft section headers for easy jumping through them.
+              "--section-delimiter=( --- )"
+              "--section-header"
+            ];
+          }
+          {
+            "--when" = {
+              commands = [ "show" ];
             };
             ui.pager = [
               ov

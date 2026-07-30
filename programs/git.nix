@@ -111,6 +111,7 @@ in
         amend = "commit --amend --no-edit";
 
         # Get git branch name, with fallback in case of jujutsu repository.
+        # Relies on `git_branch` jujutsu alias defined in `programs/jujutsu.nix`.
         branch-name = "![[ -n $(git branch --show-current) ]] && echo $(git branch --show-current) || echo $(${pkgs.jujutsu}/bin/jj git_branch);";
 
         # Print the url of the remote reposity with the current branch checked out.
@@ -157,11 +158,17 @@ in
             fi;
           fi;
         '';
+        # Bridge from jujutsu bookmarks to git branches. After switching
+        # to a bookmark, git is still in detached head mode. This script
+        # will make git checkout the branch and set the apropriate remote
+        # branch for PR review purposes. Defaults to using 'origin' as remote
+        # server. A different remote can be given as first argument.
         jj-review = collapse ''
           !jj-review() {
             branch_name=$(git branch-name);
             git checkout "$branch_name";
-            git branch --set-upstream-to="origin/$branch_name" "$branch_name";
+            local remote="''${1:-origin}";
+            git branch --set-upstream-to="$remote/$branch_name" "$branch_name";
           };
           jj-review;
         '';

@@ -41,7 +41,7 @@
         pr_diff = [
           "diff"
           "--from"
-          "fork_point(master@origin | @)"
+          "fork_point(trunk() | @)"
           "--to"
           "@"
         ];

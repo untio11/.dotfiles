@@ -66,6 +66,7 @@
           "$left"
           "$right"
         ];
+        diff-editor = ":builtin"; # Explicitly set to suprress hint.
       };
 
       revset-aliases = {

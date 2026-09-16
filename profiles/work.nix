@@ -148,5 +148,14 @@ rec {
     };
 
     time.timeZone = "Europe/Amsterdam";
+
+    # TODO: Migrate current system settings that I once manually set before Nix-darwin.
+    # For migrating other system settings, consider `system.defaults.CustomUserPreferences`.
+    # Inspecting current system settings: `defaults <domain>`
+    # Some other potentially relevant options (non-exhaustive):
+    # - system.defaults.screencapture
+    # - system.defaults.finder
+    # - system.defaults.dock
+    # See https://nix-darwin.github.io/nix-darwin/manual/index.html for more options.
   };
 }

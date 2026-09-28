@@ -14,7 +14,7 @@ let
         credentialStore = "gpg";
       };
     };
-    jujutsu.settings = {
+    programs.jujutsu.settings = {
       user.email = "robin.kneepkens@hotmail.com";
     };
     programs.helix = {
@@ -28,7 +28,6 @@ rec {
   system = "x86_64-linux";
   pkgs = import nixpkgs { inherit system overlays; };
   cfg = pre-cfg pkgs;
-  zsh.extraImports = [ ];
   username = "untio11";
   inherit hostname;
   base-home-dir = "/home";
@@ -41,6 +40,10 @@ rec {
     }:
     {
       boot = {
+        kernelParams = [
+          "fbcon=rotate:1" # Rotate 90 deg clockwise
+          "nomodeset" # Fallback to basic graphics driver
+        ];
         loader = {
           systemd-boot.enable = true;
           efi.canTouchEfiVariables = true;

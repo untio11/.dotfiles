@@ -84,7 +84,7 @@
           inherit pkgs;
           modules = [ ./home.nix ];
           extraSpecialArgs = {
-            inherit inputs;
+            inherit inputs self;
             profile = nixos-native;
           };
         };

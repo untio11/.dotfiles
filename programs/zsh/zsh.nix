@@ -128,6 +128,5 @@
     ./history-config.nix
     ./prompt.nix
     ./user-widgets
-  ]
-  ++ profile.zsh.extraImports;
+  ];
 }

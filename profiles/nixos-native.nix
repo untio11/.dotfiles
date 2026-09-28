@@ -6,7 +6,7 @@
 let
   hostname = "gathering-hub";
   pre-cfg = pkgs: {
-    profile.prompt = "󱏿";
+    profile.prompt = ">";
     programs.git.settings = {
       user.email = "robin.kneepkens@hotmail.com";
       credential = {
@@ -18,7 +18,7 @@ let
       user.email = "robin.kneepkens@hotmail.com";
     };
     programs.helix = {
-      settings.theme = "penumbra+";
+      settings.theme = "base16_transparent";
       languages.language-server.nixd.config.options.nixos.expr =
         "(builtins.getFlake \"${self}\").nixosConfigurations.\"${hostname}\".options";
     };

@@ -39,7 +39,6 @@ rec {
   system = "x86_64-linux";
   pkgs = import nixpkgs { inherit system overlays; };
   inherit cfg;
-  zsh.extraImports = [ ];
   username = "untio11";
   inherit hostname;
   base-home-dir = "/home";

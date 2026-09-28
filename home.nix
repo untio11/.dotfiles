@@ -3,7 +3,6 @@
   pkgs,
   inputs,
   profile,
-  self,
   ...
 }:
 let
@@ -35,6 +34,7 @@ in
       nix
       nixd
       nixfmt # Nix code formatter
+      nixfmt-tree # `treefmt <root>` For running nixfmt recursively on directories
       poppler-utils # PDF tools such as pdftotext and pdfinfo
     ];
     stateVersion = "23.05";

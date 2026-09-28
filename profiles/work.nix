@@ -70,7 +70,7 @@ rec {
   system = "aarch64-darwin";
   pkgs = import nixpkgs { inherit system overlays; };
   cfg = pre-cfg pkgs;
-  zsh.extraImports = [ ../programs/zsh/impure.nix ];
+  programs.zsh.imports = [ ../programs/zsh/impure.nix ];
   username = "robin.kneepkens";
   base-home-dir = "/Users";
   nix-darwin-configuration = { ... }: {

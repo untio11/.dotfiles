@@ -40,6 +40,7 @@ rec {
     }:
     {
       console = {
+        keyMap = "dvorak";
         earlySetup = true;
         packages = [
           pkgs.terminus_font
@@ -67,12 +68,15 @@ rec {
       boot = {
         kernelParams = [
           "fbcon=rotate:1" # Rotate 90 deg clockwise
-          # "nomodeset" # Fallback to basic graphics driver
+          "video=1920x1080@60"
           "nvidia-drm.modeset=1"
           "nvidia-drm.fbdev=1"
         ];
         loader = {
-          systemd-boot.enable = true;
+          systemd-boot = {
+            enable = true;
+            consoleMode = "max";
+          };
           efi.canTouchEfiVariables = true;
         };
         kernelModules = [ "kvm-intel" ];
@@ -109,7 +113,6 @@ rec {
           trusted-users = [ username ];
         };
       };
-      console.keyMap = "dvorak";
       environment.systemPackages = with pkgs; [
         git
         helix

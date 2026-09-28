@@ -39,6 +39,31 @@ rec {
       ...
     }:
     {
+      console = {
+        earlySetup = true;
+        packages = [
+          pkgs.terminus_font
+        ];
+        font = "${pkgs.terminus_font}/share/consolefonts/ter-u16n.psf.gz";
+        colors = [
+          "222222"
+          "D81765"
+          "6FD01A"
+          "F6B841"
+          "16B1FB"
+          "D783FF"
+          "76D6FF"
+          "EBEBEB"
+          "666666"
+          "F2163E"
+          "80CC33"
+          "FFB000"
+          "289CD5"
+          "F736C4"
+          "00D4D4"
+          "F8F8F8"
+        ];
+      };
       boot = {
         kernelParams = [
           "fbcon=rotate:1" # Rotate 90 deg clockwise

@@ -73,82 +73,80 @@ rec {
   zsh.extraImports = [ ../programs/zsh/impure.nix ];
   username = "robin.kneepkens";
   base-home-dir = "/Users";
-  nix-darwin-configuration =
-    { ... }:
-    {
-      users.users."${username}" = {
-        home = "/Users/${username}";
-        description = "Robin Kneepkens";
-        ignoreShellProgramCheck = true; # Home Manager takes care of this.
-      };
-      system = {
-        primaryUser = username;
-        stateVersion = 6;
-        defaults.smb.NetBIOSName = hostname;
-      };
-      security.pam.services.sudo_local = {
-        touchIdAuth = true; # Enable touchID to authenticate sudo.
-        reattach = true; # Fix so touchID sudo authentication also works in tmux.
-      };
-
-      # Setting this make Nix Darwin ignore all other options inside nixpkgs.
-      # Just inherit the version of pkgs we configure via home-manager.
-      nixpkgs.pkgs = pkgs;
-      nix.enable = false; # Home manager takes care of this.
-
-      homebrew = {
-        enable = true; # Allow Nix Darwin to manage homebrew packages. Doesn't install homebrew for us though.
-        # Global settings that apply when manually running homebrew:
-        global = {
-          brewfile = true; # Global `brew bundle` commands will refer to the bundle created by nix-darwin.
-        };
-        onActivation = {
-          autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
-          upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
-          cleanup = "zap";
-          extraFlags = [ "--force" ]; # Necessary for "zap" cleanup.
-        };
-        # brew install --cask ${name}
-        casks = [
-          "1password"
-          "1password-cli"
-          {
-            name = "alacritty";
-            args.no_quarantine = true;
-          }
-          "docker-desktop"
-          {
-            # Three finger tap for scroll-wheel click.
-            name = "middleclick";
-            args.no_quarantine = true;
-          }
-          "obsidian"
-          "rectangle" # Windows-like keyboard shortcuts for resizing windows. Import other/RectangleConfig.json
-          "karabiner-elements" # Rebinding caps-lock to backspace. See other/karabiner.json
-          "syncthing-app"
-          "visual-studio-code"
-          "font-fira-mono-nerd-font"
-          "font-hack-nerd-font"
-          "localsend"
-          "antigravity"
-          "stremio"
-        ];
-        # brew install ${name}
-        brews = [
-          "pulumi" # TODO: Uninstall when usr flake merges pulumi-bin fix.
-          "duti" # Open markdown in chrome: `duti -s com.google.Chrome md`
-          "direnv" # So it's available in Antigravity
-        ];
-        taps = [
-          "pulumi/tap" # TODO: Probably also remove this when I remove global pulumi.
-        ];
-      };
-
-      networking = {
-        hostName = hostname;
-        computerName = hostname;
-      };
-
-      time.timeZone = "Europe/Amsterdam";
+  nix-darwin-configuration = { ... }: {
+    users.users."${username}" = {
+      home = "/Users/${username}";
+      description = "Robin Kneepkens";
+      ignoreShellProgramCheck = true; # Home Manager takes care of this.
     };
+    system = {
+      primaryUser = username;
+      stateVersion = 6;
+      defaults.smb.NetBIOSName = hostname;
+    };
+    security.pam.services.sudo_local = {
+      touchIdAuth = true; # Enable touchID to authenticate sudo.
+      reattach = true; # Fix so touchID sudo authentication also works in tmux.
+    };
+
+    # Setting this make Nix Darwin ignore all other options inside nixpkgs.
+    # Just inherit the version of pkgs we configure via home-manager.
+    nixpkgs.pkgs = pkgs;
+    nix.enable = false; # Home manager takes care of this.
+
+    homebrew = {
+      enable = true; # Allow Nix Darwin to manage homebrew packages. Doesn't install homebrew for us though.
+      # Global settings that apply when manually running homebrew:
+      global = {
+        brewfile = true; # Global `brew bundle` commands will refer to the bundle created by nix-darwin.
+      };
+      onActivation = {
+        autoUpdate = true; # Fetch the newest stable branch of Homebrew's git repo
+        upgrade = true; # Upgrade outdated casks, formulae, and App Store apps
+        cleanup = "zap";
+        extraFlags = [ "--force" ]; # Necessary for "zap" cleanup.
+      };
+      # brew install --cask ${name}
+      casks = [
+        "1password"
+        "1password-cli"
+        {
+          name = "alacritty";
+          args.no_quarantine = true;
+        }
+        "docker-desktop"
+        {
+          # Three finger tap for scroll-wheel click.
+          name = "middleclick";
+          args.no_quarantine = true;
+        }
+        "obsidian"
+        "rectangle" # Windows-like keyboard shortcuts for resizing windows. Import other/RectangleConfig.json
+        "karabiner-elements" # Rebinding caps-lock to backspace. See other/karabiner.json
+        "syncthing-app"
+        "visual-studio-code"
+        "font-fira-mono-nerd-font"
+        "font-hack-nerd-font"
+        "localsend"
+        "antigravity"
+        "stremio"
+      ];
+      # brew install ${name}
+      brews = [
+        "pulumi" # TODO: Uninstall when usr flake merges pulumi-bin fix.
+        "duti" # Open markdown in chrome: `duti -s com.google.Chrome md`
+        "direnv" # So it's available in Antigravity
+      ];
+      taps = [
+        "pulumi/tap" # TODO: Probably also remove this when I remove global pulumi.
+      ];
+    };
+
+    networking = {
+      hostName = hostname;
+      computerName = hostname;
+    };
+
+    time.timeZone = "Europe/Amsterdam";
+  };
 }

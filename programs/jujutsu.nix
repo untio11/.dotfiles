@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.jujutsu = {
     enable = true;
     settings = {
@@ -80,8 +79,8 @@
         concat(
           builtin_draft_commit_description,
           "\nJJ: -------------\n",
-          indent("JJ: ", diff.color_words()) 
-        )   
+          indent("JJ: ", diff.color_words())
+        )
       '';
 
       # Start of conditional options:

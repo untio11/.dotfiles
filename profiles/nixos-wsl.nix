@@ -44,54 +44,52 @@ rec {
   inherit hostname;
   base-home-dir = "/home";
   # NixOS Module
-  nixos-configuration =
-    { pkgs, ... }:
-    {
-      networking.hostName = hostname;
-      wsl = {
-        enable = true;
-        defaultUser = username;
-        startMenuLaunchers = true;
-      };
-
-      nix.settings = {
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-        trusted-users = [ username ];
-      };
-
-      environment.systemPackages = with pkgs; [
-        helix
-        lsd
-        bat
-        git
-        wget
-      ];
-
-      programs = {
-        nix-ld.enable = true;
-        zsh.enable = true;
-        direnv = {
-          enable = true;
-          enableZshIntegration = true;
-        };
-      };
-
-      time.timeZone = "Europe/Amsterdam";
-      users.users = {
-        root = {
-          # Otherwise I get an error when logging in as root.
-          extraGroups = [ "root" ];
-        };
-        # untio11
-        "${username}" = {
-          home = "${base-home-dir}/${username}";
-          shell = pkgs.zsh;
-        };
-      };
-
-      system.stateVersion = "23.11";
+  nixos-configuration = { pkgs, ... }: {
+    networking.hostName = hostname;
+    wsl = {
+      enable = true;
+      defaultUser = username;
+      startMenuLaunchers = true;
     };
+
+    nix.settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [ username ];
+    };
+
+    environment.systemPackages = with pkgs; [
+      helix
+      lsd
+      bat
+      git
+      wget
+    ];
+
+    programs = {
+      nix-ld.enable = true;
+      zsh.enable = true;
+      direnv = {
+        enable = true;
+        enableZshIntegration = true;
+      };
+    };
+
+    time.timeZone = "Europe/Amsterdam";
+    users.users = {
+      root = {
+        # Otherwise I get an error when logging in as root.
+        extraGroups = [ "root" ];
+      };
+      # untio11
+      "${username}" = {
+        home = "${base-home-dir}/${username}";
+        shell = pkgs.zsh;
+      };
+    };
+
+    system.stateVersion = "23.11";
+  };
 }

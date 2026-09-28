@@ -67,7 +67,9 @@ rec {
       boot = {
         kernelParams = [
           "fbcon=rotate:1" # Rotate 90 deg clockwise
-          "nomodeset" # Fallback to basic graphics driver
+          # "nomodeset" # Fallback to basic graphics driver
+          "nvidia-drm.modeset=1"
+          "nvidia-drm.fbdev=1"
         ];
         loader = {
           systemd-boot.enable = true;
@@ -84,6 +86,14 @@ rec {
         ];
       };
       hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      hardware.graphics.enable = true;
+      services.xserver.videoDrivers = [ "nvidia" ];
+      hardware.nvidia = {
+        modesetting.enable = true;
+        powerManagement.enable = false;
+        open = false; # Use proprietery drivers
+        package = config.boot.kernelPackages.nvidiaPackages.legacy_580; # Necessary for GTX 750
+      };
       networking = {
         hostName = hostname;
         useDHCP = lib.mkDefault true;

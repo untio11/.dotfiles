@@ -10,15 +10,15 @@ let
     programs.git.settings = {
       user.email = "robin.kneepkens@hotmail.com";
       credential = {
-        helper = "${pkgs.git-credential-manager}/bin/git-credential-manager";
-        credentialStore = "gpg";
+        helper = "${pkgs.gh}/bin/gh auth git-credential";
+        # credentialStore = "gpg";
       };
     };
     programs.jujutsu.settings = {
       user.email = "robin.kneepkens@hotmail.com";
     };
     programs.helix = {
-      settings.theme = "base16_transparent";
+      settings.theme = "penumbra+";
       languages.language-server.nixd.config.options.nixos.expr =
         "(builtins.getFlake \"${self}\").nixosConfigurations.\"${hostname}\".options";
     };
@@ -38,32 +38,63 @@ rec {
       pkgs,
       ...
     }:
+    let
+      colors = [
+        "222222"
+        "D81765"
+        "6FD01A"
+        "F6B841"
+        "16B1FB"
+        "D783FF"
+        "76D6FF"
+        "EBEBEB"
+        "666666"
+        "F2163E"
+        "80CC33"
+        "FFB000"
+        "289CD5"
+        "F736C4"
+        "00D4D4"
+        "F8F8F8"
+      ];
+    in
     {
+      systemd.services."kmsconvt@tty1".enable = false;
+      systemd.services.switch-to-tty2 = {
+        description = "Switch to kmscon tty2 after successful boot.";
+        after = [ "multi-user.target" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = "${pkgs.kbd}/bin/chvt 2";
+        };
+      };
+      systemd.services."kmsconvt@tty2".enable = true;
+      services.xserver.xkb = {
+        layout = "us";
+        variant = "dvorak";
+      };
+      services.kmscon = {
+        enable = true;
+        useXkbConfig = true;
+        extraOptions = "--term xterm-256color --rotate right";
+        config = {
+          hwaccel = true;
+          font-name = "FiraCode Nerd Font Mono";
+        };
+      };
+      fonts.packages = [
+        pkgs.nerd-fonts.fira-code
+      ];
       console = {
+        inherit colors;
         keyMap = "dvorak";
         earlySetup = true;
         packages = [
           pkgs.terminus_font
         ];
         font = "${pkgs.terminus_font}/share/consolefonts/ter-u16n.psf.gz";
-        colors = [
-          "222222"
-          "D81765"
-          "6FD01A"
-          "F6B841"
-          "16B1FB"
-          "D783FF"
-          "76D6FF"
-          "EBEBEB"
-          "666666"
-          "F2163E"
-          "80CC33"
-          "FFB000"
-          "289CD5"
-          "F736C4"
-          "00D4D4"
-          "F8F8F8"
-        ];
       };
       boot = {
         kernelParams = [

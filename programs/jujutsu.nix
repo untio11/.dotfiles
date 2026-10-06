@@ -25,6 +25,7 @@
           "-t"
           "@"
         ];
+        # Output just the name of the closest jujutsu bookmark.
         git_branch = [
           "log"
           "--no-graph"
@@ -37,12 +38,20 @@
           "status"
           "--no-pager"
         ];
+        # Show diff from the branching point of this branch to the current head.
         pr_diff = [
           "diff"
           "--from"
           "fork_point(trunk() | @)"
           "--to"
           "@"
+        ];
+        # List the aliases defined in this config.
+        list_alias = [
+          "--no-pager"
+          "config"
+          "list"
+          "aliases"
         ];
       };
 

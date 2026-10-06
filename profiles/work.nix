@@ -62,6 +62,7 @@ let
       github-cli # gh
       hyperfine # Benchmarking
       watchman # For jujutsu in nixpkgs repo
+      nmap
     ];
   };
 in

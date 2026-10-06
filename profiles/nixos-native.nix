@@ -59,6 +59,60 @@ rec {
       ];
     in
     {
+      # Home Assistant related setup
+      services.home-assistant = {
+        enable = true;
+        extraComponents = [
+          # Minimal set of components for initial setup
+          "analytics"
+          "google_translate"
+          "met"
+          "radio_browser"
+          "shopping_list"
+          "isal" # Recommended for fast zlib compression
+        ];
+        config = {
+          homeassistant = {
+            name = "Astera";
+            unit_system = "metric";
+          };
+          default_config = { };
+          # Use postgresql instead of default sqlite.
+          recorder.db_url = "postgresql://@/hass";
+        };
+        extraPackages =
+          python3Packages: with python3Packages; [
+            psycopg2 # postgresql support
+            pyatv
+            getmac
+          ];
+      };
+      services.nginx = {
+        enable = false;
+        recommendedProxySettings = true;
+        virtualHosts = {
+          # Home Assistant reverse proxy.
+          "home-assistant.nexus" = {
+            extraConfig = "proxy_buffering off;";
+            locations."/" = {
+              proxyPass = "http://[::1]:8123";
+              proxyWebsockets = true;
+            };
+          };
+        };
+      };
+      # PostgreSQL database for Home Assistant
+      services.postgresql = {
+        enable = true;
+        ensureDatabases = [ "hass" ];
+        ensureUsers = [
+          {
+            name = "hass";
+            ensureDBOwnership = true;
+          }
+        ];
+      };
+
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target
       # is reached (ctrl+alt+f2).
       systemd.services."kmsconvt@tty1".enable = false;
@@ -126,7 +180,16 @@ rec {
         hostName = hostname;
         useDHCP = lib.mkDefault true;
         networkmanager.enable = true;
-        firewall.enable = true;
+        firewall = {
+          enable = true;
+          allowedTCPPorts = [
+            22
+            80
+            443
+            8123 # Home Assistant default port
+            5432 # PostgreSQL port
+          ];
+        };
       };
       nix = {
         settings = {
@@ -145,6 +208,7 @@ rec {
         zsh
         pass
         tmux
+        nmap
       ];
 
       nixpkgs = {

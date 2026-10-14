@@ -60,6 +60,7 @@ rec {
       ports = {
         home-assistant = "8123";
         paperless = 28981;
+        syncthing = "8384";
       };
     in
     {
@@ -139,6 +140,16 @@ rec {
             proxyPass = "http://127.0.0.1:${toString ports.paperless}/ws/";
             proxyWebsockets = true;
           };
+          # Syncthing UI at `/syncthing`.
+          locations."^~ /syncthing/" = {
+            proxyPass = "http://127.0.0.1:${ports.syncthing}/";
+            proxyWebsockets = true;
+            # Otherwise nginx will spit out connection-timed-out errors.
+            extraConfig = ''
+              proxy_read_timeout 120s;
+              proxy_send_timeout 120s;
+            '';
+          };
         };
       };
       # PostgreSQL database for Home Assistant and Paperless
@@ -184,6 +195,18 @@ rec {
           onCalendar = "weekly";
         };
 
+      };
+
+      services.syncthing = {
+        enable = true;
+        # Makes sure the files managed by syncthing belong to my user account.
+        user = username;
+        group = "users";
+        dataDir = "${base-home-dir}/${username}/syncthing-default";
+        configDir = "${base-home-dir}/${username}/.config/syncthing";
+        openDefaultPorts = true;
+        guiAddress = "127.0.0.1:${ports.syncthing}"; # Localhost only; Nginx will expose it
+        settings.gui.insecureSkipHostcheck = true; # For reverse proxy support.
       };
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target

@@ -57,6 +57,10 @@ rec {
         "00D4D4"
         "F8F8F8"
       ];
+      ports = {
+        home-assistant = "8123";
+        paperless = 28981;
+      };
     in
     {
       # Home Assistant related setup
@@ -79,38 +83,107 @@ rec {
           default_config = { };
           # Use postgresql instead of default sqlite.
           recorder.db_url = "postgresql://@/hass";
+          http = {
+            # Note: this config should be set via the home-assistant ui
+            # To manually edit the value there, edit `/var/lib/hass/.storage/http`
+            # You might need to `sudo chown hass:hass` and `sudo chmod 644`
+            # that file after editing it.
+            use_x_forwarded_for = true;
+            trusted_proxies = [
+              "127.0.0.1"
+              "::1"
+            ];
+          };
         };
         extraPackages =
           python3Packages: with python3Packages; [
             psycopg2 # postgresql support
             pyatv
             getmac
+            brother
+            pyipp
           ];
       };
+
+      # Enable mDNS so `gathering-hub.local` resolves to this machine's IP address
+      # on LAN.
+      services.avahi = {
+        enable = true;
+        nssmdns4 = true;
+        openFirewall = true; # Open port 5353 for UDP mDNS traffic
+        publish = {
+          enable = true;
+          addresses = true;
+        };
+      };
       services.nginx = {
-        enable = false;
+        enable = true;
         recommendedProxySettings = true;
-        virtualHosts = {
-          # Home Assistant reverse proxy.
-          "home-assistant.nexus" = {
+        clientMaxBodySize = "100m"; # Allow uploading large documents for Paperless.
+        # `gathering-hub.local`
+        virtualHosts."${hostname}.local" = {
+          default = true;
+          # Home Assistant at root.
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:${ports.home-assistant}";
+            proxyWebsockets = true;
             extraConfig = "proxy_buffering off;";
-            locations."/" = {
-              proxyPass = "http://[::1]:8123";
-              proxyWebsockets = true;
-            };
+          };
+          # Paperless at `/paperless`
+          locations."^~ /paperless" = {
+            proxyPass = "http://127.0.0.1:${toString ports.paperless}";
+            proxyWebsockets = true;
+          };
+          # Paperless Django Channels expect websockets at `/ws/` instead of `/paperless/ws/`.
+          locations."^~ /paperless/ws/" = {
+            proxyPass = "http://127.0.0.1:${toString ports.paperless}/ws/";
+            proxyWebsockets = true;
           };
         };
       };
-      # PostgreSQL database for Home Assistant
+      # PostgreSQL database for Home Assistant and Paperless
       services.postgresql = {
         enable = true;
-        ensureDatabases = [ "hass" ];
+        ensureDatabases = [
+          "hass"
+          "paperless"
+        ];
         ensureUsers = [
           {
             name = "hass";
             ensureDBOwnership = true;
           }
+          {
+            name = "paperless";
+            ensureDBOwnership = true;
+          }
         ];
+      };
+
+      services.paperless = {
+        enable = true;
+        address = "127.0.0.1";
+        port = ports.paperless;
+        settings = {
+          # Support running paperless at `gathering-hub.local/paperless` via mDNS.
+          PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";
+          PAPERLESS_STATIC_URL = "/paperless/static/";
+          PAPERLESS_URL = "http://${hostname}.local";
+          # Languages for Optical Character Recognition (OCR).
+          PAPERLESS_OCR_LANGUAGE = "eng+nld";
+          PAPERLESS_TIME_ZONE = "Europe/Amsterdam";
+          # Database Config
+          PAPERLESS_DBENGINE = "postgresql";
+          PAPERLESS_DBHOST = "/run/postgresql";
+          PAPERLESS_DBNAME = "paperless";
+          PAPERLESS_DBUSER = "paperless";
+        };
+        exporter = {
+          enable = false;
+          # TODO: Configure backups
+          onCalendar = "weekly";
+        };
+
       };
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target
@@ -183,11 +256,8 @@ rec {
         firewall = {
           enable = true;
           allowedTCPPorts = [
-            22
-            80
-            443
-            8123 # Home Assistant default port
-            5432 # PostgreSQL port
+            22 # SSH
+            80 # HTTP for nginx reverse proxy
           ];
         };
       };

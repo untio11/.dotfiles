@@ -258,6 +258,8 @@ rec {
         enable = true;
         address = "127.0.0.1";
         port = ports.paperless;
+        consumptionDir = "/data/paperless/consume";
+        consumptionDirIsPublic = true;
         settings = {
           PAPERLESS_URL = "https://paperless.furahiya.nexus";
           # Languages for Optical Character Recognition (OCR).
@@ -272,9 +274,6 @@ rec {
           PAPERLESS_CONSUMER_DELETE_DUPLICATES = true; # Simply delete documents from the consumer dir in case of duplicate detection.
           PAPERLESS_CONSUMER_RECURSIVE = true; # Allow paperless to consume documents from subdirectories of the consumer dir.
           PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true; # Subdirectories leading to the consumed document will be added as tags.
-          PAPERLESS_CONSUMER_IGNORE_PATTERNS = [ ".DS_Store" ];
-          PAPERLESS_CONSUMER_IGNORE_DIRS = [ ".stfolder" ];
-          PAPERLESS_CONSUMER_POLLING_DELAY = 5; # Wait for 5 seconds of inactivity before consuming a document.
         };
         exporter = {
           enable = true;
@@ -302,7 +301,14 @@ rec {
       # Ensure the `/data/backups` directory exists.
       systemd.tmpfiles.rules = [
         "d ${backup-root-dir} 0755 root root -"
-        # "d ${syncthing-root-dir} 0750 ${username} users -"
+
+        # Ensure the base consume folder exists with full access
+        "d /data/paperless/consume 0777 paperless paperless -"
+
+        # Force DEFAULT ACLs so any subfolder/file created by Syncthing or you
+        # automatically inherits read, write, and delete permissions for the paperless user
+        "A+ /data/paperless/consume - - - - default:user:paperless:rwx,default:group:users:rwx,default:other::rwx"
+        "A+ /data/paperless/consume - - - - user:paperless:rwx,group:users:rwx,other::rwx"
       ];
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target
@@ -444,6 +450,8 @@ rec {
           home = "${base-home-dir}/${username}";
           shell = pkgs.zsh;
         };
+        # So paperless can interect with my files.
+        paperless.extraGroups = [ "users" ];
       };
 
       # Compromised certificates. See https://emudhra.we-have-a-problem.com/

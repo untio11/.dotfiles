@@ -128,6 +128,7 @@ rec {
           dnsProvider = "mijnhost";
           # File contains the API key.
           environmentFile = config.sops.templates."acme-mijnhost.env".path;
+          group = "nginx"; # Give nginx permission to read the certificate.
         };
       };
 
@@ -148,7 +149,7 @@ rec {
         clientMaxBodySize = "100m"; # Allow uploading large documents for Paperless.
         # `gathering-hub.furahiya.nexus`
         virtualHosts."${hostname}.furahiya.nexus" = {
-          enableACME = true;
+          useACMEHost = "${hostname}.furahiya.nexus";
           forceSSL = true;
           # Home Assistant at root.
           locations."/" = {

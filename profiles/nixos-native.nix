@@ -106,6 +106,31 @@ rec {
           ];
       };
 
+      sops = {
+        defaultSopsFile = ../secrets/api-keys.yaml;
+        defaultSopsFormat = "yaml";
+        age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+
+        secrets."mijnhost_api_key" = { };
+
+        # Render an environment file in RAM for ACME to read
+        templates."acme-mijnhost.env" = {
+          content = ''
+            MIJNHOST_API_KEY="${config.sops.placeholder.mijnhost_api_key}"
+          '';
+        };
+      };
+      security.acme = {
+        acceptTerms = true;
+        defaults.email = "robin.kneepkens@hotmail.com";
+
+        certs."${hostname}.furahiya.nexus" = {
+          dnsProvider = "mijnhost";
+          # File contains the API key.
+          environmentFile = config.sops.templates."acme-mijnhost.env".path;
+        };
+      };
+
       # Enable mDNS so `gathering-hub.local` resolves to this machine's IP address
       # on LAN.
       services.avahi = {
@@ -121,9 +146,10 @@ rec {
         enable = true;
         recommendedProxySettings = true;
         clientMaxBodySize = "100m"; # Allow uploading large documents for Paperless.
-        # `gathering-hub.local`
-        virtualHosts."${hostname}.local" = {
-          default = true;
+        # `gathering-hub.furahiya.nexus`
+        virtualHosts."${hostname}.furahiya.nexus" = {
+          enableACME = true;
+          forceSSL = true;
           # Home Assistant at root.
           locations."/" = {
             proxyPass = "http://127.0.0.1:${ports.home-assistant}";
@@ -151,6 +177,10 @@ rec {
             '';
           };
         };
+        # 2. Redirect http://gathering-hub.local -> https://gathering-hub.furahiya.nexus
+        virtualHosts."${hostname}.local" = {
+          locations."/".return = "301 https://${hostname}.furahiya.nexus$request_uri";
+        };
       };
       # PostgreSQL database for Home Assistant and Paperless
       services.postgresql = {
@@ -177,9 +207,9 @@ rec {
         port = ports.paperless;
         settings = {
           # Support running paperless at `gathering-hub.local/paperless` via mDNS.
+          PAPERLESS_URL = "https://${hostname}.furahiya.nexus";
           PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";
           PAPERLESS_STATIC_URL = "/paperless/static/";
-          PAPERLESS_URL = "http://${hostname}.local";
           # Languages for Optical Character Recognition (OCR).
           PAPERLESS_OCR_LANGUAGE = "eng+nld";
           PAPERLESS_TIME_ZONE = "Europe/Amsterdam";
@@ -281,6 +311,7 @@ rec {
           allowedTCPPorts = [
             22 # SSH
             80 # HTTP for nginx reverse proxy
+            443 # HTTPS
           ];
         };
       };

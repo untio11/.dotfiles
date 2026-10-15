@@ -36,6 +36,8 @@ in
       nixfmt-tree # `treefmt <root>` For running nixfmt recursively on directories
       poppler-utils # PDF tools such as pdftotext and pdfinfo
       gh
+      sops
+      age
     ];
     stateVersion = "23.05";
   };

@@ -24,6 +24,11 @@
       url = "github:molovo/revolver";
       flake = false;
     };
+    # Manage secrets with sops
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -62,7 +67,10 @@
       darwinConfigurations.${macos-skunk.hostname} =
         with macos-skunk;
         nix-darwin.lib.darwinSystem {
-          modules = [ nix-darwin-configuration ];
+          modules = [
+            nix-darwin-configuration
+            inputs.sops-nix.darwinModules.sops
+          ];
         };
       # Home desktop wsl. Home manager.
       # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#untio11@pokke-village
@@ -112,6 +120,7 @@
               nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
             }
             nixos-configuration
+            inputs.sops-nix.nixosModules.sops
           ];
         };
       templates = {

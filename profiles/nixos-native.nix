@@ -268,6 +268,13 @@ rec {
           PAPERLESS_DBHOST = "/run/postgresql";
           PAPERLESS_DBNAME = "paperless";
           PAPERLESS_DBUSER = "paperless";
+          # Document consumption config
+          PAPERLESS_CONSUMER_DELETE_DUPLICATES = true; # Simply delete documents from the consumer dir in case of duplicate detection.
+          PAPERLESS_CONSUMER_RECURSIVE = true; # Allow paperless to consume documents from subdirectories of the consumer dir.
+          PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true; # Subdirectories leading to the consumed document will be added as tags.
+          PAPERLESS_CONSUMER_IGNORE_PATTERNS = [ ".DS_Store" ];
+          PAPERLESS_CONSUMER_IGNORE_DIRS = [ ".stfolder" ];
+          PAPERLESS_CONSUMER_POLLING_DELAY = 5; # Wait for 5 seconds of inactivity before consuming a document.
         };
         exporter = {
           enable = true;

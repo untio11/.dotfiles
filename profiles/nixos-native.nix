@@ -61,6 +61,8 @@ rec {
         home-assistant = "8123";
         paperless = 28981;
         syncthing = "8384";
+        mosquitto = 1883;
+        zigbee2mqtt = 8080;
       };
     in
     {
@@ -75,6 +77,7 @@ rec {
           "radio_browser"
           "shopping_list"
           "isal" # Recommended for fast zlib compression
+          "mqtt" # For zigbee2mqtt
         ];
         config = {
           homeassistant = {
@@ -101,9 +104,60 @@ rec {
             psycopg2 # postgresql support
             pyatv
             getmac
-            brother
+            brother # Printer
             pyipp
+            aioshelly
           ];
+      };
+
+      services.mosquitto = {
+        enable = true;
+        listeners = [
+          {
+            address = "127.0.0.1";
+            port = ports.mosquitto;
+            omitPasswordAuth = true; # Do I want to enable this eventually?
+            settings.allow_anonymous = true;
+            acl = [ "pattern readwrite #" ];
+          }
+        ];
+      };
+      services.zigbee2mqtt = {
+        enable = true;
+        settings = {
+          version = 5;
+          homeassistant.enabled = true;
+          permit_join = false; # Toggle via web UI when pairing new devices.
+          mqtt.server = "mqtt://127.0.0.1:${toString ports.mosquitto}";
+          # SMLIGHT SLZB-07 config
+          serial = {
+            port = "/dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-07_9e2fd2b588d5ef1183fb694b49d2c684-if00-port0";
+            adapter = "ember";
+            baudrate = 115200;
+            rtscts = true;
+          };
+          frontend = {
+            enabled = true;
+            host = "127.0.0.1";
+            port = ports.zigbee2mqtt;
+          };
+          # First time deployment with value `GENERATE` generated these values.
+          advanced = {
+            # `zigbee2mqtt-secret.yaml` created by sops.
+            network_key = "!secret network_key";
+            pan_id = 2296;
+            ext_pan_id = [
+              90
+              195
+              14
+              142
+              202
+              41
+              196
+              14
+            ];
+          };
+        };
       };
 
       sops = {
@@ -112,11 +166,19 @@ rec {
         age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
         secrets."mijnhost_api_key" = { };
-
         # Render an environment file in RAM for ACME to read
         templates."acme-mijnhost.env" = {
           content = ''
             MIJNHOST_API_KEY="${config.sops.placeholder.mijnhost_api_key}"
+          '';
+        };
+
+        secrets."zigbee2mqtt_network_key" = { };
+        templates."zigbee2mqtt-secret.yaml" = {
+          owner = "zigbee2mqtt";
+          path = "/var/lib/zigbee2mqtt/secret.yaml";
+          content = ''
+            network_key: ${config.sops.placeholder.zigbee2mqtt_network_key}
           '';
         };
       };
@@ -124,11 +186,14 @@ rec {
         acceptTerms = true;
         defaults.email = "robin.kneepkens@hotmail.com";
 
-        certs."${hostname}.furahiya.nexus" = {
+        certs."furahiya.nexus" = {
+          # Issue certificate to all service subdomains `<service>.furahiya.nexus`.
+          extraDomainNames = [ "*.furahiya.nexus" ];
           dnsProvider = "mijnhost";
           # File contains the API key.
           environmentFile = config.sops.templates."acme-mijnhost.env".path;
           group = "nginx"; # Give nginx permission to read the certificate.
+          dnsResolver = "1.1.1.1:53"; # Resolve via Cloudflare to circumvent Ziggo's negative cache resonse.
         };
       };
 
@@ -147,41 +212,37 @@ rec {
         enable = true;
         recommendedProxySettings = true;
         clientMaxBodySize = "100m"; # Allow uploading large documents for Paperless.
-        # `gathering-hub.furahiya.nexus`
-        virtualHosts."${hostname}.furahiya.nexus" = {
-          useACMEHost = "${hostname}.furahiya.nexus";
-          forceSSL = true;
-          # Home Assistant at root.
-          locations."/" = {
-            proxyPass = "http://127.0.0.1:${ports.home-assistant}";
-            proxyWebsockets = true;
-            extraConfig = "proxy_buffering off;";
+        virtualHosts =
+          let
+            domain = "furahiya.nexus";
+            mkVhost = proxyConfig: {
+              useACMEHost = domain;
+              forceSSL = true;
+              locations."/" = proxyConfig // {
+                proxyWebsockets = true;
+              };
+            };
+          in
+          {
+            "home-assistant.${domain}" = mkVhost {
+              proxyPass = "http://127.0.0.1:${ports.home-assistant}";
+              extraConfig = "proxy_buffering off;";
+            };
+            "paperless.${domain}" = mkVhost {
+              proxyPass = "http://127.0.0.1:${toString ports.paperless}";
+            };
+            "syncthing.${domain}" = mkVhost {
+              proxyPass = "http://127.0.0.1:${ports.syncthing}/";
+              # Otherwise nginx will spit out connection-timed-out errors.
+              extraConfig = ''
+                proxy_read_timeout 120s;
+                proxy_send_timeout 120s;
+              '';
+            };
+            "zigbee2mqtt.${domain}" = mkVhost {
+              proxyPass = "http://127.0.0.1:${toString ports.zigbee2mqtt}";
+            };
           };
-          # Paperless at `/paperless`
-          locations."^~ /paperless" = {
-            proxyPass = "http://127.0.0.1:${toString ports.paperless}";
-            proxyWebsockets = true;
-          };
-          # Paperless Django Channels expect websockets at `/ws/` instead of `/paperless/ws/`.
-          locations."^~ /paperless/ws/" = {
-            proxyPass = "http://127.0.0.1:${toString ports.paperless}/ws/";
-            proxyWebsockets = true;
-          };
-          # Syncthing UI at `/syncthing`.
-          locations."^~ /syncthing/" = {
-            proxyPass = "http://127.0.0.1:${ports.syncthing}/";
-            proxyWebsockets = true;
-            # Otherwise nginx will spit out connection-timed-out errors.
-            extraConfig = ''
-              proxy_read_timeout 120s;
-              proxy_send_timeout 120s;
-            '';
-          };
-        };
-        # 2. Redirect http://gathering-hub.local -> https://gathering-hub.furahiya.nexus
-        virtualHosts."${hostname}.local" = {
-          locations."/".return = "301 https://${hostname}.furahiya.nexus$request_uri";
-        };
       };
       # PostgreSQL database for Home Assistant and Paperless
       services.postgresql = {
@@ -207,10 +268,7 @@ rec {
         address = "127.0.0.1";
         port = ports.paperless;
         settings = {
-          # Support running paperless at `gathering-hub.local/paperless` via mDNS.
-          PAPERLESS_URL = "https://${hostname}.furahiya.nexus";
-          PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";
-          PAPERLESS_STATIC_URL = "/paperless/static/";
+          PAPERLESS_URL = "https://paperless.furahiya.nexus";
           # Languages for Optical Character Recognition (OCR).
           PAPERLESS_OCR_LANGUAGE = "eng+nld";
           PAPERLESS_TIME_ZONE = "Europe/Amsterdam";

@@ -229,6 +229,7 @@ rec {
       # PostgreSQL database for Home Assistant and Paperless
       services.postgresql = {
         enable = true;
+        package = pkgs.postgresql_18;
         ensureDatabases = [
           "hass"
           "paperless"

@@ -428,19 +428,24 @@ rec {
 
       fileSystems = {
         "/" = {
+          # sda2
           device = "/dev/disk/by-uuid/8d57c9c0-ac30-47bd-b659-3b9dc4b5de29"; # SSD
           fsType = "ext4";
         };
         "/boot" = {
+          # sda1
           device = "/dev/disk/by-uuid/015C-82D5"; # SSD
           fsType = "vfat";
         };
-        # "/data" = {
-        #   device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-8957850bd3a"; # HDD
-        #   fsType = "ext4";
-        # };
+        "/data" = {
+          # sdb1
+          device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-895785d0bd3a"; # HDD
+          fsType = "ext4";
+          options = ["nofail"];
+        };
       };
       swapDevices = [
+        # sda3
         { device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355"; } # SSD
       ];
 

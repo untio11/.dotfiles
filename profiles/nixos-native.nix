@@ -203,6 +203,12 @@ rec {
               forceSSL = true;
               locations."/" = proxyConfig // {
                 proxyWebsockets = true;
+                # Otherwise nginx will spit out connection-timed-out errors for most services.
+                extraConfig = ''
+                  proxy_read_timeout 3600s;
+                  proxy_send_timeout 3600s;
+                  ${proxyConfig.extraConfig or ""}
+                '';
               };
             };
           in
@@ -216,11 +222,6 @@ rec {
             };
             "syncthing.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${ports.syncthing}/";
-              # Otherwise nginx will spit out connection-timed-out errors.
-              extraConfig = ''
-                proxy_read_timeout 120s;
-                proxy_send_timeout 120s;
-              '';
             };
             "zigbee2mqtt.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${toString ports.zigbee2mqtt}";

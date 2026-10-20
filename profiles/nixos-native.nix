@@ -39,6 +39,7 @@ rec {
       ...
     }:
     let
+      backup-root-dir = "/data/backups";
       ports = {
         home-assistant = "8123";
         paperless = 28981;
@@ -245,6 +246,11 @@ rec {
           }
         ];
       };
+      services.postgresqlBackup = {
+        # Default schedule: daily at 01:15 (`startAt` property.)
+        enable = true;
+        location = "${backup-root-dir}/postgresql";
+      };
 
       services.paperless = {
         enable = true;
@@ -262,11 +268,10 @@ rec {
           PAPERLESS_DBUSER = "paperless";
         };
         exporter = {
-          enable = false;
-          # TODO: Configure backups
+          enable = true;
+          directory = "${backup-root-dir}/paperless";
           onCalendar = "weekly";
         };
-
       };
 
       services.syncthing = {
@@ -280,6 +285,11 @@ rec {
         guiAddress = "127.0.0.1:${ports.syncthing}"; # Localhost only; Nginx will expose it
         settings.gui.insecureSkipHostcheck = true; # For reverse proxy support.
       };
+
+      # Ensure the `/data/backups` directory exists.
+      systemd.tmpfiles.rules = [
+        "d ${backup-root-dir} 0755 root root -"
+      ];
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target
       # is reached (ctrl+alt+f2).
@@ -441,7 +451,7 @@ rec {
           # sdb1
           device = "/dev/disk/by-uuid/776808a4-707d-40fd-baae-895785d0bd3a"; # HDD
           fsType = "ext4";
-          options = ["nofail"];
+          options = [ "nofail" ];
         };
       };
       swapDevices = [

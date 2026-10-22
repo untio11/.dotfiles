@@ -15,5 +15,7 @@
     ./watch-file-run.nix
     # 'find-config': try to find a file in the current directory or closest ancestor.
     ./find-config.nix
+    # `hybrid-workspace-add` / `hybrid-workspace-remove`: manage colocated jj/git workspaces.
+    ./hybrid-workspace.nix
   ];
 }

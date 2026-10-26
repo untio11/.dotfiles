@@ -26,7 +26,12 @@ let
         };
       };
       zsh = {
-        profileExtra = "nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };";
+        profileExtra = ''
+          nxtm() { nx run-many -t test -p \"$1\" --parallel=1 --skip-nx-cache; };
+
+          ## Include some stuff managed by homebrew 😒
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        '';
         dirHashes.void = "$HOME/Development/personal/.Void";
       };
       helix = {
@@ -71,7 +76,6 @@ rec {
   system = "aarch64-darwin";
   pkgs = import nixpkgs { inherit system overlays; };
   cfg = pre-cfg pkgs;
-  programs.zsh.imports = [ ../programs/zsh/impure.nix ];
   username = "robin.kneepkens";
   base-home-dir = "/Users";
   nix-darwin-configuration = { ... }: {

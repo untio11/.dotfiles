@@ -165,6 +165,8 @@ rec {
             network_key: ${config.sops.placeholder.zigbee2mqtt_network_key}
           '';
         };
+
+        sops.secrets."mijnhost_ddns_password" = { };
       };
       security.acme = {
         acceptTerms = true;
@@ -191,6 +193,15 @@ rec {
           enable = true;
           addresses = true;
         };
+      };
+      # Dynamic DNS - Update Mijn Host `gate.furahiya.nexus` DNS entry periodically to
+      # point to my public IP address.
+      services.ddclient = {
+        enable = true;
+        server = "mijn.host";
+        username = "ddns_f928877f9d95";
+        passwordFile = config.sops.secrets."mijnhost_ddns_password".path;
+        domains = [ "gate.furahiya.nexus" ];
       };
       services.nginx = {
         enable = true;

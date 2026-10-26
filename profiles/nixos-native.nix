@@ -40,6 +40,7 @@ rec {
     }:
     let
       backup-root-dir = "/data/backups";
+      syncthing-root-dir = "/data/syncthing";
       ports = {
         home-assistant = "8123";
         paperless = 28981;
@@ -280,16 +281,21 @@ rec {
         # Makes sure the files managed by syncthing belong to my user account.
         user = username;
         group = "users";
-        dataDir = "${base-home-dir}/${username}/syncthing-default";
+        dataDir = syncthing-root-dir;
         configDir = "${base-home-dir}/${username}/.config/syncthing";
         openDefaultPorts = true;
         guiAddress = "127.0.0.1:${ports.syncthing}"; # Localhost only; Nginx will expose it
         settings.gui.insecureSkipHostcheck = true; # For reverse proxy support.
+        # Allow stateful management of devices and shared folders without NixOS overwriting
+        # the config on rebuild.
+        overrideDevices = false;
+        overrideFolders = false;
       };
 
       # Ensure the `/data/backups` directory exists.
       systemd.tmpfiles.rules = [
         "d ${backup-root-dir} 0755 root root -"
+        # "d ${syncthing-root-dir} 0750 ${username} users -"
       ];
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target

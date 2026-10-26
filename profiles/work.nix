@@ -135,6 +135,7 @@ rec {
         "localsend"
         "antigravity"
         "stremio"
+        "wifiman" # Unifi tool, use for Teleport Wireguard VPN.
       ];
       # brew install ${name}
       brews = [

@@ -33,6 +33,7 @@
       pkgsearch = "nix search nixpkgs";
       # Quickly change directory to current git repo root.
       cdgr = "cd \"$(git rev-parse --show-toplevel)\"";
+      jj = "DFT_WIDTH=$COLUMNS jj"; # For some reason difftastic won't use the terminal width
     };
 
     dirHashes = {

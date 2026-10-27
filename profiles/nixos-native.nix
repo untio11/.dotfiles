@@ -47,6 +47,7 @@ rec {
         syncthing = "8384";
         mosquitto = 1883;
         zigbee2mqtt = 8080;
+        adguard = "3000";
       };
     in
     {
@@ -62,6 +63,7 @@ rec {
           "shopping_list"
           "isal" # Recommended for fast zlib compression
           "mqtt" # For zigbee2mqtt
+          "adguard"
         ];
         config = {
           homeassistant = {
@@ -183,6 +185,65 @@ rec {
         };
       };
 
+      # Configure Gathering Hub as local DNS server that filters requests to known ad and malware domains.
+      services.adguardhome = {
+        enable = true;
+        settings = {
+          http.address = "127.0.0.1:${ports.adguard}";
+          dns = {
+            # Listen to DNS requests on all network interfaces.
+            bind_hosts = [ "0.0.0.0" ];
+            port = 53;
+            # Forward unknown domain name queries to these public DNS servers.
+            upstream_dns = [
+              "https://dns.quad9.net/dns-query"
+              "https://cloudflare-dns.com/dns-query"
+            ];
+            bootstrap_dns = [
+              "9.9.9.9"
+              "1.1.1.1"
+            ];
+            # Resolve local client names via UniFi.
+            private_dns = [ "192.168.0.1" ]; # UniFi Router IP
+            use_private_dns_resolvers = true;
+          };
+          filtering = {
+            protection_enabled = true;
+            filtering_enabled = true;
+            parental_enabled = false;
+            safe_search.enabled = false;
+            # Locally resolve to Gathering Hub for reverse proxy handling.
+            rewrites = [
+              {
+                domain = "*.furahiya.nexus";
+                answer = "192.128.0.3";
+              }
+              {
+                domain = "furahiya.nexus";
+                answer = "192.128.0.3";
+              }
+            ];
+          };
+          filters = [
+            {
+              enabled = true;
+              name = "AdGuard DNS filter";
+              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt";
+            }
+            {
+              enabled = true;
+              name = "HaGeZi's Pro Blocklist";
+              url = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt";
+            }
+            {
+              enabled = true;
+              name = "OISD Blocklist Big";
+              url = "https://big.oisd.nl";
+            }
+          ];
+        };
+      };
+
       # Enable mDNS so `gathering-hub.local` resolves to this machine's IP address
       # on LAN.
       services.avahi = {
@@ -234,6 +295,9 @@ rec {
             };
             "zigbee2mqtt.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${toString ports.zigbee2mqtt}";
+            };
+            "adguard.${domain}" = mkVhost {
+              proxyPass = "http://127.0.0.1:${ports.adguard}";
             };
           };
       };
@@ -407,8 +471,12 @@ rec {
           enable = true;
           allowedTCPPorts = [
             22 # SSH
+            53 # AdGuard Home DNS
             80 # HTTP for nginx reverse proxy
             443 # HTTPS
+          ];
+          allowedUDPPorts = [
+            53 # AdGuard Home DNS
           ];
         };
       };

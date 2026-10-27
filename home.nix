@@ -38,6 +38,7 @@ in
       gh
       sops
       age
+      ripgrep
     ];
     stateVersion = "23.05";
   };

@@ -51,17 +51,9 @@ let
     ];
     home.packages = with pkgs; [
       jq
-      jiq # Interactive jq query editor
-      nodejs_22
-      zulu
       (google-cloud-sdk.withExtraComponents [
         google-cloud-sdk.components.beta
       ])
-      python3
-      awscli2
-      azure-cli
-      p7zip
-      protobuf
       # blueutil # CLI bluetooth interface
       wget
       github-cli # gh

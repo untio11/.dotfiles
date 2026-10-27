@@ -4,6 +4,15 @@
     settings = {
       user.name = "Robin Kneepkens";
       aliases = {
+        # Track closest bookmark
+        tcb = [
+          "util"
+          "exec"
+          "--"
+          "zsh"
+          "-c"
+          "jj bookmark track $(jj git_branch)"
+        ];
         # Short log with no paging for quick reference.
         lg = [
           "log"

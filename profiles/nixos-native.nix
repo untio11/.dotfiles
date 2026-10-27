@@ -166,7 +166,7 @@ rec {
           '';
         };
 
-        sops.secrets."mijnhost_ddns_password" = { };
+        secrets."mijnhost_ddns_password" = { };
       };
       security.acme = {
         acceptTerms = true;
@@ -189,10 +189,7 @@ rec {
         enable = true;
         nssmdns4 = true;
         openFirewall = true; # Open port 5353 for UDP mDNS traffic
-        publish = {
-          enable = true;
-          addresses = true;
-        };
+        settings.publish.publish-addresses = true;
       };
       # Dynamic DNS - Update Mijn Host `gate.furahiya.nexus` DNS entry periodically to
       # point to my public IP address.
@@ -464,12 +461,6 @@ rec {
         # So paperless can interect with my files.
         paperless.extraGroups = [ "users" ];
       };
-
-      # Compromised certificates. See https://emudhra.we-have-a-problem.com/
-      security.pki.caCertificateBlacklist = [
-        "Comodo AAA Services root"
-        "emSign ECC Root CA - G3"
-      ];
 
       # Locale/internationalisation properties.
       time.timeZone = "Europe/Amsterdam";

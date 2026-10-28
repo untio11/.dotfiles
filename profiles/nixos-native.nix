@@ -217,6 +217,7 @@ rec {
           '';
         };
         secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
+        secrets."restic_password" = { };
       };
       security.acme = {
         acceptTerms = true;
@@ -416,7 +417,7 @@ rec {
         exporter = {
           enable = true;
           directory = "${backup-root-dir}/paperless";
-          onCalendar = "weekly";
+          onCalendar = "*-*-* 01:30:00"; # Daily at 01:30
         };
       };
 
@@ -623,6 +624,59 @@ rec {
         # sda3
         { device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355"; } # SSD
       ];
+
+      services.restic.backups.local = {
+        initialize = true; # Maakt /data/backups/restic automatisch aan bij de eerste keer
+        repository = "${backup-root-dir}/restic";
+        passwordFile = config.sops.secrets."restic_password".path;
+
+        paths = [
+          # Machine-specific keys necessary to access sops.
+          "/etc/ssh/ssh_host_ed25519_key"
+          "/etc/ssh/ssh_host_ed25519_key.pub"
+          "/etc/ssh/ssh_host_rsa_key"
+          "/etc/ssh/ssh_host_rsa_key.pub"
+
+          "/var/lib/nixos"
+          "/var/lib/hass"
+          "/var/lib/zigbee2mqtt"
+          "/var/lib/paperless"
+          "/var/lib/acme"
+          "/var/lib/mosquitto"
+          "/var/lib/private/AdGuardHome"
+
+          "${backup-root-dir}/postgresql"
+          "${backup-root-dir}/paperless"
+          "/data/paperless/consume"
+          syncthing-root-dir
+
+          # User home data
+          "${base-home-dir}/${username}"
+        ];
+
+        exclude = [
+          "${base-home-dir}/${username}/.cache"
+          "${base-home-dir}/${username}/.config/syncthing/index*"
+          "/var/lib/hass/.cache"
+          "/var/lib/hass/*.log*"
+          "/var/lib/hass/backups" # Ignore the encrypted hass backups, as restic backs up all those files too.
+          "/var/lib/zigbee2mqtt/log"
+          "/var/lib/paperless/log"
+          "/var/lib/private/AdGuardHome/data/filters"
+        ];
+
+        timerConfig = {
+          OnCalendar = "02:00";
+          Persistent = true;
+        };
+
+        pruneOpts = [
+          "--keep-daily 7"
+          "--keep-weekly 5"
+          "--keep-monthly 12"
+          "--keep-yearly 3"
+        ];
+      };
 
       system.stateVersion = "23.05";
     };

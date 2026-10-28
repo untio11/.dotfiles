@@ -63,7 +63,13 @@ rec {
           "shopping_list"
           "isal" # Recommended for fast zlib compression
           "mqtt" # For zigbee2mqtt
-          "adguard"
+          "adguard" # Accessible AdGuard Toggle and stats
+          "unifi" # Integrate UniFi Network stuff
+          "systemmonitor" # Monitor Gathering-Hub host
+          "syncthing" # Monitor syncthing status
+          "cert_expiry" # Monitor furahiya.nexus Let's Encrypt certificate
+          "dnsip" # Track public ip via `gate.furahiya.nexus`
+          "buienradar"
         ];
         config = {
           homeassistant = {

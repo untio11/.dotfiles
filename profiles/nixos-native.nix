@@ -7,6 +7,10 @@ let
   hostname = "gathering-hub";
   pre-cfg = pkgs: {
     profile.prompt = ">";
+    home.sessionVariables = {
+      # So I can use `sudo sops edit` from gathering hub.
+      SOPS_AGE_KEY_CMD = "sudo ${pkgs.ssh-to-age}/bin/ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key";
+    };
     programs.git.settings = {
       user.email = "robin.kneepkens@hotmail.com";
       credential = {
@@ -212,6 +216,7 @@ rec {
             skunk_longitude: ${config.sops.placeholder.skunk_longitude}
           '';
         };
+        secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
       };
       security.acme = {
         acceptTerms = true;
@@ -579,6 +584,7 @@ rec {
         # untio11
         "${username}" = {
           isNormalUser = true;
+          hashedPasswordFile = config.sops.secrets."untio11_gathering_hub_password_hash".path;
           description = "Robin Kneepkens";
           extraGroups = [
             "networkmanager"

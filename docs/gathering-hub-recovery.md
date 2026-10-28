@@ -1,23 +1,23 @@
-# Gathering Hub — Backup & Disaster Recovery Draaiboek
+# Gathering Hub — Backup & Disaster Recovery Runbook
 
-Dit document beschrijft hoe de backups van `gathering-hub` zijn ingericht en hoe je (onderdelen van) de server herstelt bij dataverlies of een volledige SSD-crash.
+This document describes the backup architecture of `gathering-hub` and how to restore individual files, databases, or the entire server in the event of data loss or a full SSD crash.
 
 ---
 
-## 1. Overzicht van de Backup-architectuur
+## 1. Backup Architecture Overview
 
-Elke nacht draaien er op `gathering-hub` drie geautomatiseerde stappen achter elkaar:
+Every night, three automated systemd timers run sequentially on `gathering-hub`:
 
-| Tijdstip | Systemd Service | Wat doet het? | Locatie |
+| Time | Systemd Service | Description | Destination |
 | :--- | :--- | :--- | :--- |
-| **`01:15`** | `postgresqlBackup.service` | Maakt consistente SQL-dumps van de `hass` en `paperless` databases. | `/data/backups/postgresql/*.sql.gz` |
-| **`01:30`** | `paperless-exporter.service` | Exporteert alle Paperless-documenten, metadata en database-JSON. | `/data/backups/paperless/` |
-| **`02:00`** | `restic-backups-local.service` | Maakt een versleuteld, gededupliceerd snapshot van alle state, secrets, dumps en media, gevolgd door `forget --prune`. | `/data/backups/restic/` |
+| **`01:15`** | `postgresqlBackup.service` | Creates consistent SQL dumps of the `hass` and `paperless` databases. | `/data/backups/postgresql/*.sql.gz` |
+| **`01:30`** | `paperless-exporter.service` | Exports all Paperless documents, metadata, and database JSON. | `/data/backups/paperless/` |
+| **`02:00`** | `restic-backups-local.service` | Creates an encrypted, deduplicated snapshot of all service state, secrets, dumps, and media, followed by `forget --prune`. | `/data/backups/restic/` |
 
-### Waar vind je het `restic_password`?
-De Restic-repository op `/data/backups/restic` is versleuteld met `restic_password`. Je kunt dit wachtwoord op **twee plekken** terugvinden als `gathering-hub` zelf niet beschikbaar is:
-1. **In je externe password manager.**
-2. **Op `Yukomo` (MacBook) via `sops`:**
+### Where to find `restic_password`
+The Restic repository at `/data/backups/restic` is encrypted with `restic_password`. If `gathering-hub` itself is unavailable, you can retrieve this password in **two places**:
+1. **Your external password manager.**
+2. **On `Yukomo` (MacBook) via `sops`:**
    ```bash
    cd ~/.config/home-manager
    sops -d secrets/api-keys.yaml | grep restic_password
@@ -25,69 +25,69 @@ De Restic-repository op `/data/backups/restic` is versleuteld met `restic_passwo
 
 ---
 
-## 2. Dagelijks gebruik & Losse bestanden herstellen (Scenario A)
+## 2. Day-to-Day Usage & Restoring Individual Files (Scenario A)
 
-Op een draaiende `gathering-hub` heeft NixOS een wrapper-commando **`restic-local`** aangemaakt. Dit commando vult automatisch het repository-pad (`/data/backups/restic`) én het wachtwoord (`/run/secrets/restic_password`) in.
+On a running `gathering-hub`, NixOS provides the **`restic-local`** wrapper command. This wrapper automatically configures the repository path (`/data/backups/restic`) and password file (`/run/secrets/restic_password`).
 
-### Snapshots en inhoud bekijken
+### Inspecting Snapshots and Contents
 ```bash
-# Toon alle aanwezige snapshots:
+# List all available snapshots:
 sudo restic-local snapshots
 
-# Zoek een specifiek bestand door alle snapshots heen:
-sudo restic-local find "naam-van-bestand"
+# Search for a specific file across all snapshots:
+sudo restic-local find "filename"
 
-# Bekijk de bestanden in het nieuwste snapshot op een specifiek pad:
+# List files inside the latest snapshot under a specific path:
 sudo restic-local ls latest /var/lib/hass
 ```
 
-### Één specifieke map of bestand terugzetten
+### Restoring a Specific Directory or File
 > [!TIP]
-> Restore bij twijfel eerst naar een tijdelijke map (`/tmp/restore`) zodat je bestanden rustig kunt bekijken of vergelijken voordat je live data overschrijft.
+> When in doubt, restore to a temporary directory (`/tmp/restore`) first so you can inspect or diff files before overwriting live service data.
 
 ```bash
-# Voorbeeld: herstel /var/lib/zigbee2mqtt uit het laatste snapshot naar /tmp/restore
+# Example: restore /var/lib/zigbee2mqtt from the latest snapshot into /tmp/restore
 sudo restic-local restore latest \
   --include /var/lib/zigbee2mqtt \
   --target /tmp/restore
 ```
-Wil je een bestand of map **direct op de originele plek** terugzetten? Gebruik dan `--target /` (stop bij een service eerst even de bijbehorende systemd-unit):
+To restore a file or directory **directly to its original location**, use `--target /` (stop the corresponding systemd service first):
 ```bash
 sudo systemctl stop zigbee2mqtt.service
 sudo restic-local restore latest --include /var/lib/zigbee2mqtt --target /
 sudo systemctl start zigbee2mqtt.service
 ```
 
-### Interactief door al je snapshots bladeren (`restic mount`)
-Je kunt de hele Restic-repository tijdelijk als een leesbare map mounten:
+### Browsing Snapshots Interactively (`restic mount`)
+You can mount the entire Restic repository as a read-only FUSE filesystem:
 ```bash
 sudo mkdir -p /mnt/restic
 sudo restic-local mount /mnt/restic
 ```
-In een tweede terminal kun je nu gewoon met `cd /mnt/restic/snapshots/latest/...` door al je backups wandelen en bestanden kopiëren. Sluit af met `Ctrl+C` in het eerste venster.
+In a second terminal, browse `/mnt/restic/snapshots/latest/...` and copy any files you need. Press `Ctrl+C` in the first terminal to unmount.
 
 ---
 
-## 3. Volledige Disaster Recovery bij een SSD-crash (Scenario B)
+## 3. Full Bare-Metal Disaster Recovery After an SSD Crash (Scenario B)
 
-Stel dat de systeemschijf (SSD `/`) van `gathering-hub` volledig kapotgaat, terwijl je `/data` HDD (of een kopie van de Restic-repo) nog intact is.
+Suppose the root SSD (`/`) of `gathering-hub` fails completely while the `/data` HDD (or an external copy of the Restic repository) remains intact.
 
-> [!IMPORTANT] De Gouden Volgorde voor NixOS + `sops-nix`
-> Zet bij een herinstallatie **eerst `/etc/ssh/ssh_host_*` en `/var/lib/nixos` terug uit Restic vóórdat je de volledige NixOS-flake activeert**.
-> 1. `/etc/ssh/ssh_host_ed25519_key` zorgt ervoor dat `sops-nix` direct je `secrets/api-keys.yaml` kan ontsleutelen.
-> 2. `/var/lib/nixos` zorgt ervoor dat NixOS aan alle systeemgebruikers (`hass`, `paperless`, `zigbee2mqtt`, `postgres`) exact dezelfde UID/GID-nummers toewijst als vóór de crash, zodat alle bestandsrechten direct kloppen.
+> [!IMPORTANT] The Golden Ordering Rule for NixOS + `sops-nix`
+> On a fresh OS installation, **restore `/etc/ssh/ssh_host_*` and `/var/lib/nixos` from Restic BEFORE activating the full NixOS flake**.
+> 1. `/etc/ssh/ssh_host_ed25519_key` allows `sops-nix` to immediately decrypt `secrets/api-keys.yaml` without needing to re-key `.sops.yaml`.
+> 2. `/var/lib/nixos` preserves the persistent NixOS UID/GID map so all system users (`hass`, `paperless`, `zigbee2mqtt`, `postgres`) receive the exact same numeric UIDs/GIDs as before the crash.
 
-### Stap 1: Basis NixOS installeren & `/data` mounten
-1. Installeer een minimale NixOS op de nieuwe SSD (of start op vanaf de NixOS Live-USB en mount de nieuwe root-partitie en `/data`).
-2. Pas in [`profiles/nixos-native.nix`](../profiles/nixos-native.nix) onder `fileSystems."/"` en `fileSystems."/boot"` (en `swapDevices`) de UUID's aan naar de UUID's van de nieuwe SSD-partities (te vinden met `lsblk -f`).
-3. Zorg dat de `/data` schijf gemount is op `/data`:
+### Step 1: Install Base NixOS & Mount `/data`
+1. Install a minimal NixOS system on the replacement SSD (or boot from a NixOS Live USB and mount the new root partition and `/data`).
+2. Update the partition UUIDs under `fileSystems."/"` and `fileSystems."/boot"` (and `swapDevices`) in [`profiles/nixos-native.nix`](../profiles/nixos-native.nix) to match the new SSD partitions (check via `lsblk -f`).
+3. Ensure the `/data` drive is mounted at `/data`:
    ```bash
    sudo mkdir -p /data
    sudo mount /dev/disk/by-uuid/776808a4-707d-40fd-baae-895785d0bd3a /data
    ```
 
-### Stap 2: SSH Host Keys, `/var/lib/nixos` en `/home/untio11` herstellen
-Omdat `restic-local` en `sops-nix` op een vers systeem nog niet actief zijn, roepen we `restic` hier eenmalig direct aan via `nix-shell` en typen we het **`restic_password`** handmatig in:
+### Step 2: Restore SSH Host Keys, `/var/lib/nixos`, and `/home/untio11`
+Because `restic-local` and `sops-nix` are not active yet on a fresh system, run `restic` directly via `nix-shell` and enter **`restic_password`** when prompted:
 
 ```bash
 sudo nix-shell -p restic --run "restic -r /data/backups/restic restore latest \
@@ -97,15 +97,15 @@ sudo nix-shell -p restic --run "restic -r /data/backups/restic restore latest \
   --target /"
 ```
 
-Controleer of de rechten van de SSH host-key goed staan (`0600 root:root`):
+Verify that the SSH host key permissions are strict (`0600 root:root`):
 ```bash
 sudo chown root:root /etc/ssh/ssh_host_*
 sudo chmod 600 /etc/ssh/ssh_host_*_key
 sudo chmod 644 /etc/ssh/ssh_host_*.pub
 ```
 
-### Stap 3: Service State (`/var/lib/...`) herstellen
-Herstel nu de state-mappen van alle services (nog vóór of terwijl de services gestopt zijn):
+### Step 3: Restore Service State (`/var/lib/...`)
+Restore the state directories for all stateful services before starting them:
 
 ```bash
 sudo nix-shell -p restic --run "restic -r /data/backups/restic restore latest \
@@ -118,50 +118,50 @@ sudo nix-shell -p restic --run "restic -r /data/backups/restic restore latest \
   --target /"
 ```
 
-*(Mocht ook de `/data` schijf zelf vervangen zijn en restore je vanaf een externe kopie van de Restic-repo, voeg dan ook `--include /data` toe aan bovenstaand commando).*
+*(If the `/data` drive itself was also replaced and you are restoring from an external copy of the Restic repository, add `--include /data` to the command above).*
 
-### Stap 4: De NixOS Flake uitrollen!
-Omdat `/etc/ssh/ssh_host_ed25519_key`, `/var/lib/nixos` en `/home/untio11/.config/home-manager` nu weer op hun plek staan, kun je de volledige configuratie in één keer uitrollen:
+### Step 4: Deploy the NixOS Flake
+With `/etc/ssh/ssh_host_ed25519_key`, `/var/lib/nixos`, and `/home/untio11/.config/home-manager` restored, deploy the complete server configuration in one step:
 
 ```bash
 cd /home/untio11/.config/home-manager
 sudo nixos-rebuild switch --flake .#gathering-hub
 ```
-`sops-nix` ontsleutelt nu automatisch alle secrets, zet je `untio11` wachtwoord-hash terug in `/etc/shadow`, en start alle services en `restic-local` weer op!
+`sops-nix` will now automatically decrypt all secrets, restore the `untio11` password hash into `/etc/shadow`, and start all services along with the `restic-local` wrapper.
 
 ---
 
-## 4. PostgreSQL Databases herstellen (`hass` & `paperless`)
+## 4. Restoring PostgreSQL Databases (`hass` & `paperless`)
 
-Na een volledige herinstallatie van de SSD heeft PostgreSQL een lege database-map aangemaakt in `/var/lib/postgresql`. Je zet de laatst gebackupte SQL-dumps uit `/data/backups/postgresql` zo terug:
+After a fresh SSD installation, PostgreSQL initializes an empty database cluster in `/var/lib/postgresql`. Restore the latest SQL dumps from `/data/backups/postgresql` as follows:
 
-### 1. Stop Home Assistant en Paperless tijdelijk
-Zodat ze geen open verbindingen met de database vasthouden:
+### 1. Temporarily stop Home Assistant and Paperless
+Ensure no services hold active connections to the databases:
 ```bash
 sudo systemctl stop home-assistant.service paperless-scheduler.service paperless-consumer.service paperless-task-queue.service paperless-web.service
 ```
 
-### 2. Herstel de `hass` en `paperless` databases
+### 2. Restore the `hass` and `paperless` databases
 ```bash
-# Zoek eerst de nieuwste dumps op in /data/backups/postgresql:
+# Inspect the available dumps in /data/backups/postgresql:
 ls -lh /data/backups/postgresql/
 
-# Herstel de Home Assistant database (vervang eventueel de bestandsnaam door de juiste dump):
+# Restore the Home Assistant database:
 sudo -u postgres psql -c "DROP DATABASE IF EXISTS hass; CREATE DATABASE hass OWNER hass;"
 sudo -u postgres sh -c "zcat /data/backups/postgresql/hass.sql.gz | psql hass"
 
-# Herstel de Paperless database:
+# Restore the Paperless database:
 sudo -u postgres psql -c "DROP DATABASE IF EXISTS paperless; CREATE DATABASE paperless OWNER paperless;"
 sudo -u postgres sh -c "zcat /data/backups/postgresql/paperless.sql.gz | psql paperless"
 ```
 
-### 3. Start de services weer op
+### 3. Start the services again
 ```bash
 sudo systemctl start home-assistant.service paperless-scheduler.service paperless-consumer.service paperless-task-queue.service paperless-web.service
 ```
 
-> [!NOTE] Alternatieve Paperless Restore (via `document_importer`)
-> Mocht er ooit iets mis zijn met de PostgreSQL-dump van Paperless, dan heb je in `/data/backups/paperless` óók nog de dagelijkse export van Paperless zelf staan. Die kun je op een lege Paperless-database altijd volledig importeren met:
+> [!NOTE] Alternative Paperless Restore (via `document_importer`)
+> If there is ever an issue with the Paperless PostgreSQL dump, `/data/backups/paperless` also contains the daily native Paperless export. You can import it into a fresh Paperless database at any time using:
 > ```bash
 > sudo /var/lib/paperless/paperless-manage document_importer /data/backups/paperless
 > ```

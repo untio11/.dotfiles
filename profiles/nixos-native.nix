@@ -215,10 +215,12 @@ rec {
             # Locally resolve to Gathering Hub for reverse proxy handling.
             rewrites = [
               {
+                enabled = true;
                 domain = "*.furahiya.nexus";
                 answer = "192.168.0.3";
               }
               {
+                enabled = true;
                 domain = "furahiya.nexus";
                 answer = "192.168.0.3";
               }

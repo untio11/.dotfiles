@@ -212,20 +212,14 @@ rec {
             filtering_enabled = true;
             parental_enabled = false;
             safe_search.enabled = false;
-            # Locally resolve to Gathering Hub for reverse proxy handling.
-            rewrites = [
-              {
-                enabled = true;
-                domain = "*.furahiya.nexus";
-                answer = "192.168.0.3";
-              }
-              {
-                enabled = true;
-                domain = "furahiya.nexus";
-                answer = "192.168.0.3";
-              }
-            ];
+            rewrites = [ ];
           };
+          # Herschrijf furahiya.nexus + *.furahiya.nexus naar 192.168.0.3,
+          # maar laat gate.furahiya.nexus met rust (zodat die het echte WAN-IP houdt):
+          user_rules = [
+            "||furahiya.nexus^$dnsrewrite=192.168.0.3"
+            "@@||gate.furahiya.nexus^$dnsrewrite"
+          ];
           filters = [
             {
               enabled = true;

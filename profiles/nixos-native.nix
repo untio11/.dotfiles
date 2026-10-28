@@ -75,7 +75,25 @@ rec {
           homeassistant = {
             name = "Astera";
             unit_system = "metric";
+            latitude = "!secret home_latitude";
+            longitude = "!secret home_longitude";
+            radius = "20";
+            elevation = "3";
           };
+          zone = [
+            {
+              name = "Ouders";
+              latitude = "!secret parents_latitude";
+              longitude = "!secret parents_longitude";
+              radius = 50;
+            }
+            {
+              name = "Werk";
+              latitude = "!secret skunk_latitude";
+              longitude = "!secret skunk_longitude";
+              radius = 50;
+            }
+          ];
           default_config = { };
           # Use postgresql instead of default sqlite.
           recorder.db_url = "postgresql://@/hass";
@@ -175,6 +193,25 @@ rec {
         };
 
         secrets."mijnhost_ddns_password" = { };
+
+        secrets."home_latitude" = { };
+        secrets."home_longitude" = { };
+        secrets."parents_latitude" = { };
+        secrets."parents_longitude" = { };
+        secrets."skunk_latitude" = { };
+        secrets."skunk_longitude" = { };
+        templates."hass-secrets.yaml" = {
+          owner = "hass";
+          path = "/var/lib/hass/secrets.yaml";
+          content = ''
+            home_latitude: ${config.sops.placeholder.home_latitude}
+            home_longitude: ${config.sops.placeholder.home_longitude}
+            parents_latitude: ${config.sops.placeholder.parents_latitude}
+            parents_longitude: ${config.sops.placeholder.parents_longitude}
+            skunk_latitude: ${config.sops.placeholder.skunk_latitude}
+            skunk_longitude: ${config.sops.placeholder.skunk_longitude}
+          '';
+        };
       };
       security.acme = {
         acceptTerms = true;

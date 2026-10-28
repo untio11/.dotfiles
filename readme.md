@@ -52,3 +52,7 @@ point to the home manager flake:
 - Commit the changes.
 - Update the flake in `/etc/nixos`.
 - `sudo nixos-rebuild switch`
+
+## Documentation
+
+- [Gathering Hub — Backup & Disaster Recovery Draaiboek](./docs/gathering-hub-recovery.md)

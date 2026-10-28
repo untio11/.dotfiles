@@ -65,12 +65,12 @@ sudo nixos-rebuild switch --flake .#${HOSTNAME}
 
 ## Secrets Management (`sops-nix`)
 
-Secrets are encrypted in [`secrets/api-keys.yaml`](./secrets/api-keys.yaml) using `sops` and Age keys configured in [`.sops.yaml`](./.sops.yaml).
+Secrets are encrypted in [`secrets/secrets.yaml`](./secrets/secrets.yaml) using `sops` and Age keys configured in [`.sops.yaml`](./.sops.yaml).
 
 Both `Yukomo` (via `~/.config/sops/age/keys.txt`) and `gathering-hub` (via `/etc/ssh/ssh_host_ed25519_key` and `SOPS_AGE_KEY_CMD`) can decrypt and edit secrets directly:
 
 ```shell
-sops secrets/api-keys.yaml
+sops secrets/secrets.yaml
 ```
 
 After editing secrets, apply the updated configuration on `gathering-hub` with `sudo nixos-rebuild switch --flake .#gathering-hub` so `sops-nix` updates `/run/secrets/*` and `/run/secrets-rendered/*`.

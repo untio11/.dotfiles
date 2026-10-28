@@ -20,7 +20,7 @@ The Restic repository at `/data/backups/restic` is encrypted with `restic_passwo
 2. **On `Yukomo` (MacBook) via `sops`:**
    ```bash
    cd ~/.config/home-manager
-   sops -d secrets/api-keys.yaml | grep restic_password
+   sops -d secrets/secrets.yaml | grep restic_password
    ```
 
 ---
@@ -74,7 +74,7 @@ Suppose the root SSD (`/`) of `gathering-hub` fails completely while the `/data`
 
 > [!IMPORTANT] The Golden Ordering Rule for NixOS + `sops-nix`
 > On a fresh OS installation, **restore `/etc/ssh/ssh_host_*` and `/var/lib/nixos` from Restic BEFORE activating the full NixOS flake**.
-> 1. `/etc/ssh/ssh_host_ed25519_key` allows `sops-nix` to immediately decrypt `secrets/api-keys.yaml` without needing to re-key `.sops.yaml`.
+> 1. `/etc/ssh/ssh_host_ed25519_key` allows `sops-nix` to immediately decrypt `secrets/secrets.yaml` without needing to re-key `.sops.yaml`.
 > 2. `/var/lib/nixos` preserves the persistent NixOS UID/GID map so all system users (`hass`, `paperless`, `zigbee2mqtt`, `postgres`) receive the exact same numeric UIDs/GIDs as before the crash.
 
 ### Step 1: Install Base NixOS & Mount `/data`

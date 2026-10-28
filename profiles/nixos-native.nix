@@ -216,11 +216,11 @@ rec {
             rewrites = [
               {
                 domain = "*.furahiya.nexus";
-                answer = "192.128.0.3";
+                answer = "192.168.0.3";
               }
               {
                 domain = "furahiya.nexus";
-                answer = "192.128.0.3";
+                answer = "192.168.0.3";
               }
             ];
           };
@@ -241,6 +241,28 @@ rec {
               url = "https://big.oisd.nl";
             }
           ];
+          clients = {
+            persistent = [
+              {
+                name = "Yukomo (WireGuard)";
+                ids = [ "192.168.3.2" ];
+                use_global_settings = true;
+                use_global_blocked_services = true;
+              }
+              {
+                name = "FlowTellie (WireGuard)";
+                ids = [ "192.168.3.3" ];
+                use_global_settings = true;
+                use_global_blocked_services = true;
+              }
+              {
+                name = "PC-Robin (WireGuard)";
+                ids = [ "192.168.3.4" ];
+                use_global_settings = true;
+                use_global_blocked_services = true;
+              }
+            ];
+          };
         };
       };
 

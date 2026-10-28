@@ -218,6 +218,7 @@ rec {
         };
         secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
         secrets."restic_password" = { };
+        secrets."gcp_restic_credentials_json" = { };
       };
       security.acme = {
         acceptTerms = true;
@@ -435,6 +436,18 @@ rec {
         # the config on rebuild.
         overrideDevices = false;
         overrideFolders = false;
+        # Synchronize pulumi filesystem state between gathering-hub and yukomo.
+        settings = {
+          devices."MBP-Robin" = {
+            id = "MABD5SD-PZT6Z72-U45H24C-DMMSBDS-EQ3A7FH-TYAHQ5M-UVMAQ4R-BUTC3QV";
+          };
+          folders."pulumi-state" = {
+            id = "pulumi-state";
+            label = "Pulumi State (.dotfiles)";
+            path = "${base-home-dir}/${username}/.config/home-manager/pulumi/state";
+            devices = [ "MBP-Robin" ];
+          };
+        };
       };
 
       # Ensure the `/data/backups` directory exists.
@@ -625,58 +638,76 @@ rec {
         { device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355"; } # SSD
       ];
 
-      services.restic.backups.local = {
-        initialize = true; # Maakt /data/backups/restic automatisch aan bij de eerste keer
-        repository = "${backup-root-dir}/restic";
-        passwordFile = config.sops.secrets."restic_password".path;
+      services.restic.backups =
+        let
+          commonRestic = {
+            initialize = true;
+            passwordFile = config.sops.secrets."restic_password".path;
 
-        paths = [
-          # Machine-specific keys necessary to access sops.
-          "/etc/ssh/ssh_host_ed25519_key"
-          "/etc/ssh/ssh_host_ed25519_key.pub"
-          "/etc/ssh/ssh_host_rsa_key"
-          "/etc/ssh/ssh_host_rsa_key.pub"
+            paths = [
+              # Machine-specific keys necessary to access sops.
+              "/etc/ssh/ssh_host_ed25519_key"
+              "/etc/ssh/ssh_host_ed25519_key.pub"
+              "/etc/ssh/ssh_host_rsa_key"
+              "/etc/ssh/ssh_host_rsa_key.pub"
 
-          "/var/lib/nixos"
-          "/var/lib/hass"
-          "/var/lib/zigbee2mqtt"
-          "/var/lib/paperless"
-          "/var/lib/acme"
-          "/var/lib/mosquitto"
-          "/var/lib/private/AdGuardHome"
+              "/var/lib/nixos"
+              "/var/lib/hass"
+              "/var/lib/zigbee2mqtt"
+              "/var/lib/paperless"
+              "/var/lib/acme"
+              "/var/lib/mosquitto"
+              "/var/lib/private/AdGuardHome"
 
-          "${backup-root-dir}/postgresql"
-          "${backup-root-dir}/paperless"
-          "/data/paperless/consume"
-          syncthing-root-dir
+              "${backup-root-dir}/postgresql"
+              "${backup-root-dir}/paperless"
+              "/data/paperless/consume"
+              syncthing-root-dir
 
-          # User home data
-          "${base-home-dir}/${username}"
-        ];
+              # User home data
+              "${base-home-dir}/${username}"
+            ];
 
-        exclude = [
-          "${base-home-dir}/${username}/.cache"
-          "${base-home-dir}/${username}/.config/syncthing/index*"
-          "/var/lib/hass/.cache"
-          "/var/lib/hass/*.log*"
-          "/var/lib/hass/backups" # Ignore the encrypted hass backups, as restic backs up all those files too.
-          "/var/lib/zigbee2mqtt/log"
-          "/var/lib/paperless/log"
-          "/var/lib/private/AdGuardHome/data/filters"
-        ];
+            exclude = [
+              "${base-home-dir}/${username}/.cache"
+              "${base-home-dir}/${username}/.config/syncthing/index*"
+              "/var/lib/hass/.cache"
+              "/var/lib/hass/*.log*"
+              "/var/lib/hass/backups" # Ignore the encrypted hass backups, as restic backs up all those files too.
+              "/var/lib/zigbee2mqtt/log"
+              "/var/lib/paperless/log"
+              "/var/lib/private/AdGuardHome/data/filters"
+            ];
 
-        timerConfig = {
-          OnCalendar = "02:00";
-          Persistent = true;
+            pruneOpts = [
+              "--keep-daily 7"
+              "--keep-weekly 5"
+              "--keep-monthly 12"
+              "--keep-yearly 3"
+            ];
+          };
+        in
+        {
+          local = commonRestic // {
+            repository = "${backup-root-dir}/restic";
+            timerConfig = {
+              OnCalendar = "02:00";
+              Persistent = true;
+            };
+          };
+
+          gcs = commonRestic // {
+            repository = "gs:gathering-hub-restic-8acc3d4:/";
+            timerConfig = {
+              OnCalendar = "03:00";
+              Persistent = true;
+            };
+            environmentFile = "${pkgs.writeText "restic-gcs.env" ''
+              GOOGLE_PROJECT_ID=robotic-circle-456517-e7
+              GOOGLE_APPLICATION_CREDENTIALS=${config.sops.secrets."gcp_restic_credentials_json".path}
+            ''}";
+          };
         };
-
-        pruneOpts = [
-          "--keep-daily 7"
-          "--keep-weekly 5"
-          "--keep-monthly 12"
-          "--keep-yearly 3"
-        ];
-      };
 
       system.stateVersion = "23.05";
     };

@@ -1,0 +1,13 @@
+{
+  "name": "gathering-hub-infra",
+  "private": true,
+  "main": "index.ts",
+  "dependencies": {
+    "@pulumi/gcp": "^8.0.0",
+    "@pulumi/pulumi": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}

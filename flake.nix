@@ -129,5 +129,36 @@
           description = "Basic cargo/nix rust project, ready to go.";
         };
       };
+
+      # DevShell for managing GCP infrastructure via Pulumi (in ./pulumi)
+      devShells =
+        let
+          mkPulumiShell =
+            pkgs:
+            pkgs.mkShell {
+              name = "dotfiles-pulumi";
+              packages = with pkgs; [
+                nodejs_24
+                pulumi
+                pulumiPackages.pulumi-nodejs
+                (google-cloud-sdk.withExtraComponents [
+                  google-cloud-sdk.components.beta
+                ])
+                sops
+                jq
+              ];
+              env = {
+                PROJECT_ID = "robotic-circle-456517-e7";
+                GOOGLE_PROJECT = "robotic-circle-456517-e7";
+                CLOUDSDK_CORE_PROJECT = "robotic-circle-456517-e7";
+                PULUMI_BACKEND_URL = "file://./state";
+                PULUMI_DIY_BACKEND_DISABLE_CHECKPOINT_BACKUPS = "true";
+              };
+            };
+        in
+        {
+          ${macos-skunk.system}.default = mkPulumiShell macos-skunk.pkgs;
+          ${nixos-native.system}.default = mkPulumiShell nixos-native.pkgs;
+        };
     };
 }

@@ -1,0 +1,6 @@
+name: gathering-hub-infra
+description: GCP infrastructure (Astera Cloud) for gathering-hub off-site backups
+runtime:
+  name: nodejs
+  options:
+    typescript: true

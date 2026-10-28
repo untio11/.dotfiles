@@ -6,16 +6,17 @@ This document describes the backup architecture of `gathering-hub` and how to re
 
 ## 1. Backup Architecture Overview
 
-Every night, three automated systemd timers run sequentially on `gathering-hub`:
+Every night, four automated systemd timers run sequentially on `gathering-hub`:
 
 | Time | Systemd Service | Description | Destination |
 | :--- | :--- | :--- | :--- |
 | **`01:15`** | `postgresqlBackup.service` | Creates consistent SQL dumps of the `hass` and `paperless` databases. | `/data/backups/postgresql/*.sql.gz` |
 | **`01:30`** | `paperless-exporter.service` | Exports all Paperless documents, metadata, and database JSON. | `/data/backups/paperless/` |
-| **`02:00`** | `restic-backups-local.service` | Creates an encrypted, deduplicated snapshot of all service state, secrets, dumps, and media, followed by `forget --prune`. | `/data/backups/restic/` |
+| **`02:00`** | `restic-backups-local.service` | Creates an encrypted, deduplicated local snapshot of all service state, secrets, dumps, and media, followed by `forget --prune`. | `/data/backups/restic/` |
+| **`03:00`** | `restic-backups-gcs.service` | Creates an encrypted, deduplicated off-site snapshot in Google Cloud Storage (Astera Cloud, `europe-west4`), followed by `forget --prune`. | `gs:gathering-hub-restic-8acc3d4:/` |
 
 ### Where to find `restic_password`
-The Restic repository at `/data/backups/restic` is encrypted with `restic_password`. If `gathering-hub` itself is unavailable, you can retrieve this password in **two places**:
+Both Restic repositories (`/data/backups/restic` and `gs:gathering-hub-restic-8acc3d4:/`) are encrypted with `restic_password`. If `gathering-hub` itself is unavailable, you can retrieve this password in **two places**:
 1. **Your external password manager.**
 2. **On `Yukomo` (MacBook) via `sops`:**
    ```bash
@@ -27,7 +28,7 @@ The Restic repository at `/data/backups/restic` is encrypted with `restic_passwo
 
 ## 2. Day-to-Day Usage & Restoring Individual Files (Scenario A)
 
-On a running `gathering-hub`, NixOS provides the **`restic-local`** wrapper command. This wrapper automatically configures the repository path (`/data/backups/restic`) and password file (`/run/secrets/restic_password`).
+On a running `gathering-hub`, NixOS provides the **`restic-local`** and **`restic-gcs`** wrapper commands. These wrappers automatically configure the repository path, password file (`/run/secrets/restic_password`), and GCP credentials (`/run/secrets/gcp_restic_credentials_json`).
 
 ### Inspecting Snapshots and Contents
 ```bash

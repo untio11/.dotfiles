@@ -107,6 +107,7 @@ rec {
       casks = [
         "1password"
         "1password-cli"
+        "bitwarden"
         {
           name = "alacritty";
           args.no_quarantine = true;

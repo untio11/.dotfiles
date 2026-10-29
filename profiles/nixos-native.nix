@@ -52,6 +52,7 @@ rec {
         mosquitto = 1883;
         zigbee2mqtt = 8080;
         adguard = "3000";
+        vaultwarden = 8222;
       };
     in
     {
@@ -219,6 +220,12 @@ rec {
         secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
         secrets."restic_password" = { };
         secrets."gcp_restic_credentials_json" = { };
+        secrets."vaultwarden_admin_token" = { };
+        templates."vaultwarden.env" = {
+          content = ''
+            ADMIN_TOKEN="${config.sops.placeholder.vaultwarden_admin_token}"
+          '';
+        };
       };
       security.acme = {
         acceptTerms = true;
@@ -367,9 +374,13 @@ rec {
             "adguard.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${ports.adguard}";
             };
+            "vaultwarden.${domain}" = mkVhost {
+              proxyPass = "http://127.0.0.1:${toString ports.vaultwarden}";
+            };
           };
       };
-      # PostgreSQL database for Home Assistant and Paperless
+      # PostgreSQL database for Home Assistant, Paperless, and Vaultwarden
+      # (Note: the `vaultwarden` database & user are automatically provisioned via `services.vaultwarden.configurePostgres = true`)
       services.postgresql = {
         enable = true;
         package = pkgs.postgresql_18;
@@ -392,6 +403,21 @@ rec {
         # Default schedule: daily at 01:15 (`startAt` property.)
         enable = true;
         location = "${backup-root-dir}/postgresql";
+      };
+
+      services.vaultwarden = {
+        enable = true;
+        dbBackend = "postgresql";
+        configurePostgres = true;
+        domain = "vaultwarden.furahiya.nexus";
+        environmentFile = config.sops.templates."vaultwarden.env".path;
+        config = {
+          ROCKET_ADDRESS = "127.0.0.1";
+          ROCKET_PORT = ports.vaultwarden;
+          SIGNUPS_ALLOWED = false;
+          INVITATIONS_ALLOWED = true;
+          ENABLE_WEBSOCKET = true;
+        };
       };
 
       services.paperless = {
@@ -660,6 +686,7 @@ rec {
               "/var/lib/hass"
               "/var/lib/zigbee2mqtt"
               "/var/lib/paperless"
+              "/var/lib/bitwarden_rs"
               "/var/lib/acme"
               "/var/lib/mosquitto"
               "/var/lib/private/AdGuardHome"

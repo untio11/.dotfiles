@@ -74,7 +74,6 @@ rec {
           "cert_expiry" # Monitor furahiya.nexus Let's Encrypt certificate
           "dnsip" # Track public ip via `gate.furahiya.nexus`
           "buienradar"
-          "command_line" # For Restic backup status sensors
         ];
         config = {
           homeassistant = {
@@ -113,40 +112,6 @@ rec {
               "::1"
             ];
           };
-          command_line = [
-            {
-              sensor = {
-                name = "Restic Local Backup";
-                unique_id = "restic_local_backup_status";
-                icon = "mdi:harddisk";
-                command = "cat /var/lib/hass/restic-status-local.json 2>/dev/null || echo '{\"status\":\"pending\",\"snapshot_count\":0}'";
-                value_template = "{{ value_json.status }}";
-                json_attributes = [
-                  "last_run"
-                  "snapshot_count"
-                  "latest_snapshot_id"
-                  "latest_snapshot_time"
-                ];
-                scan_interval = 300;
-              };
-            }
-            {
-              sensor = {
-                name = "Restic GCS Backup";
-                unique_id = "restic_gcs_backup_status";
-                icon = "mdi:cloud-upload";
-                command = "cat /var/lib/hass/restic-status-gcs.json 2>/dev/null || echo '{\"status\":\"pending\",\"snapshot_count\":0}'";
-                value_template = "{{ value_json.status }}";
-                json_attributes = [
-                  "last_run"
-                  "snapshot_count"
-                  "latest_snapshot_id"
-                  "latest_snapshot_time"
-                ];
-                scan_interval = 300;
-              };
-            }
-          ];
         };
         extraPackages =
           python3Packages: with python3Packages; [
@@ -675,22 +640,10 @@ rec {
 
       services.restic.backups =
         let
-          mkStatusHook = name: ''
-            SNAPS="$(${pkgs.restic}/bin/restic snapshots --json 2>/dev/null || echo '[]')"
-            ${pkgs.jq}/bin/jq -n \
-              --arg status "''${SERVICE_RESULT:-unknown}" \
-              --arg last_run "$(date -Iseconds)" \
-              --argjson snaps "$SNAPS" \
-              '{
-                status: $status,
-                last_run: $last_run,
-                snapshot_count: ($snaps | length),
-                latest_snapshot_id: ($snaps | last | .short_id // "none"),
-                latest_snapshot_time: ($snaps | last | .time // "none")
-              }' > /var/lib/hass/restic-status-${name}.json.tmp
-            chmod 644 /var/lib/hass/restic-status-${name}.json.tmp
-            mv /var/lib/hass/restic-status-${name}.json.tmp /var/lib/hass/restic-status-${name}.json
-          '';
+          resticSensors = import ../hass/sensors/restic.nix {
+            inherit pkgs;
+            mosquittoPort = ports.mosquitto;
+          };
 
           commonRestic = {
             initialize = true;
@@ -740,29 +693,39 @@ rec {
           };
         in
         {
-          local = commonRestic // {
-            repository = "${backup-root-dir}/restic";
-            timerConfig = {
-              OnCalendar = "02:00";
-              Persistent = true;
+          local =
+            commonRestic
+            // (resticSensors.mkHooks {
+              name = "local";
+              label = "Local";
+              repo = "${backup-root-dir}/restic";
+              icon = "mdi:harddisk";
+            })
+            // {
+              timerConfig = {
+                OnCalendar = "02:00";
+                Persistent = true;
+              };
             };
-            # Post status update to Home Assistant when backup finishes.
-            backupCleanupCommand = mkStatusHook "local";
-          };
 
-          gcs = commonRestic // {
-            repository = "gs:gathering-hub-restic-8acc3d4:/";
-            timerConfig = {
-              OnCalendar = "03:00";
-              Persistent = true;
+          gcs =
+            commonRestic
+            // (resticSensors.mkHooks {
+              name = "gcs";
+              label = "GCS";
+              repo = "gs:gathering-hub-restic-8acc3d4:/";
+              icon = "mdi:cloud-upload";
+            })
+            // {
+              timerConfig = {
+                OnCalendar = "03:00";
+                Persistent = true;
+              };
+              environmentFile = "${pkgs.writeText "restic-gcs.env" ''
+                GOOGLE_PROJECT_ID=robotic-circle-456517-e7
+                GOOGLE_APPLICATION_CREDENTIALS=${config.sops.secrets."gcp_restic_credentials_json".path}
+              ''}";
             };
-            environmentFile = "${pkgs.writeText "restic-gcs.env" ''
-              GOOGLE_PROJECT_ID=robotic-circle-456517-e7
-              GOOGLE_APPLICATION_CREDENTIALS=${config.sops.secrets."gcp_restic_credentials_json".path}
-            ''}";
-            # Post status update to Home Assistant when backup finishes.
-            backupCleanupCommand = mkStatusHook "gcs";
-          };
         };
 
       system.stateVersion = "23.05";

@@ -220,10 +220,10 @@ rec {
         secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
         secrets."restic_password" = { };
         secrets."gcp_restic_credentials_json" = { };
-        secrets."vaultwarden_admin_token" = { };
+        secrets."vaultwarden_admin_token_hash" = { };
         templates."vaultwarden.env" = {
           content = ''
-            ADMIN_TOKEN="${config.sops.placeholder.vaultwarden_admin_token}"
+            ADMIN_TOKEN='${config.sops.placeholder.vaultwarden_admin_token_hash}'
           '';
         };
       };

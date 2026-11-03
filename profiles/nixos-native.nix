@@ -76,6 +76,7 @@ rec {
           "dnsip" # Track public ip via `gate.furahiya.nexus`
           "buienradar"
         ];
+        customComponents = [ (import ../hass/custom_components/local-tuya.nix { inherit pkgs; }) ];
         config = {
           homeassistant = {
             name = "Astera";
@@ -122,6 +123,7 @@ rec {
             brother # Printer
             pyipp
             aioshelly
+            ephem # Season tracking
           ];
       };
 
@@ -583,6 +585,8 @@ rec {
           ];
           allowedUDPPorts = [
             53 # AdGuard Home DNS
+            6666 # Tuya local discovery (unencrypted)
+            6667 # Tuya local discovery (encrypted)
           ];
         };
       };

@@ -101,6 +101,10 @@ rec {
             }
           ];
           default_config = { };
+          # Editable automations via the Home Assistant UI (/var/lib/hass/automations.yaml).
+          automation = "!include automations.yaml";
+          # Declarative automations managed via Nix.
+          "automation nix" = import ../hass/automations/control.nix;
           # Use postgresql instead of default sqlite.
           recorder.db_url = "postgresql://@/hass";
           http = {
@@ -481,6 +485,7 @@ rec {
       # Ensure the `/data/backups` directory exists.
       systemd.tmpfiles.rules = [
         "d ${backup-root-dir} 0755 root root -"
+        "f /var/lib/hass/automations.yaml 0644 hass hass -"
 
         # Ensure the base consume folder exists with full access
         "d /data/paperless/consume 0777 paperless paperless -"

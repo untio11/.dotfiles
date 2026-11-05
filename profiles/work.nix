@@ -60,6 +60,7 @@ let
       hyperfine # Benchmarking
       watchman # For jujutsu in nixpkgs repo
       nmap
+      nodejs_24
     ];
   };
 in
@@ -127,8 +128,10 @@ rec {
         "font-hack-nerd-font"
         "localsend"
         "antigravity"
+        "antigravity-cli"
         "stremio"
         "wifiman" # Unifi tool, use for Teleport Wireguard VPN.
+        "token-monitor" # Monitor AI Agent token usage
       ];
       # brew install ${name}
       brews = [

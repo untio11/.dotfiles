@@ -53,11 +53,18 @@ rec {
         syncthing = "8384";
         mosquitto = 1883;
         zigbee2mqtt = 8080;
-        adguard = "3000";
         vaultwarden = 8222;
       };
     in
     {
+      imports = [
+        ../services/adguard.nix
+      ];
+
+      gathering-hub.ports = {
+        adguard = "3000";
+      };
+
       # Home Assistant related setup
       services.home-assistant = {
         enable = true;
@@ -249,84 +256,6 @@ rec {
           dnsResolver = "1.1.1.1:53"; # Resolve via Cloudflare to circumvent Ziggo's negative cache resonse.
         };
       };
-
-      # Configure Gathering Hub as local DNS server that filters requests to known ad and malware domains.
-      services.adguardhome = {
-        enable = true;
-        settings = {
-          http.address = "127.0.0.1:${ports.adguard}";
-          dns = {
-            # Listen to DNS requests on all network interfaces.
-            bind_hosts = [ "0.0.0.0" ];
-            port = 53;
-            # Forward unknown domain name queries to these public DNS servers.
-            upstream_dns = [
-              "https://dns.quad9.net/dns-query"
-              "https://cloudflare-dns.com/dns-query"
-            ];
-            bootstrap_dns = [
-              "9.9.9.9"
-              "1.1.1.1"
-            ];
-            # Resolve local client names via UniFi.
-            private_dns = [ "192.168.0.1" ]; # UniFi Router IP
-            use_private_dns_resolvers = true;
-          };
-          filtering = {
-            protection_enabled = true;
-            filtering_enabled = true;
-            parental_enabled = false;
-            safe_search.enabled = false;
-            rewrites = [ ];
-          };
-          # Herschrijf furahiya.nexus + *.furahiya.nexus naar 192.168.0.3,
-          # maar laat gate.furahiya.nexus met rust (zodat die het echte WAN-IP houdt):
-          user_rules = [
-            "||furahiya.nexus^$dnsrewrite=192.168.0.3"
-            "@@||gate.furahiya.nexus^$dnsrewrite"
-          ];
-          filters = [
-            {
-              enabled = true;
-              name = "AdGuard DNS filter";
-              url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt";
-            }
-            {
-              enabled = true;
-              name = "HaGeZi's Pro Blocklist";
-              url = "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/adblock/pro.txt";
-            }
-            {
-              enabled = true;
-              name = "OISD Blocklist Big";
-              url = "https://big.oisd.nl";
-            }
-          ];
-          clients = {
-            persistent = [
-              {
-                name = "Yukomo (WireGuard)";
-                ids = [ "192.168.3.2" ];
-                use_global_settings = true;
-                use_global_blocked_services = true;
-              }
-              {
-                name = "FlowTellie (WireGuard)";
-                ids = [ "192.168.3.3" ];
-                use_global_settings = true;
-                use_global_blocked_services = true;
-              }
-              {
-                name = "PC-Robin (WireGuard)";
-                ids = [ "192.168.3.4" ];
-                use_global_settings = true;
-                use_global_blocked_services = true;
-              }
-            ];
-          };
-        };
-      };
-
       # Enable mDNS so `gathering-hub.local` resolves to this machine's IP address
       # on LAN.
       services.avahi = {
@@ -380,7 +309,7 @@ rec {
               proxyPass = "http://127.0.0.1:${toString ports.zigbee2mqtt}";
             };
             "adguard.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${ports.adguard}";
+              proxyPass = "http://127.0.0.1:${config.gathering-hub.ports.adguard}";
             };
             "vaultwarden.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${toString ports.vaultwarden}";

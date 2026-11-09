@@ -50,8 +50,6 @@ rec {
       ports = {
         paperless = 28981;
         syncthing = "8384";
-        mosquitto = 1883;
-        zigbee2mqtt = 8080;
         vaultwarden = 8222;
       };
     in
@@ -59,61 +57,14 @@ rec {
       imports = [
         ../services/adguard.nix
         ../services/home-assistant.nix
+        ../services/zigbee2mqtt.nix
       ];
 
       gathering-hub.ports = {
         adguard = 3000;
         home-assistant = 8123;
-      };
-
-      services.mosquitto = {
-        enable = true;
-        listeners = [
-          {
-            address = "127.0.0.1";
-            port = ports.mosquitto;
-            omitPasswordAuth = true; # Do I want to enable this eventually?
-            settings.allow_anonymous = true;
-            acl = [ "pattern readwrite #" ];
-          }
-        ];
-      };
-      services.zigbee2mqtt = {
-        enable = true;
-        settings = {
-          version = 5;
-          homeassistant.enabled = true;
-          permit_join = false; # Toggle via web UI when pairing new devices.
-          mqtt.server = "mqtt://127.0.0.1:${toString ports.mosquitto}";
-          # SMLIGHT SLZB-07 config
-          serial = {
-            port = "/dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-07_9e2fd2b588d5ef1183fb694b49d2c684-if00-port0";
-            adapter = "ember";
-            baudrate = 115200;
-            rtscts = true;
-          };
-          frontend = {
-            enabled = true;
-            host = "127.0.0.1";
-            port = ports.zigbee2mqtt;
-          };
-          # First time deployment with value `GENERATE` generated these values.
-          advanced = {
-            # `zigbee2mqtt-secret.yaml` created by sops.
-            network_key = "!secret network_key";
-            pan_id = 2296;
-            ext_pan_id = [
-              90
-              195
-              14
-              142
-              202
-              41
-              196
-              14
-            ];
-          };
-        };
+        mosquitto = 1883;
+        zigbee2mqtt = 8080;
       };
 
       sops = {
@@ -232,7 +183,7 @@ rec {
               proxyPass = "http://127.0.0.1:${ports.syncthing}/";
             };
             "zigbee2mqtt.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString ports.zigbee2mqtt}";
+              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.zigbee2mqtt}";
             };
             "adguard.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.adguard}";
@@ -536,7 +487,7 @@ rec {
         let
           resticSensors = import ../hass/sensors/restic.nix {
             inherit pkgs;
-            mosquittoPort = ports.mosquitto;
+            mosquittoPort = config.gathering-hub.ports.mosquitto;
           };
 
           commonRestic = {

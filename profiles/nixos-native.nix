@@ -417,6 +417,7 @@ rec {
           extraGroups = [
             "networkmanager"
             "wheel"
+            "users"
           ];
           home = "${base-home-dir}/${username}";
           shell = pkgs.zsh;

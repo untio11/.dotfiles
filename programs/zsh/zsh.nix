@@ -42,10 +42,7 @@
       hm = "$HOME/.config/home-manager";
     };
 
-    syntaxHighlighting = {
-      enable = true;
-      highlighters = [ "brackets" ]; # In addition to main command syntax highlighting.
-    };
+    fastSyntaxHighlighting.enable = true;
 
     initContent = lib.mkBefore ''
       ### ========================

@@ -111,16 +111,15 @@
       fi
     '';
 
-    loginExtra = ''
+    loginExtra = with profile; ''
       ### tmux startup. .zlogin is called after .zshrc
       ###
       ### Only connect to a new tmux window if we're not already
       ### in tmux, we're not in the vscode terminal emulator, we're
       ### not not in a warp shell session, and it's not Docker trying
       ### to open another damn shell.
-      ### TODO: This still doesn't really work as I'm hoping. Docker is a bitch.
-      if [[ ! ( -v "TMUX" || -v "VSCODE_INJECTION" || -v "WARP_IS_LOCAL_SHELL_SESSION" || "$PWD" == "*com.docker.docker*" ) ]]; then
-        tmux new-window -t "GLOBAL:" \; attach -t "GLOBAL:$" || tmux new -s "GLOBAL"
+      if [[ ! ( -v "TMUX" || -v "VSCODE_INJECTION" || -v "WARP_IS_LOCAL_SHELL_SESSION" || "$PWD" == *com.docker.docker* ) ]]; then
+        tmux new-window -t "${hostname}:" \; attach -t "${hostname}:$" || tmux new -s "${hostname}"
       fi
     '';
   };

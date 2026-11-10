@@ -1,10 +1,12 @@
 {
   nixpkgs,
-  self,
   overlays,
 }:
 let
   hostname = "pokke-village";
+  username = "untio11";
+  base-home-dir = "/home";
+  hm = "${base-home-dir}/${username}/.config/home-manager";
   cfg = {
     profile.prompt = "";
     programs = {
@@ -24,8 +26,8 @@ let
       };
       helix = {
         settings.theme = "flexoki_dark";
-        languages.language-server.nixd.config.options.nixos.expr =
-          "(builtins.getFlake \"${self}\").nixosConfigurations.\"${hostname}\".options";
+        languages.language-server.nixd.config.nixd.options.nixos.expr =
+          "(builtins.getFlake \"${hm}\").nixosConfigurations.\"${hostname}\".options";
       };
     };
     home.sessionVariables = {
@@ -38,12 +40,15 @@ rec {
   # This should be a home manager module.
   system = "x86_64-linux";
   pkgs = import nixpkgs { inherit system overlays; };
-  inherit cfg;
-  username = "untio11";
-  inherit hostname;
-  base-home-dir = "/home";
+  inherit
+    cfg
+    hostname
+    username
+    base-home-dir
+    ;
   # NixOS Module
-  nixos-configuration = { pkgs, ... }: {
+  nixos-configuration = { ... }: {
+    nixpkgs.pkgs = pkgs;
     networking.hostName = hostname;
     wsl = {
       enable = true;

@@ -2,12 +2,14 @@
   config,
   pkgs,
   inputs,
+  profile,
   ...
 }:
 let
   util-dir = ".util";
   hswitch-file = "${util-dir}/hswitch";
   revolver = "${inputs.revolver}/revolver";
+  flake-attr = ''homeConfigurations.\"${profile.username}@${profile.hostname}\".activationPackage'';
 in
 {
   home.shellAliases.hswitch = "${config.home.homeDirectory}/${hswitch-file}";
@@ -18,9 +20,10 @@ in
     text = ''
       #!${pkgs.zsh}/bin/zsh
       LOG_DIR="${config.home.homeDirectory}/${util-dir}/log"
-      [[ ! -d "$LOG_DIR" ]] && mkdir "$LOG_DIR"
+      RESULT_LINK="$LOG_DIR/result"
+      [[ ! -d "$LOG_DIR" ]] && mkdir -p "$LOG_DIR"
       ${revolver} --style 'bouncingBall' start 'Building home manager config'
-      home-manager build 2> $LOG_DIR/hm-switch.log
+      nix build "$HM_HOME#${flake-attr}" --out-link "$RESULT_LINK" 2> $LOG_DIR/hm-switch.log
 
       if [[ $? -ne 0 ]]; then
         ${revolver} stop
@@ -30,13 +33,13 @@ in
         exit 1
       else
         ${revolver} update 'Activating profile'
-        ./result/activate &> $LOG_DIR/hm-switch.log
+        "$RESULT_LINK/activate" &> $LOG_DIR/hm-switch.log
         if [[ $? -ne 0 ]]; then
           ${revolver} stop
           echo 'Activation failed:'
           echo ""
           cat $LOG_DIR/hm-switch.log
-          rm ./result
+          rm "$RESULT_LINK"
           exit 2;
         else
           ${revolver} stop
@@ -44,14 +47,14 @@ in
           echo "$hm_status"
           echo "$hm_status" > $LOG_DIR/hswitch-status
           if [[ "$hm_status" == *"reusing"* ]]; then
-            rm ./result;
+            rm "$RESULT_LINK";
             exit 3
           else
             # Jujutsu status:
             jj -R $HM_HOME s
           fi
         fi
-        rm ./result;
+        rm "$RESULT_LINK";
         exit 0;
       fi
     '';

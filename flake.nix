@@ -36,93 +36,86 @@
       nixpkgs,
       home-manager,
       nix-darwin,
-      self,
       ...
     }@inputs:
     let
       overlays = [ ];
       nixos-wsl = import ./profiles/nixos-wsl.nix {
-        inherit nixpkgs self overlays;
+        inherit nixpkgs overlays;
       };
-      macos-skunk = import ./profiles/work.nix { inherit nixpkgs self overlays; };
-      nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs self overlays; };
+      macos-skunk = import ./profiles/work.nix { inherit nixpkgs overlays; };
+      nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs overlays; };
     in
     {
       # Work macbook. Home manager.
       # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#robin.kneepkens
       # home-manager switch --flake .#robin.kneepkens
       homeConfigurations."${macos-skunk.username}@${macos-skunk.hostname}" =
-        with macos-skunk;
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./home.nix ];
-          extraSpecialArgs = {
-            inherit inputs self;
-            profile = macos-skunk;
+        home-manager.lib.homeManagerConfiguration
+          {
+            pkgs = macos-skunk.pkgs;
+            modules = [ ./home.nix ];
+            extraSpecialArgs = {
+              inherit inputs;
+              profile = macos-skunk;
+            };
           };
-        };
       # Work macbook. Nix Darwin.
       # Bootstrap: sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin/master#darwin-rebuild -- switch --flake .#Yukomo
       # Normal: sudo darwin-rebuild switch --flake .#Yukomo
-      darwinConfigurations.${macos-skunk.hostname} =
-        with macos-skunk;
-        nix-darwin.lib.darwinSystem {
-          modules = [
-            nix-darwin-configuration
-            inputs.sops-nix.darwinModules.sops
-          ];
-        };
+      darwinConfigurations.${macos-skunk.hostname} = nix-darwin.lib.darwinSystem {
+        modules = [
+          macos-skunk.nix-darwin-configuration
+          inputs.sops-nix.darwinModules.sops
+        ];
+      };
       # Home desktop wsl. Home manager.
       # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#untio11@pokke-village
       homeConfigurations."${nixos-wsl.username}@${nixos-wsl.hostname}" =
-        with nixos-wsl;
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./home.nix ];
-          extraSpecialArgs = {
-            inherit inputs self;
-            profile = nixos-wsl;
+        home-manager.lib.homeManagerConfiguration
+          {
+            pkgs = nixos-wsl.pkgs;
+            modules = [ ./home.nix ];
+            extraSpecialArgs = {
+              inherit inputs;
+              profile = nixos-wsl;
+            };
           };
-        };
       # Home server. Home manager config.
       # nix run home-manager/master -- switch --flake .#untio11@gathering-hub
       homeConfigurations."${nixos-native.username}@${nixos-native.hostname}" =
-        with nixos-native;
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [ ./home.nix ];
-          extraSpecialArgs = {
-            inherit inputs self;
-            profile = nixos-native;
+        home-manager.lib.homeManagerConfiguration
+          {
+            pkgs = nixos-native.pkgs;
+            modules = [ ./home.nix ];
+            extraSpecialArgs = {
+              inherit inputs;
+              profile = nixos-native;
+            };
           };
-        };
       # Home desktop wsl. NixOS config.
       # Normal: sudo nixos-rebuild switch --flake .#pokke-village
-      nixosConfigurations.${nixos-wsl.hostname} =
-        with nixos-wsl;
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            { nix.registry.nixpkgs.flake = nixpkgs; }
-            inputs.nixos-wsl.nixosModules.wsl
-            nixos-configuration
-          ];
-        };
+      nixosConfigurations.${nixos-wsl.hostname} = nixpkgs.lib.nixosSystem {
+        system = nixos-wsl.system;
+        modules = [
+          { nix.registry.nixpkgs.flake = nixpkgs; }
+          inputs.nixos-wsl.nixosModules.wsl
+          nixos-wsl.nixos-configuration
+        ];
+      };
       # Home server. NixOS config.
       # sudo nixos-rebuild switch --flake .#gathering-hub
-      nixosConfigurations.${nixos-native.hostname} =
-        with nixos-native;
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            {
-              nix.registry.nixpkgs.flake = nixpkgs;
-              nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-            }
-            nixos-configuration
-            inputs.sops-nix.nixosModules.sops
-          ];
-        };
+      nixosConfigurations.${nixos-native.hostname} = nixpkgs.lib.nixosSystem {
+        system = nixos-native.system;
+        modules = [
+          {
+            nix.registry.nixpkgs.flake = nixpkgs;
+            nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+          }
+          nixos-native.nixos-configuration
+          inputs.sops-nix.nixosModules.sops
+        ];
+      };
       templates = {
         rust-basic = {
           path = ./templates/rust-basic;

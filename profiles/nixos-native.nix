@@ -1,10 +1,12 @@
 {
   nixpkgs,
-  self,
   overlays,
 }:
 let
   hostname = "gathering-hub";
+  username = "untio11";
+  base-home-dir = "/home";
+  hm = "${base-home-dir}/${username}/.config/home-manager";
   pre-cfg = pkgs: {
     profile.prompt = ">";
     home.sessionVariables = {
@@ -23,23 +25,23 @@ let
     };
     programs.helix = {
       settings.theme = "penumbra+";
-      languages.language-server.nixd.config.options.nixos.expr =
-        "(builtins.getFlake \"${self}\").nixosConfigurations.\"${hostname}\".options";
+      languages.language-server.nixd.config.nixd.options.nixos.expr =
+        "(builtins.getFlake \"${hm}\").nixosConfigurations.\"${hostname}\".options";
     };
   };
 in
 rec {
   system = "x86_64-linux";
-  pkgs = import nixpkgs { inherit system overlays; };
+  pkgs = import nixpkgs {
+    inherit system overlays;
+    config.allowUnfree = true;
+  };
   cfg = pre-cfg pkgs;
-  username = "untio11";
-  inherit hostname;
-  base-home-dir = "/home";
+  inherit hostname username base-home-dir;
   nixos-configuration =
     {
       config,
       lib,
-      pkgs,
       ...
     }:
     let
@@ -409,6 +411,11 @@ rec {
         # Default schedule: daily at 01:15 (`startAt` property.)
         enable = true;
         location = "${backup-root-dir}/postgresql";
+        databases = [
+          "hass"
+          "paperless"
+          "vaultwarden"
+        ];
       };
 
       services.vaultwarden = {
@@ -615,10 +622,7 @@ rec {
         nmap
       ];
 
-      nixpkgs = {
-        inherit system;
-        config.allowUnfree = true;
-      };
+      nixpkgs.pkgs = pkgs;
       programs = {
         zsh.enable = true;
         gnupg.agent = {

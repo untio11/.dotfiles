@@ -10,7 +10,7 @@ Every night, four automated systemd timers run sequentially on `gathering-hub`:
 
 | Time | Systemd Service | Description | Destination |
 | :--- | :--- | :--- | :--- |
-| **`01:15`** | `postgresqlBackup.service` | Creates consistent SQL dumps of the `hass` and `paperless` databases. | `/data/backups/postgresql/*.sql.gz` |
+| **`01:15`** | `postgresqlBackup.service` | Creates consistent SQL dumps of the `hass`, `paperless`, and `vaultwarden` databases. | `/data/backups/postgresql/*.sql.gz` |
 | **`01:30`** | `paperless-exporter.service` | Exports all Paperless documents, metadata, and database JSON. | `/data/backups/paperless/` |
 | **`02:00`** | `restic-backups-local.service` | Creates an encrypted, deduplicated local snapshot of all service state, secrets, dumps, and media, followed by `forget --prune`. | `/data/backups/restic/` |
 | **`03:00`** | `restic-backups-gcs.service` | Creates an encrypted, deduplicated off-site snapshot in Google Cloud Storage (Astera Cloud, `europe-west4`), followed by `forget --prune`. | `gs:gathering-hub-restic-8acc3d4:/` |
@@ -113,6 +113,7 @@ sudo nix-shell -p restic --run "restic -r /data/backups/restic restore latest \
   --include /var/lib/hass \
   --include /var/lib/zigbee2mqtt \
   --include /var/lib/paperless \
+  --include /var/lib/bitwarden_rs \
   --include /var/lib/acme \
   --include /var/lib/mosquitto \
   --include /var/lib/private/AdGuardHome \
@@ -132,17 +133,17 @@ sudo nixos-rebuild switch --flake .#gathering-hub
 
 ---
 
-## 4. Restoring PostgreSQL Databases (`hass` & `paperless`)
+## 4. Restoring PostgreSQL Databases (`hass`, `paperless`, & `vaultwarden`)
 
 After a fresh SSD installation, PostgreSQL initializes an empty database cluster in `/var/lib/postgresql`. Restore the latest SQL dumps from `/data/backups/postgresql` as follows:
 
-### 1. Temporarily stop Home Assistant and Paperless
+### 1. Temporarily stop Home Assistant, Paperless, and Vaultwarden
 Ensure no services hold active connections to the databases:
 ```bash
-sudo systemctl stop home-assistant.service paperless-scheduler.service paperless-consumer.service paperless-task-queue.service paperless-web.service
+sudo systemctl stop home-assistant.service paperless-scheduler.service paperless-consumer.service paperless-task-queue.service paperless-web.service vaultwarden.service
 ```
 
-### 2. Restore the `hass` and `paperless` databases
+### 2. Restore the `hass`, `paperless`, and `vaultwarden` databases
 ```bash
 # Inspect the available dumps in /data/backups/postgresql:
 ls -lh /data/backups/postgresql/
@@ -154,11 +155,15 @@ sudo -u postgres sh -c "zcat /data/backups/postgresql/hass.sql.gz | psql hass"
 # Restore the Paperless database:
 sudo -u postgres psql -c "DROP DATABASE IF EXISTS paperless; CREATE DATABASE paperless OWNER paperless;"
 sudo -u postgres sh -c "zcat /data/backups/postgresql/paperless.sql.gz | psql paperless"
+
+# Restore the Vaultwarden database:
+sudo -u postgres psql -c "DROP DATABASE IF EXISTS vaultwarden; CREATE DATABASE vaultwarden OWNER vaultwarden;"
+sudo -u postgres sh -c "zcat /data/backups/postgresql/vaultwarden.sql.gz | psql vaultwarden"
 ```
 
 ### 3. Start the services again
 ```bash
-sudo systemctl start home-assistant.service paperless-scheduler.service paperless-consumer.service paperless-task-queue.service paperless-web.service
+sudo systemctl start home-assistant.service paperless-scheduler.service paperless-consumer.service paperless-task-queue.service paperless-web.service vaultwarden.service
 ```
 
 > [!NOTE] Alternative Paperless Restore (via `document_importer`)

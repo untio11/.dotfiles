@@ -1,9 +1,12 @@
 {
+  config,
   pkgs,
-  self,
   profile,
   ...
 }:
+let
+  hm = "${config.xdg.configHome}/home-manager";
+in
 {
   programs.helix = {
     enable = true;
@@ -61,9 +64,9 @@
         };
         nixd = {
           command = "${pkgs.nixd}/bin/nixd";
-          config = {
-            # Should add completion of home-manager options to nixd, but seems to not really work.
-            options.home-manager.expr = "(builtins.getFlake \"${self}\").homeConfigurations.\"${profile.username}@${profile.hostname}\".options";
+          config.nixd = {
+            nixpkgs.expr = "import (builtins.getFlake \"${hm}\").inputs.nixpkgs { }";
+            options.home-manager.expr = "(builtins.getFlake \"${hm}\").homeConfigurations.\"${profile.username}@${profile.hostname}\".options";
           };
         };
       };

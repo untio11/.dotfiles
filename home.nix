@@ -10,9 +10,9 @@ let
   hm = "${config.xdg.configHome}/home-manager";
 in
 {
-  home = with profile; {
-    inherit username;
-    homeDirectory = "${base-home-dir}/${username}";
+  home = {
+    username = profile.username;
+    homeDirectory = with profile; "${base-home-dir}/${username}";
     sessionVariables = {
       HM_HOME = hm;
     };

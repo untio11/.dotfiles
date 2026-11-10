@@ -151,10 +151,9 @@ let
     '';
 in
 {
-  mkHooks =
-    meta: {
-      repository = meta.repo;
-      backupPrepareCommand = mkPrepareHook meta;
-      backupCleanupCommand = mkStatusHook meta;
-    };
+  mkHooks = meta: {
+    repository = meta.repo;
+    backupPrepareCommand = mkPrepareHook meta;
+    backupCleanupCommand = mkStatusHook meta;
+  };
 }

@@ -1,10 +1,12 @@
 {
   nixpkgs,
-  self,
   overlays,
 }:
 let
   hostname = "Yukomo";
+  username = "robin.kneepkens";
+  base-home-dir = "/Users";
+  hm = "${base-home-dir}/${username}/.config/home-manager";
   pre-cfg = pkgs: {
     profile.prompt = "";
     programs = {
@@ -37,8 +39,8 @@ let
       helix = {
         settings.theme = "carbonfox";
         extraPackages = [ pkgs.vscode-langservers-extracted ];
-        languages.language-server.nixd.config.options.darwin.expr =
-          "(builtins.getFlake \"${self}\").darwinConfigurations.\"${hostname}\".options";
+        languages.language-server.nixd.config.nixd.options.darwin.expr =
+          "(builtins.getFlake \"${hm}\").darwinConfigurations.\"${hostname}\".options";
       };
     };
     home.sessionVariables = {
@@ -65,12 +67,10 @@ let
   };
 in
 rec {
-  inherit hostname;
+  inherit hostname username base-home-dir;
   system = "aarch64-darwin";
   pkgs = import nixpkgs { inherit system overlays; };
   cfg = pre-cfg pkgs;
-  username = "robin.kneepkens";
-  base-home-dir = "/Users";
   nix-darwin-configuration = { ... }: {
     users.users."${username}" = {
       home = "/Users/${username}";

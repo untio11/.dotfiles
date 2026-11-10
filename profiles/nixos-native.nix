@@ -48,7 +48,6 @@ rec {
       backup-root-dir = "/data/backups";
       syncthing-root-dir = "/data/syncthing";
       ports = {
-        paperless = 28981;
         syncthing = "8384";
         vaultwarden = 8222;
       };
@@ -57,6 +56,7 @@ rec {
       imports = [
         ../services/adguard.nix
         ../services/home-assistant.nix
+        ../services/paperless.nix
         ../services/zigbee2mqtt.nix
       ];
 
@@ -64,6 +64,8 @@ rec {
         adguard = 3000;
         home-assistant = 8123;
         mosquitto = 1883;
+        paperless = 28981;
+        paperless-gpt = 8081;
         zigbee2mqtt = 8080;
       };
 
@@ -177,7 +179,10 @@ rec {
               extraConfig = "proxy_buffering off;";
             };
             "paperless.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString ports.paperless}";
+              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.paperless}";
+            };
+            "paperless-gpt.${domain}" = mkVhost {
+              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.paperless-gpt}";
             };
             "syncthing.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${ports.syncthing}/";
@@ -239,34 +244,6 @@ rec {
         };
       };
 
-      services.paperless = {
-        enable = true;
-        address = "127.0.0.1";
-        port = ports.paperless;
-        consumptionDir = "/data/paperless/consume";
-        consumptionDirIsPublic = true;
-        settings = {
-          PAPERLESS_URL = "https://paperless.furahiya.nexus";
-          # Languages for Optical Character Recognition (OCR).
-          PAPERLESS_OCR_LANGUAGE = "eng+nld";
-          PAPERLESS_TIME_ZONE = "Europe/Amsterdam";
-          # Database Config
-          PAPERLESS_DBENGINE = "postgresql";
-          PAPERLESS_DBHOST = "/run/postgresql";
-          PAPERLESS_DBNAME = "paperless";
-          PAPERLESS_DBUSER = "paperless";
-          # Document consumption config
-          PAPERLESS_CONSUMER_DELETE_DUPLICATES = true; # Simply delete documents from the consumer dir in case of duplicate detection.
-          PAPERLESS_CONSUMER_RECURSIVE = true; # Allow paperless to consume documents from subdirectories of the consumer dir.
-          PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true; # Subdirectories leading to the consumed document will be added as tags.
-        };
-        exporter = {
-          enable = true;
-          directory = "${backup-root-dir}/paperless";
-          onCalendar = "*-*-* 01:30:00"; # Daily at 01:30
-        };
-      };
-
       services.syncthing = {
         enable = true;
         # Makes sure the files managed by syncthing belong to my user account.
@@ -299,14 +276,6 @@ rec {
       systemd.tmpfiles.rules = [
         "d ${backup-root-dir} 0755 root root -"
         "f /var/lib/hass/automations.yaml 0644 hass hass -"
-
-        # Ensure the base consume folder exists with full access
-        "d /data/paperless/consume 0777 paperless paperless -"
-
-        # Force DEFAULT ACLs so any subfolder/file created by Syncthing or you
-        # automatically inherits read, write, and delete permissions for the paperless user
-        "A+ /data/paperless/consume - - - - default:user:paperless:rwx,default:group:users:rwx,default:other::rwx"
-        "A+ /data/paperless/consume - - - - user:paperless:rwx,group:users:rwx,other::rwx"
       ];
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target
@@ -452,8 +421,6 @@ rec {
           home = "${base-home-dir}/${username}";
           shell = pkgs.zsh;
         };
-        # So paperless can interect with my files.
-        paperless.extraGroups = [ "users" ];
       };
 
       # Locale/internationalisation properties.

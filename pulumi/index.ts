@@ -32,9 +32,32 @@ const resticSaKey = new gcp.serviceaccount.Key("restic-gathering-hub-key", {
     serviceAccountId: resticSa.name,
 });
 
+// 5. Document AI OCR processor for Paperless-GPT (europe-west2)
+const paperlessOcrProcessor = new gcp.essentialcontacts.DocumentAiProcessor(
+    "general-doc-ocr",
+    {
+        location: "europe-west2",
+        displayName: "general-doc-ocr",
+        type: "OCR_PROCESSOR",
+    },
+);
+
+// 6. Generate a JSON key for the existing paperless-doc-ai-sa Service Account
+const paperlessDocAiSaKey = new gcp.serviceaccount.Key(
+    "paperless-doc-ai-sa-key",
+    {
+        serviceAccountId:
+            "projects/robotic-circle-456517-e7/serviceAccounts/paperless-doc-ai-sa@robotic-circle-456517-e7.iam.gserviceaccount.com",
+    },
+);
+
 export const bucketName = backupBucket.name;
 export const bucketUrl = pulumi.interpolate`gs:${backupBucket.name}:/`;
 export const serviceAccountEmail = resticSa.email;
 export const serviceAccountKeyJson = pulumi
     .secret(resticSaKey.privateKey)
+    .apply((k) => Buffer.from(k, "base64").toString("utf-8"));
+export const paperlessOcrProcessorId = paperlessOcrProcessor.name;
+export const paperlessDocAiKeyJson = pulumi
+    .secret(paperlessDocAiSaKey.privateKey)
     .apply((k) => Buffer.from(k, "base64").toString("utf-8"));

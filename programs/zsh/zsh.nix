@@ -115,7 +115,7 @@
       ### in tmux, we're not in the vscode terminal emulator, we're
       ### not not in a warp shell session, and it's not Docker trying
       ### to open another damn shell.
-      if [[ ! ( -v "TMUX" || -v "VSCODE_INJECTION" || -v "WARP_IS_LOCAL_SHELL_SESSION" || "$PWD" == *com.docker.docker* ) ]]; then
+      if [[ ! ( -v "TMUX" || -v "VSCODE_INJECTION" || -v "WARP_IS_LOCAL_SHELL_SESSION" || "$PWD" == *com.docker.docker* || "$PWD" == "/" ) ]]; then
         tmux new-window -t "${hostname}:" \; attach -t "${hostname}:$" || tmux new -s "${hostname}"
       fi
     '';

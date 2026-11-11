@@ -61,8 +61,10 @@ in
         mode = "0444";
       };
       secrets."paperless_api_token" = { };
+      secrets."googleai_api_key" = { };
       templates."paperless-gpt.env".content = ''
         PAPERLESS_API_TOKEN=${config.sops.placeholder.paperless_api_token}
+        GOOGLEAI_API_KEY=${config.sops.placeholder.googleai_api_key}
       '';
     };
 
@@ -78,9 +80,10 @@ in
           PAPERLESS_BASE_URL = "http://127.0.0.1:${toString cfg.ports.paperless}";
           PAPERLESS_PUBLIC_URL = "https://paperless.furahiya.nexus";
 
-          # Dummy LLM config required by paperless-gpt's startup validation even when only using OCR
-          LLM_PROVIDER = "ollama";
-          LLM_MODEL = "unused";
+          # Google Gemini LLM configuration (Astera Cloud)
+          LLM_PROVIDER = "googleai";
+          LLM_MODEL = "gemini-3.5-flash-lite";
+          GOOGLEAI_THINKING_BUDGET = "0"; # Disable extra reasoning tokens for faster & cheaper metadata extraction
 
           # Google Document AI OCR configuration (Astera Cloud)
           OCR_PROVIDER = "google_docai";

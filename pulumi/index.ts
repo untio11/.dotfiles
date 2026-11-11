@@ -25,6 +25,14 @@ const documentAiApi = new gcp.projects.Service("documentai-api", {
     disableOnDestroy: false,
 });
 
+const generativeLanguageApi = new gcp.projects.Service(
+    "generativelanguage-api",
+    {
+        service: "generativelanguage.googleapis.com",
+        disableOnDestroy: false,
+    },
+);
+
 const apiKeysApi = new gcp.projects.Service("apikeys-api", {
     service: "apikeys.googleapis.com",
     disableOnDestroy: false,
@@ -99,6 +107,32 @@ const paperlessDocAiSaKey = new gcp.serviceaccount.Key(
     },
 );
 
+// 7. Dedicated Service Account for Paperless-GPT Gemini LLM authorization key
+const paperlessLlmSa = new gcp.serviceaccount.Account("paperless-llm-sa", {
+    accountId: "paperless-llm-sa",
+    displayName: "Paperless-GPT Gemini LLM",
+    description:
+        "Dedicated service account bound to the Paperless-GPT Gemini API authorization key",
+});
+
+// 8. Provision an API key for Paperless-GPT bound to paperless-llm-sa and restricted to the Generative Language API
+const paperlessGeminiApiKey = new gcp.projects.ApiKey(
+    "paperless-gemini-api-key",
+    {
+        name: "paperless-llm-api-key",
+        displayName: "Paperless-GPT Gemini API Key",
+        serviceAccountEmail: paperlessLlmSa.email,
+        restrictions: {
+            apiTargets: [
+                {
+                    service: "generativelanguage.googleapis.com",
+                },
+            ],
+        },
+    },
+    { dependsOn: [generativeLanguageApi, apiKeysApi] },
+);
+
 export const bucketName = backupBucket.name;
 export const bucketUrl = pulumi.interpolate`gs:${backupBucket.name}:/`;
 export const serviceAccountEmail = resticSa.email;
@@ -109,3 +143,6 @@ export const paperlessOcrProcessorId = paperlessOcrProcessor.name;
 export const paperlessDocAiKeyJson = pulumi
     .secret(paperlessDocAiSaKey.privateKey)
     .apply((k) => Buffer.from(k, "base64").toString("utf-8"));
+export const paperlessGeminiKey = pulumi.secret(
+    paperlessGeminiApiKey.keyString,
+);

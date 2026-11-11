@@ -83,7 +83,6 @@ in
           # Google Gemini LLM configuration (Astera Cloud)
           LLM_PROVIDER = "googleai";
           LLM_MODEL = "gemini-3.5-flash-lite";
-          GOOGLEAI_THINKING_BUDGET = "0"; # Disable extra reasoning tokens for faster & cheaper metadata extraction
 
           # Google Document AI OCR configuration (Astera Cloud)
           OCR_PROVIDER = "google_docai";
@@ -97,12 +96,17 @@ in
           OCR_LIMIT_PAGES = "0"; # 0 = no artificial 5-page limit in paperless-gpt (Google DocAI sync limit is 15 pages / 20MB)
           PDF_UPLOAD = "true";
           PDF_UPLOAD_MODE = "version"; # Uploaded doc becomes a new version of the original doc (Paperless-ngx 3.0+).
+          PRESERVE_EXISTING_METADATA = "true"; # Don't overwrite pre-filled metadata fields for ai-auto-request
+
+          # Tagging
           PDF_OCR_TAGGING = "true";
+          AUTO_OCR_TAG = "ai-ocr-request";
           PDF_OCR_COMPLETE_TAG = "ai-ocr-done";
 
-          MANUAL_TAG = "ai-request";
-          AUTO_TAG = "ai-auto-request";
-          AUTO_OCR_TAG = "ai-ocr-request";
+          MANUAL_TAG = "ai-request"; # Files tagged with this show up in paperless-gpt web ui for manual processing
+          AUTO_TAG = "ai-auto-request"; # Files tagged with this will automatically be processed by paperless-gpt
+          AUTO_TAG_COMPLETE = "ai-auto-done"; # Successfully processed a document that was tagged with AUTO_TAG
+          FAIL_TAG = "ai-auto-fail"; # AUTO_TAG processed document partially or fully failed
         };
         environmentFiles = [
           config.sops.templates."paperless-gpt.env".path

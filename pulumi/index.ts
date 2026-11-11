@@ -1,6 +1,35 @@
 import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 
+// 0. Enabled Google Cloud APIs for this project
+const storageApi = new gcp.projects.Service("storage-api", {
+    service: "storage.googleapis.com",
+    disableOnDestroy: false,
+});
+
+const iamApi = new gcp.projects.Service("iam-api", {
+    service: "iam.googleapis.com",
+    disableOnDestroy: false,
+});
+
+const cloudResourceManagerApi = new gcp.projects.Service(
+    "cloudresourcemanager-api",
+    {
+        service: "cloudresourcemanager.googleapis.com",
+        disableOnDestroy: false,
+    },
+);
+
+const documentAiApi = new gcp.projects.Service("documentai-api", {
+    service: "documentai.googleapis.com",
+    disableOnDestroy: false,
+});
+
+const apiKeysApi = new gcp.projects.Service("apikeys-api", {
+    service: "apikeys.googleapis.com",
+    disableOnDestroy: false,
+});
+
 // 1. Off-site Restic backup bucket in the Netherlands (europe-west4)
 const backupBucket = new gcp.storage.Bucket("gathering-hub-restic", {
     location: "EUROPE-WEST4",
@@ -42,12 +71,31 @@ const paperlessOcrProcessor = new gcp.essentialcontacts.DocumentAiProcessor(
     },
 );
 
-// 6. Generate a JSON key for the existing paperless-doc-ai-sa Service Account
+// 6. Dedicated Service Account and IAM binding for Paperless-GPT Document AI OCR
+const paperlessDocAiSa = new gcp.serviceaccount.Account(
+    "paperless-doc-ai-sa",
+    {
+        accountId: "paperless-doc-ai-sa",
+        displayName: "paperless-doc-ai-sa",
+        description: "Used for Paperless OCR",
+        project: "robotic-circle-456517-e7",
+    },
+);
+
+new gcp.projects.IAMMember(
+    "paperless-doc-ai-user",
+    {
+        project: "robotic-circle-456517-e7",
+        role: "roles/documentai.apiUser",
+        member: pulumi.interpolate`serviceAccount:${paperlessDocAiSa.email}`,
+    },
+    { dependsOn: [cloudResourceManagerApi] },
+);
+
 const paperlessDocAiSaKey = new gcp.serviceaccount.Key(
     "paperless-doc-ai-sa-key",
     {
-        serviceAccountId:
-            "projects/robotic-circle-456517-e7/serviceAccounts/paperless-doc-ai-sa@robotic-circle-456517-e7.iam.gserviceaccount.com",
+        serviceAccountId: paperlessDocAiSa.name,
     },
 );
 

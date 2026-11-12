@@ -78,6 +78,7 @@ rec {
         defaultSopsFile = ../secrets/secrets.yaml;
         defaultSopsFormat = "yaml";
         age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+        secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
 
         secrets."mijnhost_api_key" = { };
         # Render an environment file in RAM for ACME to read
@@ -86,37 +87,7 @@ rec {
             MIJNHOST_API_KEY="${config.sops.placeholder.mijnhost_api_key}"
           '';
         };
-
-        secrets."zigbee2mqtt_network_key" = { };
-        templates."zigbee2mqtt-secret.yaml" = {
-          owner = "zigbee2mqtt";
-          path = "/var/lib/zigbee2mqtt/secret.yaml";
-          content = ''
-            network_key: ${config.sops.placeholder.zigbee2mqtt_network_key}
-          '';
-        };
-
         secrets."mijnhost_ddns_password" = { };
-
-        secrets."home_latitude" = { };
-        secrets."home_longitude" = { };
-        secrets."parents_latitude" = { };
-        secrets."parents_longitude" = { };
-        secrets."skunk_latitude" = { };
-        secrets."skunk_longitude" = { };
-        templates."hass-secrets.yaml" = {
-          owner = "hass";
-          path = "/var/lib/hass/secrets.yaml";
-          content = ''
-            home_latitude: ${config.sops.placeholder.home_latitude}
-            home_longitude: ${config.sops.placeholder.home_longitude}
-            parents_latitude: ${config.sops.placeholder.parents_latitude}
-            parents_longitude: ${config.sops.placeholder.parents_longitude}
-            skunk_latitude: ${config.sops.placeholder.skunk_latitude}
-            skunk_longitude: ${config.sops.placeholder.skunk_longitude}
-          '';
-        };
-        secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
         secrets."restic_password" = { };
         secrets."gcp_restic_credentials_json" = { };
         secrets."vaultwarden_admin_token_hash" = { };

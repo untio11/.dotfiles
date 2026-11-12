@@ -4,9 +4,6 @@
   pkgs,
   ...
 }:
-let
-  cfg = config.gathering-hub;
-in
 {
   options.gathering-hub.ports.home-assistant = lib.mkOption {
     type = lib.types.port;
@@ -15,6 +12,28 @@ in
       Home Assistant Web UI port
     '';
   };
+
+  config.sops = {
+    secrets."home_latitude" = { };
+    secrets."home_longitude" = { };
+    secrets."parents_latitude" = { };
+    secrets."parents_longitude" = { };
+    secrets."skunk_latitude" = { };
+    secrets."skunk_longitude" = { };
+    templates."hass-secrets.yaml" = {
+      owner = "hass";
+      path = "/var/lib/hass/secrets.yaml";
+      content = ''
+        home_latitude: ${config.sops.placeholder.home_latitude}
+        home_longitude: ${config.sops.placeholder.home_longitude}
+        parents_latitude: ${config.sops.placeholder.parents_latitude}
+        parents_longitude: ${config.sops.placeholder.parents_longitude}
+        skunk_latitude: ${config.sops.placeholder.skunk_latitude}
+        skunk_longitude: ${config.sops.placeholder.skunk_longitude}
+      '';
+    };
+  };
+
   # Home Assistant related setup
   config.services.home-assistant = {
     enable = true;
@@ -87,6 +106,7 @@ in
         pyipp
         aioshelly
         ephem # Season tracking
+        pypaperless # Paperless ngx integration
       ];
   };
 }

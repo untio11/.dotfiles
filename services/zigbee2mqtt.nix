@@ -22,6 +22,17 @@ in
     '';
   };
 
+  config.sops = {
+    secrets."zigbee2mqtt_network_key" = { };
+    templates."zigbee2mqtt-secret.yaml" = {
+      owner = "zigbee2mqtt";
+      path = "/var/lib/zigbee2mqtt/secret.yaml";
+      content = ''
+        network_key: ${config.sops.placeholder.zigbee2mqtt_network_key}
+      '';
+    };
+  };
+
   config.services.mosquitto = {
     enable = true;
     listeners = [

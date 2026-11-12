@@ -107,6 +107,9 @@
       # sudo nixos-rebuild switch --flake .#gathering-hub
       nixosConfigurations.${nixos-native.hostname} = nixpkgs.lib.nixosSystem {
         system = nixos-native.system;
+        specialArgs = {
+          profile = nixos-native;
+        };
         modules = [
           {
             nix.registry.nixpkgs.flake = nixpkgs;

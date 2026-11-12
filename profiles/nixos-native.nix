@@ -38,6 +38,7 @@ rec {
   };
   cfg = pre-cfg pkgs;
   inherit hostname username base-home-dir;
+  userConfigDir = "${base-home-dir}/${username}/.config";
   nixos-configuration =
     {
       config,
@@ -46,9 +47,7 @@ rec {
     }:
     let
       backup-root-dir = "/data/backups";
-      syncthing-root-dir = "/data/syncthing";
       ports = {
-        syncthing = "8384";
         vaultwarden = 8222;
       };
     in
@@ -58,6 +57,7 @@ rec {
         ../services/home-assistant.nix
         ../services/paperless.nix
         ../services/zigbee2mqtt.nix
+        ../services/syncthing.nix
       ];
 
       gathering-hub.ports = {
@@ -67,6 +67,11 @@ rec {
         paperless = 28981;
         paperless-gpt = 8081;
         zigbee2mqtt = 8080;
+        syncthing = 8384;
+      };
+
+      gathering-hub.mediaDirs = {
+        syncthing-root = "/data/syncthing";
       };
 
       sops = {
@@ -185,7 +190,7 @@ rec {
               proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.paperless-gpt}";
             };
             "syncthing.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${ports.syncthing}/";
+              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.syncthing}/";
             };
             "zigbee2mqtt.${domain}" = mkVhost {
               proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.zigbee2mqtt}";
@@ -241,34 +246,6 @@ rec {
           SIGNUPS_ALLOWED = false;
           INVITATIONS_ALLOWED = true;
           ENABLE_WEBSOCKET = true;
-        };
-      };
-
-      services.syncthing = {
-        enable = true;
-        # Makes sure the files managed by syncthing belong to my user account.
-        user = username;
-        group = "users";
-        dataDir = syncthing-root-dir;
-        configDir = "${base-home-dir}/${username}/.config/syncthing";
-        openDefaultPorts = true;
-        guiAddress = "127.0.0.1:${ports.syncthing}"; # Localhost only; Nginx will expose it
-        settings.gui.insecureSkipHostcheck = true; # For reverse proxy support.
-        # Allow stateful management of devices and shared folders without NixOS overwriting
-        # the config on rebuild.
-        overrideDevices = false;
-        overrideFolders = false;
-        # Synchronize pulumi filesystem state between gathering-hub and yukomo.
-        settings = {
-          devices."MBP-Robin" = {
-            id = "MABD5SD-PZT6Z72-U45H24C-DMMSBDS-EQ3A7FH-TYAHQ5M-UVMAQ4R-BUTC3QV";
-          };
-          folders."pulumi-state" = {
-            id = "pulumi-state";
-            label = "Pulumi State (.dotfiles)";
-            path = "${base-home-dir}/${username}/.config/home-manager/pulumi/state";
-            devices = [ "MBP-Robin" ];
-          };
         };
       };
 
@@ -481,7 +458,7 @@ rec {
               "${backup-root-dir}/postgresql"
               "${backup-root-dir}/paperless"
               "/data/paperless/consume"
-              syncthing-root-dir
+              config.gathering-hub.mediaDirs.syncthing-root
 
               # User home data
               "${base-home-dir}/${username}"

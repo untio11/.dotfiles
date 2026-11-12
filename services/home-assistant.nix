@@ -34,6 +34,11 @@
     };
   };
 
+  # Ensure the `/data/backups` directory exists.
+  config.systemd.tmpfiles.rules = [
+    "f /var/lib/hass/automations.yaml 0644 hass hass -"
+  ];
+
   # Home Assistant related setup
   config.services.home-assistant = {
     enable = true;

@@ -46,19 +46,20 @@ rec {
       ...
     }:
     let
+      # TODO: Should be option in `services/backup.nix`
       backup-root-dir = "/data/backups";
-      ports = {
-        vaultwarden = 8222;
-      };
     in
     {
       imports = [
         ../services/adguard.nix
         ../services/home-assistant.nix
+        ../services/hosting.nix
         ../services/paperless.nix
         ../services/zigbee2mqtt.nix
         ../services/syncthing.nix
       ];
+
+      gathering-hub.domain = "furahiya.nexus";
 
       gathering-hub.ports = {
         adguard = 3000;
@@ -68,6 +69,7 @@ rec {
         paperless-gpt = 8081;
         zigbee2mqtt = 8080;
         syncthing = 8384;
+        vaultwarden = 8222;
       };
 
       gathering-hub.mediaDirs = {
@@ -77,19 +79,16 @@ rec {
       sops = {
         defaultSopsFile = ../secrets/secrets.yaml;
         defaultSopsFormat = "yaml";
+
+        # Host secrets
         age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
 
-        secrets."mijnhost_api_key" = { };
-        # Render an environment file in RAM for ACME to read
-        templates."acme-mijnhost.env" = {
-          content = ''
-            MIJNHOST_API_KEY="${config.sops.placeholder.mijnhost_api_key}"
-          '';
-        };
-        secrets."mijnhost_ddns_password" = { };
+        # Backup secrets
         secrets."restic_password" = { };
         secrets."gcp_restic_credentials_json" = { };
+
+        # Vaultwarden secrets
         secrets."vaultwarden_admin_token_hash" = { };
         templates."vaultwarden.env" = {
           content = ''
@@ -97,83 +96,10 @@ rec {
           '';
         };
       };
-      security.acme = {
-        acceptTerms = true;
-        defaults.email = "robin.kneepkens@hotmail.com";
 
-        certs."furahiya.nexus" = {
-          # Issue certificate to all service subdomains `<service>.furahiya.nexus`.
-          extraDomainNames = [ "*.furahiya.nexus" ];
-          dnsProvider = "mijnhost";
-          # File contains the API key.
-          environmentFile = config.sops.templates."acme-mijnhost.env".path;
-          group = "nginx"; # Give nginx permission to read the certificate.
-          dnsResolver = "1.1.1.1:53"; # Resolve via Cloudflare to circumvent Ziggo's negative cache resonse.
-        };
-      };
-      # Enable mDNS so `gathering-hub.local` resolves to this machine's IP address
-      # on LAN.
-      services.avahi = {
-        enable = true;
-        nssmdns4 = true;
-        openFirewall = true; # Open port 5353 for UDP mDNS traffic
-        settings.publish.publish-addresses = true;
-      };
-      # Dynamic DNS - Update Mijn Host `gate.furahiya.nexus` DNS entry periodically to
-      # point to my public IP address.
-      services.ddclient = {
-        enable = true;
-        server = "mijn.host";
-        username = "ddns_f928877f9d95";
-        passwordFile = config.sops.secrets."mijnhost_ddns_password".path;
-        domains = [ "gate.furahiya.nexus" ];
-      };
-      services.nginx = {
-        enable = true;
-        recommendedProxySettings = true;
-        clientMaxBodySize = "100m"; # Allow uploading large documents for Paperless.
-        virtualHosts =
-          let
-            domain = "furahiya.nexus";
-            mkVhost = proxyConfig: {
-              useACMEHost = domain;
-              forceSSL = true;
-              locations."/" = proxyConfig // {
-                proxyWebsockets = true;
-                # Otherwise nginx will spit out connection-timed-out errors for most services.
-                extraConfig = ''
-                  proxy_read_timeout 3600s;
-                  proxy_send_timeout 3600s;
-                  ${proxyConfig.extraConfig or ""}
-                '';
-              };
-            };
-          in
-          {
-            "home-assistant.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.home-assistant}";
-              extraConfig = "proxy_buffering off;";
-            };
-            "paperless.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.paperless}";
-            };
-            "paperless-gpt.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.paperless-gpt}";
-            };
-            "syncthing.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.syncthing}/";
-            };
-            "zigbee2mqtt.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.zigbee2mqtt}";
-            };
-            "adguard.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString config.gathering-hub.ports.adguard}";
-            };
-            "vaultwarden.${domain}" = mkVhost {
-              proxyPass = "http://127.0.0.1:${toString ports.vaultwarden}";
-            };
-          };
-      };
+      # TODO: Move database declarations to matching service file. Also keep one common `services/postgresql.nix` for
+      # global settings (such as package, enable and backup config.)
+      #
       # PostgreSQL database for Home Assistant, Paperless, and Vaultwarden
       # (Note: the `vaultwarden` database & user are automatically provisioned via `services.vaultwarden.configurePostgres = true`)
       services.postgresql = {
@@ -205,26 +131,21 @@ rec {
         ];
       };
 
+      # TODO: Move to `services/vaultwarden.nix` including secrets definitions
       services.vaultwarden = {
         enable = true;
         dbBackend = "postgresql";
         configurePostgres = true;
-        domain = "vaultwarden.furahiya.nexus";
+        domain = "vaultwarden.${config.gathering-hub.domain}";
         environmentFile = config.sops.templates."vaultwarden.env".path;
         config = {
           ROCKET_ADDRESS = "127.0.0.1";
-          ROCKET_PORT = ports.vaultwarden;
+          ROCKET_PORT = config.gathering-hub.ports.vaultwarden;
           SIGNUPS_ALLOWED = false;
           INVITATIONS_ALLOWED = true;
           ENABLE_WEBSOCKET = true;
         };
       };
-
-      # Ensure the `/data/backups` directory exists.
-      systemd.tmpfiles.rules = [
-        "d ${backup-root-dir} 0755 root root -"
-        "f /var/lib/hass/automations.yaml 0644 hass hass -"
-      ];
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target
       # is reached (ctrl+alt+f2).
@@ -399,6 +320,12 @@ rec {
         { device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355"; } # SSD
       ];
 
+      # TODO: Move to `services/backup.nix` including secrets definitions
+      #
+      # Ensure the `/data/backups` directory exists.
+      systemd.tmpfiles.rules = [
+        "d ${backup-root-dir} 0755 root root -"
+      ];
       services.restic.backups =
         let
           resticSensors = import ../hass/sensors/restic.nix {
@@ -406,6 +333,8 @@ rec {
             mosquittoPort = config.gathering-hub.ports.mosquitto;
           };
 
+          # TODO: Eventually make this extensible (especially the paths/exclude) options so
+          # other services can declare what paths they want to include in backups.
           commonRestic = {
             initialize = true;
             passwordFile = config.sops.secrets."restic_password".path;

@@ -45,13 +45,10 @@ rec {
       lib,
       ...
     }:
-    let
-      # TODO: Should be option in `services/backup.nix`
-      backup-root-dir = "/data/backups";
-    in
     {
       imports = [
         ../services/adguard.nix
+        ../services/backup.nix
         ../services/home-assistant.nix
         ../services/hosting.nix
         ../services/paperless.nix
@@ -76,6 +73,15 @@ rec {
         syncthing-root = "/data/syncthing";
       };
 
+      gathering-hub.backup = {
+        root-dir = "/data/backups";
+        # Move to `services/postgresql.nix` and `services/vaultwarden.nix` once extracted.
+        paths = [
+          "${config.gathering-hub.backup.root-dir}/postgresql"
+          "/var/lib/bitwarden_rs"
+        ];
+      };
+
       sops = {
         defaultSopsFile = ../secrets/secrets.yaml;
         defaultSopsFormat = "yaml";
@@ -83,10 +89,6 @@ rec {
         # Host secrets
         age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
-
-        # Backup secrets
-        secrets."restic_password" = { };
-        secrets."gcp_restic_credentials_json" = { };
 
         # Vaultwarden secrets
         secrets."vaultwarden_admin_token_hash" = { };
@@ -123,7 +125,7 @@ rec {
       services.postgresqlBackup = {
         # Default schedule: daily at 01:15 (`startAt` property.)
         enable = true;
-        location = "${backup-root-dir}/postgresql";
+        location = "${config.gathering-hub.backup.root-dir}/postgresql";
         databases = [
           "hass"
           "paperless"
@@ -319,103 +321,6 @@ rec {
         # sda3
         { device = "/dev/disk/by-uuid/9025aa85-720d-46f7-a7d6-d0cd15793355"; } # SSD
       ];
-
-      # TODO: Move to `services/backup.nix` including secrets definitions
-      #
-      # Ensure the `/data/backups` directory exists.
-      systemd.tmpfiles.settings."backups".${backup-root-dir}.d = { };
-      services.restic.backups =
-        let
-          resticSensors = import ../hass/sensors/restic.nix {
-            inherit pkgs;
-            mosquittoPort = config.gathering-hub.ports.mosquitto;
-          };
-
-          # TODO: Eventually make this extensible (especially the paths/exclude) options so
-          # other services can declare what paths they want to include in backups.
-          commonRestic = {
-            initialize = true;
-            passwordFile = config.sops.secrets."restic_password".path;
-
-            paths = [
-              # Machine-specific keys necessary to access sops.
-              "/etc/ssh/ssh_host_ed25519_key"
-              "/etc/ssh/ssh_host_ed25519_key.pub"
-              "/etc/ssh/ssh_host_rsa_key"
-              "/etc/ssh/ssh_host_rsa_key.pub"
-
-              "/var/lib/nixos"
-              "/var/lib/hass"
-              "/var/lib/zigbee2mqtt"
-              "/var/lib/paperless"
-              "/var/lib/bitwarden_rs"
-              "/var/lib/acme"
-              "/var/lib/mosquitto"
-              "/var/lib/private/AdGuardHome"
-
-              "${backup-root-dir}/postgresql"
-              "${backup-root-dir}/paperless"
-              "/data/paperless/consume"
-              config.gathering-hub.mediaDirs.syncthing-root
-
-              # User home data
-              "${base-home-dir}/${username}"
-            ];
-
-            exclude = [
-              "${base-home-dir}/${username}/.cache"
-              "${base-home-dir}/${username}/.config/syncthing/index*"
-              "/var/lib/hass/.cache"
-              "/var/lib/hass/*.log*"
-              "/var/lib/hass/backups" # Ignore the encrypted hass backups, as restic backs up all those files too.
-              "/var/lib/zigbee2mqtt/log"
-              "/var/lib/paperless/log"
-              "/var/lib/private/AdGuardHome/data/filters"
-            ];
-
-            pruneOpts = [
-              "--keep-daily 7"
-              "--keep-weekly 5"
-              "--keep-monthly 12"
-              "--keep-yearly 3"
-            ];
-          };
-        in
-        {
-          local =
-            commonRestic
-            // (resticSensors.mkHooks {
-              name = "local";
-              label = "Local";
-              repo = "${backup-root-dir}/restic";
-              icon = "mdi:harddisk";
-            })
-            // {
-              timerConfig = {
-                OnCalendar = "02:00";
-                Persistent = true;
-              };
-            };
-
-          gcs =
-            commonRestic
-            // (resticSensors.mkHooks {
-              name = "gcs";
-              label = "GCS";
-              repo = "gs:gathering-hub-restic-8acc3d4:/";
-              icon = "mdi:cloud-upload";
-            })
-            // {
-              timerConfig = {
-                OnCalendar = "03:00";
-                Persistent = true;
-              };
-              environmentFile = "${pkgs.writeText "restic-gcs.env" ''
-                GOOGLE_PROJECT_ID=robotic-circle-456517-e7
-                GOOGLE_APPLICATION_CREDENTIALS=${config.sops.secrets."gcp_restic_credentials_json".path}
-              ''}";
-            };
-        };
 
       system.stateVersion = "23.05";
     };

@@ -111,4 +111,6 @@ in
     openFirewall = true; # Open port 5353 for UDP mDNS traffic
     settings.publish.publish-addresses = true;
   };
+
+  config.gathering-hub.backup.paths = [ "/var/lib/acme" ];
 }

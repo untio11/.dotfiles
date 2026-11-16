@@ -82,4 +82,14 @@ in
       };
     };
   };
+
+  config.gathering-hub.backup = {
+    paths = [
+      config.services.zigbee2mqtt.dataDir
+      config.services.mosquitto.dataDir
+    ];
+    exclude = [
+      "${config.services.zigbee2mqtt.dataDir}/log"
+    ];
+  };
 }

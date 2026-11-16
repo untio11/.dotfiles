@@ -64,7 +64,7 @@ in
       };
       exporter = {
         enable = true;
-        directory = "/data/backups/paperless";
+        directory = "${cfg.backup.root-dir}/paperless";
         onCalendar = "*-*-* 01:30:00"; # Daily at 01:30
       };
     };
@@ -154,6 +154,19 @@ in
       # Inherit rwx for paperless & users on subfolders/files synced into consume/
       "/data/paperless/consume"."A+".argument =
         "d:u:paperless:rwx,d:g:users:rwx,u:paperless:rwx,g:users:rwx";
+    };
+
+    gathering-hub.backup = {
+      paths = [
+        config.services.paperless.dataDir
+        config.services.paperless.exporter.directory
+        config.services.paperless.consumptionDir
+        "/var/lib/paperless-gpt/config"
+        "/var/lib/paperless-gpt/prompts"
+      ];
+      exclude = [
+        "${config.services.paperless.dataDir}/log"
+      ];
     };
   };
 }

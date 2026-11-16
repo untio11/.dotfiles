@@ -90,4 +90,9 @@ in
       };
     };
   };
+
+  config.gathering-hub.backup = {
+    paths = [ "/var/lib/private/AdGuardHome" ];
+    exclude = [ "/var/lib/private/AdGuardHome/data/filters" ];
+  };
 }

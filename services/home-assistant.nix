@@ -114,4 +114,17 @@
         pypaperless # Paperless ngx integration
       ];
   };
+
+  config.gathering-hub.backup =
+    let
+      inherit (config.services.home-assistant) configDir;
+    in
+    {
+      paths = [ configDir ];
+      exclude = [
+        "${configDir}/.cache"
+        "${configDir}/*.log*"
+        "${configDir}/backups" # Ignore the encrypted hass backups, as restic backs up all those files too.
+      ];
+    };
 }

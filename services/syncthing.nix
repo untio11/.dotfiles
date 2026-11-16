@@ -50,4 +50,9 @@ in
       };
     };
   };
+
+  config.gathering-hub.backup = {
+    paths = [ cfg.mediaDirs.syncthing-root ];
+    exclude = [ "${config.services.syncthing.configDir}/index*" ];
+  };
 }

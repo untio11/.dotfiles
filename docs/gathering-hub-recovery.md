@@ -113,6 +113,7 @@ sudo nix-shell -p restic --run "restic -r /data/backups/restic restore latest \
   --include /var/lib/hass \
   --include /var/lib/zigbee2mqtt \
   --include /var/lib/paperless \
+  --include /var/lib/paperless-gpt \
   --include /var/lib/bitwarden_rs \
   --include /var/lib/acme \
   --include /var/lib/mosquitto \

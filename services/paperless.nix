@@ -40,133 +40,126 @@ in
     };
   };
 
-  config = {
-    services.paperless = {
+  config.services.paperless = {
+    enable = true;
+    address = "127.0.0.1";
+    port = cfg.ports.paperless;
+    database.createLocally = true; # Configure local postgresql database `paperless`.
+    consumptionDir = "/data/paperless/consume";
+    consumptionDirIsPublic = true;
+    settings = {
+      PAPERLESS_URL = "https://paperless.furahiya.nexus";
+      # Languages for Optical Character Recognition (OCR).
+      PAPERLESS_OCR_LANGUAGE = "eng+nld";
+      PAPERLESS_TIME_ZONE = "Europe/Amsterdam";
+      # Document consumption config
+      PAPERLESS_CONSUMER_DELETE_DUPLICATES = true; # Simply delete documents from the consumer dir in case of duplicate detection.
+      PAPERLESS_CONSUMER_RECURSIVE = true; # Allow paperless to consume documents from subdirectories of the consumer dir.
+      PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true; # Subdirectories leading to the consumed document will be added as tags.
+    };
+    exporter = {
       enable = true;
-      address = "127.0.0.1";
-      port = cfg.ports.paperless;
-      consumptionDir = "/data/paperless/consume";
-      consumptionDirIsPublic = true;
-      settings = {
-        PAPERLESS_URL = "https://paperless.furahiya.nexus";
-        # Languages for Optical Character Recognition (OCR).
-        PAPERLESS_OCR_LANGUAGE = "eng+nld";
-        PAPERLESS_TIME_ZONE = "Europe/Amsterdam";
-        # Database Config
-        PAPERLESS_DBENGINE = "postgresql";
-        PAPERLESS_DBHOST = "/run/postgresql";
-        PAPERLESS_DBNAME = "paperless";
-        PAPERLESS_DBUSER = "paperless";
-        # Document consumption config
-        PAPERLESS_CONSUMER_DELETE_DUPLICATES = true; # Simply delete documents from the consumer dir in case of duplicate detection.
-        PAPERLESS_CONSUMER_RECURSIVE = true; # Allow paperless to consume documents from subdirectories of the consumer dir.
-        PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS = true; # Subdirectories leading to the consumed document will be added as tags.
-      };
-      exporter = {
-        enable = true;
-        directory = "${cfg.backup.root-dir}/paperless";
-        onCalendar = "*-*-* 01:30:00"; # Daily at 01:30
-      };
+      directory = "${cfg.backup.root-dir}/paperless";
+      onCalendar = "*-*-* 01:30:00"; # Daily at 01:30
     };
+  };
 
-    # So paperless can interact with files in /data/paperless/consume.
-    users.users.paperless.extraGroups = [ "users" ];
+  # So paperless can interact with files in /data/paperless/consume.
+  config.users.users.paperless.extraGroups = [ "users" ];
 
-    sops = {
-      secrets."gcp_paperless_docai_credentials_json" = with cfg.paperless.gpt-ids; {
-        inherit uid gid;
-      };
-      secrets."paperless_api_token" = { };
-      secrets."googleai_api_key" = { };
-      templates."paperless-gpt.env".content = ''
-        PAPERLESS_API_TOKEN=${config.sops.placeholder.paperless_api_token}
-        GOOGLEAI_API_KEY=${config.sops.placeholder.googleai_api_key}
-      '';
+  config.sops = {
+    secrets."gcp_paperless_docai_credentials_json" = with cfg.paperless.gpt-ids; {
+      inherit uid gid;
     };
+    secrets."paperless_api_token" = { };
+    secrets."googleai_api_key" = { };
+    templates."paperless-gpt.env".content = ''
+      PAPERLESS_API_TOKEN=${config.sops.placeholder.paperless_api_token}
+      GOOGLEAI_API_KEY=${config.sops.placeholder.googleai_api_key}
+    '';
+  };
 
-    virtualisation.podman.enable = true;
-    virtualisation.oci-containers = {
-      backend = "podman";
-      containers.paperless-gpt = {
-        image = "docker.io/icereed/paperless-gpt:latest";
-        autoStart = true;
-        extraOptions = [ "--network=host" ];
-        environment = {
-          # Explicitly set the uid/gid of the paperless-gpt process
-          PUID = toString cfg.paperless.gpt-ids.uid;
-          PGID = toString cfg.paperless.gpt-ids.gid;
+  config.virtualisation.oci-containers = {
+    backend = "podman";
+    containers.paperless-gpt = {
+      image = "docker.io/icereed/paperless-gpt:latest";
+      autoStart = true;
+      extraOptions = [ "--network=host" ];
+      environment = {
+        # Explicitly set the uid/gid of the paperless-gpt process
+        PUID = toString cfg.paperless.gpt-ids.uid;
+        PGID = toString cfg.paperless.gpt-ids.gid;
 
-          LISTEN_INTERFACE = "127.0.0.1:${toString cfg.ports.paperless-gpt}";
-          PAPERLESS_BASE_URL = "http://127.0.0.1:${toString cfg.ports.paperless}";
-          PAPERLESS_PUBLIC_URL = "https://paperless.furahiya.nexus";
+        LISTEN_INTERFACE = "127.0.0.1:${toString cfg.ports.paperless-gpt}";
+        PAPERLESS_BASE_URL = "http://127.0.0.1:${toString cfg.ports.paperless}";
+        PAPERLESS_PUBLIC_URL = "https://paperless.furahiya.nexus";
 
-          # Google Gemini LLM configuration (Astera Cloud)
-          LLM_PROVIDER = "googleai";
-          LLM_MODEL = "gemini-3.5-flash-lite";
+        # Google Gemini LLM configuration (Astera Cloud)
+        LLM_PROVIDER = "googleai";
+        LLM_MODEL = "gemini-3.5-flash-lite";
 
-          # Google Document AI OCR configuration (Astera Cloud)
-          OCR_PROVIDER = "google_docai";
-          GOOGLE_PROJECT_ID = "robotic-circle-456517-e7";
-          GOOGLE_LOCATION = "europe-west2";
-          GOOGLE_PROCESSOR_ID = "16da0c76b368e7ec";
-          GOOGLE_APPLICATION_CREDENTIALS = "/etc/gcp-credentials.json"; # Created by sops (mounted outside /app so entrypoint chown -R /app succeeds)
+        # Google Document AI OCR configuration (Astera Cloud)
+        OCR_PROVIDER = "google_docai";
+        GOOGLE_PROJECT_ID = "robotic-circle-456517-e7";
+        GOOGLE_LOCATION = "europe-west2";
+        GOOGLE_PROCESSOR_ID = "16da0c76b368e7ec";
+        GOOGLE_APPLICATION_CREDENTIALS = "/etc/gcp-credentials.json"; # Created by sops (mounted outside /app so entrypoint chown -R /app succeeds)
 
-          # Send the entire PDF as images to Google Document AI and upload the resulting searchable PDF back to Paperless
-          OCR_PROCESS_MODE = "image";
-          OCR_LIMIT_PAGES = "0"; # 0 = no artificial 5-page limit in paperless-gpt (Google DocAI sync limit is 15 pages / 20MB)
-          PDF_UPLOAD = "true";
-          PDF_UPLOAD_MODE = "version"; # Uploaded doc becomes a new version of the original doc (Paperless-ngx 3.0+).
-          PRESERVE_EXISTING_METADATA = "true"; # Don't overwrite pre-filled metadata fields for ai-auto-request
+        # Send the entire PDF as images to Google Document AI and upload the resulting searchable PDF back to Paperless
+        OCR_PROCESS_MODE = "image";
+        OCR_LIMIT_PAGES = "0"; # 0 = no artificial 5-page limit in paperless-gpt (Google DocAI sync limit is 15 pages / 20MB)
+        PDF_UPLOAD = "true";
+        PDF_UPLOAD_MODE = "version"; # Uploaded doc becomes a new version of the original doc (Paperless-ngx 3.0+).
+        PRESERVE_EXISTING_METADATA = "true"; # Don't overwrite pre-filled metadata fields for ai-auto-request
 
-          # Tagging
-          PDF_OCR_TAGGING = "true";
-          AUTO_OCR_TAG = "ai-ocr-request";
-          PDF_OCR_COMPLETE_TAG = "ai-ocr-done";
+        # Tagging
+        PDF_OCR_TAGGING = "true";
+        AUTO_OCR_TAG = "ai-ocr-request";
+        PDF_OCR_COMPLETE_TAG = "ai-ocr-done";
 
-          MANUAL_TAG = "ai-request"; # Files tagged with this show up in paperless-gpt web ui for manual processing
-          AUTO_TAG = "ai-auto-request"; # Files tagged with this will automatically be processed by paperless-gpt
-          AUTO_TAG_COMPLETE = "ai-auto-done"; # Successfully processed a document that was tagged with AUTO_TAG
-          FAIL_TAG = "ai-auto-fail"; # AUTO_TAG processed document partially or fully failed
-        };
-        environmentFiles = [
-          config.sops.templates."paperless-gpt.env".path
-        ];
-        volumes = [
-          "${config.sops.secrets."gcp_paperless_docai_credentials_json".path}:/etc/gcp-credentials.json:ro"
-          "/var/lib/paperless-gpt/config:/app/config"
-          "/var/lib/paperless-gpt/prompts:/app/prompts"
-          "/var/lib/paperless-gpt/db:/app/db"
-        ];
+        MANUAL_TAG = "ai-request"; # Files tagged with this show up in paperless-gpt web ui for manual processing
+        AUTO_TAG = "ai-auto-request"; # Files tagged with this will automatically be processed by paperless-gpt
+        AUTO_TAG_COMPLETE = "ai-auto-done"; # Successfully processed a document that was tagged with AUTO_TAG
+        FAIL_TAG = "ai-auto-fail"; # AUTO_TAG processed document partially or fully failed
       };
+      environmentFiles = [
+        config.sops.templates."paperless-gpt.env".path
+      ];
+      volumes = [
+        "${config.sops.secrets."gcp_paperless_docai_credentials_json".path}:/etc/gcp-credentials.json:ro"
+        "/var/lib/paperless-gpt/config:/app/config"
+        "/var/lib/paperless-gpt/prompts:/app/prompts"
+        "/var/lib/paperless-gpt/db:/app/db"
+      ];
     };
-    systemd.services.podman-paperless-gpt.serviceConfig.StateDirectory = [
-      "paperless-gpt/config"
-      "paperless-gpt/prompts"
-      "paperless-gpt/db"
+  };
+  config.systemd.services.podman-paperless-gpt.serviceConfig.StateDirectory = [
+    "paperless-gpt/config"
+    "paperless-gpt/prompts"
+    "paperless-gpt/db"
+  ];
+
+  config.systemd.tmpfiles.settings."paperless" = {
+    # Ensure the paperless root data dir exists.
+    "/data/paperless".d = {
+      user = "paperless";
+      group = "users";
+    };
+    # Inherit rwx for paperless & users on subfolders/files synced into consume/
+    "/data/paperless/consume"."A+".argument =
+      "d:u:paperless:rwx,d:g:users:rwx,u:paperless:rwx,g:users:rwx";
+  };
+
+  config.gathering-hub.backup = {
+    paths = [
+      config.services.paperless.dataDir
+      config.services.paperless.exporter.directory
+      config.services.paperless.consumptionDir
+      "/var/lib/paperless-gpt/config"
+      "/var/lib/paperless-gpt/prompts"
     ];
-
-    systemd.tmpfiles.settings."paperless" = {
-      # Ensure the paperless root data dir exists.
-      "/data/paperless".d = {
-        user = "paperless";
-        group = "users";
-      };
-      # Inherit rwx for paperless & users on subfolders/files synced into consume/
-      "/data/paperless/consume"."A+".argument =
-        "d:u:paperless:rwx,d:g:users:rwx,u:paperless:rwx,g:users:rwx";
-    };
-
-    gathering-hub.backup = {
-      paths = [
-        config.services.paperless.dataDir
-        config.services.paperless.exporter.directory
-        config.services.paperless.consumptionDir
-        "/var/lib/paperless-gpt/config"
-        "/var/lib/paperless-gpt/prompts"
-      ];
-      exclude = [
-        "${config.services.paperless.dataDir}/log"
-      ];
-    };
+    exclude = [
+      "${config.services.paperless.dataDir}/log"
+    ];
   };
 }

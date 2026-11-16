@@ -52,6 +52,7 @@ rec {
         ../services/home-assistant.nix
         ../services/hosting.nix
         ../services/paperless.nix
+        ../services/postgresql.nix
         ../services/zigbee2mqtt.nix
         ../services/syncthing.nix
       ];
@@ -75,9 +76,8 @@ rec {
 
       gathering-hub.backup = {
         root-dir = "/data/backups";
-        # Move to `services/postgresql.nix` and `services/vaultwarden.nix` once extracted.
+        # Move to `services/vaultwarden.nix` once extracted.
         paths = [
-          "${config.gathering-hub.backup.root-dir}/postgresql"
           "/var/lib/bitwarden_rs"
         ];
       };
@@ -99,40 +99,6 @@ rec {
         };
       };
 
-      # TODO: Move database declarations to matching service file. Also keep one common `services/postgresql.nix` for
-      # global settings (such as package, enable and backup config.)
-      #
-      # PostgreSQL database for Home Assistant, Paperless, and Vaultwarden
-      # (Note: the `vaultwarden` database & user are automatically provisioned via `services.vaultwarden.configurePostgres = true`)
-      services.postgresql = {
-        enable = true;
-        package = pkgs.postgresql_18;
-        ensureDatabases = [
-          "hass"
-          "paperless"
-        ];
-        ensureUsers = [
-          {
-            name = "hass";
-            ensureDBOwnership = true;
-          }
-          {
-            name = "paperless";
-            ensureDBOwnership = true;
-          }
-        ];
-      };
-      services.postgresqlBackup = {
-        # Default schedule: daily at 01:15 (`startAt` property.)
-        enable = true;
-        location = "${config.gathering-hub.backup.root-dir}/postgresql";
-        databases = [
-          "hass"
-          "paperless"
-          "vaultwarden"
-        ];
-      };
-
       # TODO: Move to `services/vaultwarden.nix` including secrets definitions
       services.vaultwarden = {
         enable = true;
@@ -148,6 +114,8 @@ rec {
           ENABLE_WEBSOCKET = true;
         };
       };
+
+      virtualisation.podman.enable = true;
 
       # Otherwise tty1 hangs after boot. Switch to tty2 when multi-user system target
       # is reached (ctrl+alt+f2).

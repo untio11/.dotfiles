@@ -39,6 +39,16 @@
     touch -a "${config.services.home-assistant.configDir}/automations.yaml"
   '';
 
+  config.services.postgresql = {
+    ensureDatabases = [ "hass" ];
+    ensureUsers = [
+      {
+        name = "hass";
+        ensureDBOwnership = true;
+      }
+    ];
+  };
+
   # Home Assistant related setup
   config.services.home-assistant = {
     enable = true;

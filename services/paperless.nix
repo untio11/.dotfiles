@@ -23,6 +23,23 @@ in
     '';
   };
 
+  options.gathering-hub.paperless.gpt-ids = {
+    uid = lib.mkOption {
+      type = lib.types.int;
+      default = 10001;
+      description = lib.mdDoc ''
+        Paperless-GPT container user ID
+      '';
+    };
+    gid = lib.mkOption {
+      type = lib.types.int;
+      default = 10001;
+      description = lib.mdDoc ''
+        Paperless-GPT container group ID
+      '';
+    };
+  };
+
   config = {
     services.paperless = {
       enable = true;
@@ -56,9 +73,8 @@ in
     users.users.paperless.extraGroups = [ "users" ];
 
     sops = {
-      secrets."gcp_paperless_docai_credentials_json" = {
-        # paperless-gpt drops privileges to UID/GID 10001 inside the container
-        mode = "0444";
+      secrets."gcp_paperless_docai_credentials_json" = with cfg.paperless.gpt-ids; {
+        inherit uid gid;
       };
       secrets."paperless_api_token" = { };
       secrets."googleai_api_key" = { };
@@ -76,6 +92,10 @@ in
         autoStart = true;
         extraOptions = [ "--network=host" ];
         environment = {
+          # Explicitly set the uid/gid of the paperless-gpt process
+          PUID = toString cfg.paperless.gpt-ids.uid;
+          PGID = toString cfg.paperless.gpt-ids.gid;
+
           LISTEN_INTERFACE = "127.0.0.1:${toString cfg.ports.paperless-gpt}";
           PAPERLESS_BASE_URL = "http://127.0.0.1:${toString cfg.ports.paperless}";
           PAPERLESS_PUBLIC_URL = "https://paperless.furahiya.nexus";
@@ -119,20 +139,21 @@ in
         ];
       };
     };
-
-    systemd.tmpfiles.rules = [
-      # Ensure the base consume folder exists with full access
-      "d /data/paperless/consume 0777 paperless paperless -"
-
-      # Force DEFAULT ACLs so any subfolder/file created by Syncthing or you
-      # automatically inherits read, write, and delete permissions for the paperless user
-      "A+ /data/paperless/consume - - - - default:user:paperless:rwx,default:group:users:rwx,default:other::rwx"
-      "A+ /data/paperless/consume - - - - user:paperless:rwx,group:users:rwx,other::rwx"
-
-      # State directories for paperless-gpt
-      "d /var/lib/paperless-gpt/config 0755 root root -"
-      "d /var/lib/paperless-gpt/prompts 0755 root root -"
-      "d /var/lib/paperless-gpt/db 0755 root root -"
+    systemd.services.podman-paperless-gpt.serviceConfig.StateDirectory = [
+      "paperless-gpt/config"
+      "paperless-gpt/prompts"
+      "paperless-gpt/db"
     ];
+
+    systemd.tmpfiles.settings."paperless" = {
+      # Ensure the paperless root data dir exists.
+      "/data/paperless".d = {
+        user = "paperless";
+        group = "users";
+      };
+      # Inherit rwx for paperless & users on subfolders/files synced into consume/
+      "/data/paperless/consume"."A+".argument =
+        "d:u:paperless:rwx,d:g:users:rwx,u:paperless:rwx,g:users:rwx";
+    };
   };
 }

@@ -34,10 +34,10 @@
     };
   };
 
-  # Ensure the `/data/backups` directory exists.
-  config.systemd.tmpfiles.rules = [
-    "f /var/lib/hass/automations.yaml 0644 hass hass -"
-  ];
+  # Ensure the root automations file exists owned by the `hass` user (preStart runs as hass).
+  config.systemd.services.home-assistant.preStart = ''
+    touch -a "${config.services.home-assistant.configDir}/automations.yaml"
+  '';
 
   # Home Assistant related setup
   config.services.home-assistant = {

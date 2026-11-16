@@ -323,9 +323,7 @@ rec {
       # TODO: Move to `services/backup.nix` including secrets definitions
       #
       # Ensure the `/data/backups` directory exists.
-      systemd.tmpfiles.rules = [
-        "d ${backup-root-dir} 0755 root root -"
-      ];
+      systemd.tmpfiles.settings."backups".${backup-root-dir}.d = { };
       services.restic.backups =
         let
           resticSensors = import ../hass/sensors/restic.nix {

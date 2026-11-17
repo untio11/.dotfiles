@@ -48,10 +48,9 @@ in
     consumptionDir = "/data/paperless/consume";
     consumptionDirIsPublic = true;
     settings = {
-      PAPERLESS_URL = "https://paperless.furahiya.nexus";
+      PAPERLESS_URL = "https://paperless.${cfg.domain}";
       # Languages for Optical Character Recognition (OCR).
       PAPERLESS_OCR_LANGUAGE = "eng+nld";
-      PAPERLESS_TIME_ZONE = "Europe/Amsterdam";
       # Document consumption config
       PAPERLESS_CONSUMER_DELETE_DUPLICATES = true; # Simply delete documents from the consumer dir in case of duplicate detection.
       PAPERLESS_CONSUMER_RECURSIVE = true; # Allow paperless to consume documents from subdirectories of the consumer dir.
@@ -92,7 +91,7 @@ in
 
         LISTEN_INTERFACE = "127.0.0.1:${toString cfg.ports.paperless-gpt}";
         PAPERLESS_BASE_URL = "http://127.0.0.1:${toString cfg.ports.paperless}";
-        PAPERLESS_PUBLIC_URL = "https://paperless.furahiya.nexus";
+        PAPERLESS_PUBLIC_URL = "https://paperless.${cfg.domain}";
 
         # Google Gemini LLM configuration (Astera Cloud)
         LLM_PROVIDER = "googleai";

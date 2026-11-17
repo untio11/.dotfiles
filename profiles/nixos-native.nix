@@ -172,20 +172,7 @@ rec {
         hostName = hostname;
         useDHCP = lib.mkDefault true;
         networkmanager.enable = true;
-        firewall = {
-          enable = true;
-          allowedTCPPorts = [
-            22 # SSH
-            53 # AdGuard Home DNS
-            80 # HTTP for nginx reverse proxy
-            443 # HTTPS
-          ];
-          allowedUDPPorts = [
-            53 # AdGuard Home DNS
-            6666 # Tuya local discovery (unencrypted)
-            6667 # Tuya local discovery (encrypted)
-          ];
-        };
+        firewall.enable = true;
       };
       nix = {
         settings = {

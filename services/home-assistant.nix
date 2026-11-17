@@ -125,6 +125,11 @@
       ];
   };
 
+  config.networking.firewall.allowedUDPPorts = [
+    6666 # Tuya local discovery (unencrypted)
+    6667 # Tuya local discovery (encrypted)
+  ];
+
   config.gathering-hub.backup =
     let
       inherit (config.services.home-assistant) configDir;

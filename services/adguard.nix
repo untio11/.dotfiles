@@ -91,6 +91,11 @@ in
     };
   };
 
+  config.networking.firewall = {
+    allowedTCPPorts = [ 53 ];
+    allowedUDPPorts = [ 53 ];
+  };
+
   config.gathering-hub.backup = {
     paths = [ "/var/lib/private/AdGuardHome" ];
     exclude = [ "/var/lib/private/AdGuardHome/data/filters" ];

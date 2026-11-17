@@ -104,5 +104,10 @@ in
     settings.publish.publish-addresses = true;
   };
 
+  config.networking.firewall.allowedTCPPorts = [
+    80 # HTTP for nginx reverse proxy
+    443 # HTTPS
+  ];
+
   config.gathering-hub.backup.paths = [ "/var/lib/acme" ];
 }

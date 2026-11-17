@@ -14,14 +14,6 @@ in
       Base domain name used for ACME certificates, Dynamic DNS, and Nginx virtual hosts
     '';
   };
-  # Move to services/vaultwarden.nix once Vaultwarden is migrated to its own module.
-  options.gathering-hub.ports.vaultwarden = lib.mkOption {
-    type = lib.types.port;
-    default = 8222;
-    description = lib.mdDoc ''
-      Vaultwarden Web UI port
-    '';
-  };
 
   config.sops = {
     secrets."mijnhost_api_key" = { };

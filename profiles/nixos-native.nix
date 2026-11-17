@@ -53,8 +53,9 @@ rec {
         ../services/hosting.nix
         ../services/paperless.nix
         ../services/postgresql.nix
-        ../services/zigbee2mqtt.nix
         ../services/syncthing.nix
+        ../services/vaultwarden.nix
+        ../services/zigbee2mqtt.nix
       ];
 
       gathering-hub.domain = "furahiya.nexus";
@@ -74,13 +75,7 @@ rec {
         syncthing-root = "/data/syncthing";
       };
 
-      gathering-hub.backup = {
-        root-dir = "/data/backups";
-        # Move to `services/vaultwarden.nix` once extracted.
-        paths = [
-          "/var/lib/bitwarden_rs"
-        ];
-      };
+      gathering-hub.backup.root-dir = "/data/backups";
 
       sops = {
         defaultSopsFile = ../secrets/secrets.yaml;
@@ -89,30 +84,6 @@ rec {
         # Host secrets
         age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
         secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
-
-        # Vaultwarden secrets
-        secrets."vaultwarden_admin_token_hash" = { };
-        templates."vaultwarden.env" = {
-          content = ''
-            ADMIN_TOKEN='${config.sops.placeholder.vaultwarden_admin_token_hash}'
-          '';
-        };
-      };
-
-      # TODO: Move to `services/vaultwarden.nix` including secrets definitions
-      services.vaultwarden = {
-        enable = true;
-        dbBackend = "postgresql";
-        configurePostgres = true;
-        domain = "vaultwarden.${config.gathering-hub.domain}";
-        environmentFile = config.sops.templates."vaultwarden.env".path;
-        config = {
-          ROCKET_ADDRESS = "127.0.0.1";
-          ROCKET_PORT = config.gathering-hub.ports.vaultwarden;
-          SIGNUPS_ALLOWED = false;
-          INVITATIONS_ALLOWED = true;
-          ENABLE_WEBSOCKET = true;
-        };
       };
 
       virtualisation.podman.enable = true;

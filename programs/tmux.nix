@@ -18,77 +18,82 @@
     shell = "${pkgs.zsh}/bin/zsh";
     sensibleOnTop = false;
 
-    extraConfig = ''
-      # Slow down mouse scrolling so it's actually usable
-      bind -Tcopy-mode WheelUpPane send -N1 -X scroll-up
-      bind -Tcopy-mode WheelDownPane send -N1 -X scroll-down
+    extraConfig =
+      let
+        # Take only the last two directory names from the current pane.
+        short_current_pane_path = "#{s|^.*/([^/]+/[^/]+)$|\\\\1|:pane_current_path}";
+      in
+      ''
+        # Slow down mouse scrolling so it's actually usable
+        bind -Tcopy-mode WheelUpPane send -N1 -X scroll-up
+        bind -Tcopy-mode WheelDownPane send -N1 -X scroll-down
 
-      # Reload config file with prefix-r hotkey
-      unbind r
-      bind r source-file "${config.xdg.configHome}/tmux/tmux.conf" \; display "Reloaded tmux config"
+        # Reload config file with prefix-r hotkey
+        unbind r
+        bind r source-file "${config.xdg.configHome}/tmux/tmux.conf" \; display "Reloaded tmux config"
 
-      # Also renumber windows on deletion
-      set -g renumber-windows on
+        # Also renumber windows on deletion
+        set -g renumber-windows on
 
-      # Nicer pane splitting
-      unbind v
-      unbind h
-      unbind %
-      unbind '"'
-      # Opens a new pane in the cwd of the 'parent' pane.
-      bind-key h split-window -v -c "#{pane_current_path}"
-      bind-key v split-window -h -c "#{pane_current_path}"
+        # Nicer pane splitting
+        unbind v
+        unbind h
+        unbind %
+        unbind '"'
+        # Opens a new pane in the cwd of the 'parent' pane.
+        bind-key h split-window -v -c "#{pane_current_path}"
+        bind-key v split-window -h -c "#{pane_current_path}"
 
-      # Enable on-focus event
-      set -g focus-events on
+        # Enable on-focus event
+        set -g focus-events on
 
-      # Fix colors
-      set -ag terminal-overrides ",$TERM:RGB"
+        # Fix colors
+        set -ag terminal-overrides ",$TERM:RGB"
 
-      # Kill panes quicker
-      unbind x
-      bind-key C-w kill-pane
+        # Kill panes quicker
+        unbind x
+        bind-key C-w kill-pane
 
-      # Kill windows quicker
-      bind-key x kill-window
+        # Kill windows quicker
+        bind-key x kill-window
 
-      # Stylin'
-      set -g status on
-      set -g status-position "top"
-      set -g status-interval 1
+        # Stylin'
+        set -g status on
+        set -g status-position "top"
+        set -g status-interval 1
 
-      # Left portion of status bar
-      set -g status-left "[#S]" # [SESSION_NAME]
-      set -g status-left-length 20
+        # Left portion of status bar
+        set -g status-left "[#S]" # [SESSION_NAME]
+        set -g status-left-length 20
 
-      # Center portion of status bar
-      set -g status-justify "absolute-centre"
+        # Center portion of status bar
+        set -g status-justify "absolute-centre"
 
-      # Right portion of status bar
-      set -g status-right "%a %e %b - %k:%M" # Day 00 Month - 00:00
-      set -g status-right-length 20
+        # Right portion of status bar
+        set -g status-right "%a %e %b - %k:%M" # Day 00 Month - 00:00
+        set -g status-right-length 20
 
-      # Base status bar style
-      set -g status-style "bg=terminal,fg=cyan,underscore dim"
+        # Base status bar style
+        set -g status-style "bg=terminal,fg=cyan,underscore dim"
 
-      # Base window selector style
-      set -g window-status-format "#W"
-      set -g window-status-current-format "#W"
-      set -g window-status-separator ""
-      set -g automatic-rename-format "#{?window_zoomed_flag,>#{pane_current_command}<, #{pane_current_command} }"
+        # Base window selector style
+        set -g window-status-format "#W"
+        set -g window-status-current-format "#W"
+        set -g window-status-separator ""
+        set -g automatic-rename-format "#{?window_zoomed_flag,>, }${short_current_pane_path}#{?window_zoomed_flag,<, }"
 
-      # Current window
-      set -g window-status-current-style "fg=white,double-underscore bold"
+        # Current window
+        set -g window-status-current-style "fg=white,double-underscore bold"
 
-      # Last active window
-      set -g window-status-last-style "curly-underscore"
+        # Last active window
+        set -g window-status-last-style "curly-underscore"
 
-      # Pane borders
-      set -g pane-active-border-style "fg=cyan"
-      set -g pane-border-style "fg=white"
+        # Pane borders
+        set -g pane-active-border-style "fg=cyan"
+        set -g pane-border-style "fg=white"
 
-      # Status bar message
-      set -g message-style "bg=cyan,fg=black"
-    '';
+        # Status bar message
+        set -g message-style "bg=cyan,fg=black"
+      '';
   };
 }

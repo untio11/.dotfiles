@@ -80,7 +80,7 @@ Suppose the root SSD (`/`) of `gathering-hub` fails completely while the `/data`
 
 ### Step 1: Install Base NixOS & Mount `/data`
 1. Install a minimal NixOS system on the replacement SSD (or boot from a NixOS Live USB and mount the new root partition and `/data`).
-2. Update the partition UUIDs under `fileSystems."/"` and `fileSystems."/boot"` (and `swapDevices`) in [`profiles/nixos-native.nix`](../profiles/nixos-native.nix) to match the new SSD partitions (check via `lsblk -f`).
+2. Update the partition UUIDs under `fileSystems."/"` and `fileSystems."/boot"` (and `swapDevices`) in [`hosts/gathering-hub.nix`](../hosts/gathering-hub.nix) to match the new SSD partitions (check via `lsblk -f`).
 3. Ensure the `/data` drive is mounted at `/data`:
    ```bash
    sudo mkdir -p /data

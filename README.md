@@ -6,9 +6,9 @@ This repository contains the Nix configurations for my machines, managed via a s
 
 | Hostname | OS / Platform | Profile File | User | Targets |
 | :--- | :--- | :--- | :--- | :--- |
-| **`Yukomo`** | macOS (`aarch64-darwin`) | [`profiles/work.nix`](./profiles/work.nix) | `robin.kneepkens` | `homeConfigurations."robin.kneepkens@Yukomo"`<br>`darwinConfigurations.Yukomo` |
-| **`gathering-hub`** | NixOS (`x86_64-linux`) | [`profiles/nixos-native.nix`](./profiles/nixos-native.nix) | `untio11` | `homeConfigurations."untio11@gathering-hub"`<br>`nixosConfigurations.gathering-hub` |
-| **`pokke-village`** | NixOS-WSL (`x86_64-linux`) | [`profiles/nixos-wsl.nix`](./profiles/nixos-wsl.nix) | `untio11` | `homeConfigurations."untio11@pokke-village"`<br>`nixosConfigurations.pokke-village` |
+| **`Yukomo`** | macOS (`aarch64-darwin`) | [`hosts/yukomo.nix`](./hosts/yukomo.nix) | `robin.kneepkens` | `homeConfigurations."robin.kneepkens@Yukomo"`<br>`darwinConfigurations.Yukomo` |
+| **`gathering-hub`** | NixOS (`x86_64-linux`) | [`hosts/gathering-hub.nix`](./hosts/gathering-hub.nix) | `untio11` | `homeConfigurations."untio11@gathering-hub"`<br>`nixosConfigurations.gathering-hub` |
+| **`pokke-village`** | NixOS-WSL (`x86_64-linux`) | [`hosts/pokke-village.nix`](./hosts/pokke-village.nix) | `untio11` | `homeConfigurations."untio11@pokke-village"`<br>`nixosConfigurations.pokke-village` |
 
 ---
 

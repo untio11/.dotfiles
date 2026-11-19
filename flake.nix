@@ -40,82 +40,82 @@
     }@inputs:
     let
       overlays = [ ];
-      nixos-wsl = import ./profiles/nixos-wsl.nix {
+      pokke-village = import ./hosts/pokke-village.nix {
         inherit nixpkgs overlays;
       };
-      macos-skunk = import ./profiles/work.nix { inherit nixpkgs overlays; };
-      nixos-native = import ./profiles/nixos-native.nix { inherit nixpkgs overlays; };
+      yukomo = import ./hosts/yukomo.nix { inherit nixpkgs overlays; };
+      gathering-hub = import ./hosts/gathering-hub.nix { inherit nixpkgs overlays; };
     in
     {
       # Work macbook. Home manager.
       # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#robin.kneepkens
       # home-manager switch --flake .#robin.kneepkens
-      homeConfigurations."${macos-skunk.username}@${macos-skunk.hostname}" =
+      homeConfigurations."${yukomo.username}@${yukomo.hostname}" =
         home-manager.lib.homeManagerConfiguration
           {
-            pkgs = macos-skunk.pkgs;
+            pkgs = yukomo.pkgs;
             modules = [ ./home.nix ];
             extraSpecialArgs = {
               inherit inputs;
-              profile = macos-skunk;
+              profile = yukomo;
             };
           };
       # Work macbook. Nix Darwin.
       # Bootstrap: sudo nix --extra-experimental-features "nix-command flakes" run nix-darwin/master#darwin-rebuild -- switch --flake .#Yukomo
       # Normal: sudo darwin-rebuild switch --flake .#Yukomo
-      darwinConfigurations.${macos-skunk.hostname} = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.${yukomo.hostname} = nix-darwin.lib.darwinSystem {
         modules = [
-          macos-skunk.nix-darwin-configuration
+          yukomo.nix-darwin-configuration
           inputs.sops-nix.darwinModules.sops
         ];
       };
       # Home desktop wsl. Home manager.
       # Bootstrap: nix --extra-experimental-features "nix-command flakes" run home-manager/master -- switch --flake .#untio11@pokke-village
-      homeConfigurations."${nixos-wsl.username}@${nixos-wsl.hostname}" =
+      homeConfigurations."${pokke-village.username}@${pokke-village.hostname}" =
         home-manager.lib.homeManagerConfiguration
           {
-            pkgs = nixos-wsl.pkgs;
+            pkgs = pokke-village.pkgs;
             modules = [ ./home.nix ];
             extraSpecialArgs = {
               inherit inputs;
-              profile = nixos-wsl;
+              profile = pokke-village;
             };
           };
       # Home server. Home manager config.
       # nix run home-manager/master -- switch --flake .#untio11@gathering-hub
-      homeConfigurations."${nixos-native.username}@${nixos-native.hostname}" =
+      homeConfigurations."${gathering-hub.username}@${gathering-hub.hostname}" =
         home-manager.lib.homeManagerConfiguration
           {
-            pkgs = nixos-native.pkgs;
+            pkgs = gathering-hub.pkgs;
             modules = [ ./home.nix ];
             extraSpecialArgs = {
               inherit inputs;
-              profile = nixos-native;
+              profile = gathering-hub;
             };
           };
       # Home desktop wsl. NixOS config.
       # Normal: sudo nixos-rebuild switch --flake .#pokke-village
-      nixosConfigurations.${nixos-wsl.hostname} = nixpkgs.lib.nixosSystem {
-        system = nixos-wsl.system;
+      nixosConfigurations.${pokke-village.hostname} = nixpkgs.lib.nixosSystem {
+        system = pokke-village.system;
         modules = [
           { nix.registry.nixpkgs.flake = nixpkgs; }
           inputs.nixos-wsl.nixosModules.wsl
-          nixos-wsl.nixos-configuration
+          pokke-village.nixos-configuration
         ];
       };
       # Home server. NixOS config.
       # sudo nixos-rebuild switch --flake .#gathering-hub
-      nixosConfigurations.${nixos-native.hostname} = nixpkgs.lib.nixosSystem {
-        system = nixos-native.system;
+      nixosConfigurations.${gathering-hub.hostname} = nixpkgs.lib.nixosSystem {
+        system = gathering-hub.system;
         specialArgs = {
-          profile = nixos-native;
+          profile = gathering-hub;
         };
         modules = [
           {
             nix.registry.nixpkgs.flake = nixpkgs;
             nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
           }
-          nixos-native.nixos-configuration
+          gathering-hub.nixos-configuration
           inputs.sops-nix.nixosModules.sops
         ];
       };
@@ -153,8 +153,8 @@
             };
         in
         {
-          ${macos-skunk.system}.default = mkPulumiShell macos-skunk.pkgs;
-          ${nixos-native.system}.default = mkPulumiShell nixos-native.pkgs;
+          ${yukomo.system}.default = mkPulumiShell yukomo.pkgs;
+          ${gathering-hub.system}.default = mkPulumiShell gathering-hub.pkgs;
         };
     };
 }

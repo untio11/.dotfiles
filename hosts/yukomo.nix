@@ -92,6 +92,13 @@ rec {
     nixpkgs.pkgs = pkgs;
     nix.enable = false; # Home manager takes care of this.
 
+    environment.systemPackages = with pkgs; [
+      jujutsu
+      helix
+      lsd
+      bat
+    ];
+
     homebrew = {
       enable = true; # Allow Nix Darwin to manage homebrew packages. Doesn't install homebrew for us though.
       # Global settings that apply when manually running homebrew:
@@ -147,6 +154,7 @@ rec {
     networking = {
       hostName = hostname;
       computerName = hostname;
+      localHostName = hostname;
     };
 
     time.timeZone = "Europe/Amsterdam";

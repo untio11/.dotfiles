@@ -114,7 +114,15 @@ rec {
           "splash"
         ];
         loader = {
-          systemd-boot.enable = true; # Use f11 for bios-based os selection
+          limine = {
+            enable = true;
+            maxGenerations = 10;
+            extraEntries = ''
+              /Windows
+                protocol: efi
+                path: uuid(e0f8337a-8709-4673-a27d-c5acc8c7f3d8):/EFI/Microsoft/Boot/bootmgfw.efi
+            '';
+          };
           grub = {
             # Get a nice boot menu where I can choose windows/nixos
             enable = false;
@@ -125,7 +133,13 @@ rec {
           efi.canTouchEfiVariables = true;
         };
         initrd.kernelModules = [ "amdgpu" ];
-        plymouth.enable = true;
+        plymouth = {
+          enable = true;
+          theme = "rings";
+          themePackages = [
+            pkgs.adi1090x-plymouth-themes
+          ];
+        };
       };
 
       networking = {

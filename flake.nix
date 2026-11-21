@@ -29,6 +29,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    preservation.url = "github:nix-community/preservation";
   };
 
   outputs =
@@ -45,6 +50,7 @@
       };
       yukomo = import ./hosts/yukomo.nix { inherit nixpkgs overlays; };
       gathering-hub = import ./hosts/gathering-hub.nix { inherit nixpkgs overlays; };
+      seliana = import ./hosts/seliana { inherit nixpkgs overlays; };
     in
     {
       # Work macbook. Home manager.
@@ -93,6 +99,18 @@
               profile = gathering-hub;
             };
           };
+      # Desktop. Home manager config.
+      # nix run home-manager/master -- switch --flake .#untio11@Seliana
+      homeConfigurations."${seliana.username}@${seliana.hostname}" =
+        home-manager.lib.homeManagerConfiguration
+          {
+            pkgs = seliana.pkgs;
+            modules = [ ./home.nix ];
+            extraSpecialArgs = {
+              inherit inputs;
+              profile = seliana;
+            };
+          };
       # Home desktop wsl. NixOS config.
       # Normal: sudo nixos-rebuild switch --flake .#pokke-village
       nixosConfigurations.${pokke-village.hostname} = nixpkgs.lib.nixosSystem {
@@ -117,6 +135,24 @@
           }
           gathering-hub.nixos-configuration
           inputs.sops-nix.nixosModules.sops
+        ];
+      };
+      # Desktop. NixOS config.
+      # sudo nixos-rebuild switch --flake .#seliana
+      nixosConfigurations.${seliana.hostname} = nixpkgs.lib.nixosSystem {
+        system = seliana.system;
+        specialArgs = {
+          profile = seliana;
+        };
+        modules = [
+          {
+            nix.registry.nixpkgs.flake = nixpkgs;
+            nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+          }
+          seliana.nixos-configuration
+          inputs.sops-nix.nixosModules.sops
+          inputs.disko.nixosModules.disko
+          inputs.preservation.nixosModules.preservation
         ];
       };
       templates = {

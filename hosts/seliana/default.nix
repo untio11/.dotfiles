@@ -59,6 +59,24 @@ rec {
         # secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
       };
 
+      services.xserver.xkb = {
+        layout = "us";
+        variant = "dvorak";
+      };
+      services.getty.autologinUser = username;
+      services.kmscon = {
+        enable = true;
+        useXkbConfig = true;
+        extraOptions = "--term xterm-256color";
+        config = {
+          hwaccel = true;
+          font-name = "FiraCode Nerd Font Mono";
+          font-size = 30;
+        };
+      };
+      fonts.packages = [
+        pkgs.nerd-fonts.fira-code
+      ];
       console = {
         keyMap = "dvorak";
         earlySetup = true;

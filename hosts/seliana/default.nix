@@ -104,7 +104,7 @@ rec {
         enable = true;
         enable32Bit = true;
       };
-
+      hardware.enableRedistributableFirmware = true;
       boot = {
         supportedFilesystems = [ "zfs" ];
         kernelParams = [
@@ -193,6 +193,7 @@ rec {
       # Because of Windows dual-boot.
       time.hardwareClockInLocalTime = true;
 
+      zramSwap.enable = true; # Create virtual swap drive in RAM with compression.
       services.zfs.autoScrub.enable = true;
       fileSystems."/persist".neededForBoot = true;
 
@@ -231,6 +232,9 @@ rec {
       # Disable this service, because it fails during nixos-rebuild-switch.
       # It mistakenly tries to write to /etc/machine-id because it's mounted.
       systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
+
+      # Disable so I don't get lectured after every reboot.
+      security.sudo.extraConfig = "Defaults lecture = never";
 
       system.stateVersion = "26.11"; # Did you read the comment?
     };

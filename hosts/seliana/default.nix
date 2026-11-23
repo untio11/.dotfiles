@@ -227,6 +227,10 @@ rec {
         script = "zfs rollback -r zroot/local/root@blank";
       };
 
+      # Disable this service, because it fails during nixos-rebuild-switch.
+      # It mistakenly tries to write to /etc/machine-id because it's mounted.
+      systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
+
       system.stateVersion = "26.11"; # Did you read the comment?
     };
 }

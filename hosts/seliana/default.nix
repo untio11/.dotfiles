@@ -114,6 +114,7 @@ rec {
           "splash"
         ];
         loader = {
+          timeout = 1;
           limine = {
             enable = true;
             maxGenerations = 10;

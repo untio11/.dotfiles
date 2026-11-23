@@ -123,13 +123,6 @@ rec {
                 path: uuid(e0f8337a-8709-4673-a27d-c5acc8c7f3d8):/EFI/Microsoft/Boot/bootmgfw.efi
             '';
           };
-          grub = {
-            # Get a nice boot menu where I can choose windows/nixos
-            enable = false;
-            device = "nodev";
-            efiSupport = true;
-            useOSProber = true;
-          };
           efi.canTouchEfiVariables = true;
         };
         initrd.kernelModules = [ "amdgpu" ];
@@ -210,6 +203,8 @@ rec {
             "/var/log"
             "/etc/NetworkManager/system-connections"
             "/var/lib/bluetooth"
+            "/home/untio11"
+            "/etc/ssh"
           ];
           files = [
             {
@@ -217,24 +212,20 @@ rec {
               inInitrd = true;
             }
           ];
-          users."${username}".directories = [
-            ".config/home-manager"
-            ".cache"
-          ];
         };
       };
 
       # Preservation/Impermanence: wipe before boot.
-      # boot.initrd.systemd.services.rollback = {
-      #   description = "Rollback ZFS root dataset to blank snapshot";
-      #   wantedBy = ["initrd.target"];
-      #   after = ["zfs-import-zroot.service"];
-      #   before = ["sysroot.mount"];
-      #   path = [ pkgs.zfs ];
-      #   unitConfig.DefaultDependencies = "no";
-      #   serviceConfig.Type = "oneshot";
-      #   script = "zfs rollback -r zroot/local/root@blank";
-      # };
+      boot.initrd.systemd.services.rollback = {
+        description = "Rollback ZFS root dataset to blank snapshot";
+        wantedBy = [ "initrd.target" ];
+        after = [ "zfs-import-zroot.service" ];
+        before = [ "sysroot.mount" ];
+        path = [ pkgs.zfs ];
+        unitConfig.DefaultDependencies = "no";
+        serviceConfig.Type = "oneshot";
+        script = "zfs rollback -r zroot/local/root@blank";
+      };
 
       system.stateVersion = "26.11"; # Did you read the comment?
     };

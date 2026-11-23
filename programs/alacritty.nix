@@ -2,6 +2,10 @@
   programs.alacritty = {
     enable = true;
     settings = {
+      terminal.shell = {
+        program = "zsh";
+        args = [ "--login" ];
+      };
       window = {
         padding = {
           x = 6;

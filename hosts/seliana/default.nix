@@ -59,13 +59,32 @@ rec {
         # secrets."untio11_gathering_hub_password_hash".neededForUsers = true;
       };
 
+      programs.niri.enable = true;
+      programs.noctalia.systemd.enable = true;
+
+      security.rtkit.enable = true;
+      security.pam.services.swaylock = { };
+      # Audio
+      services.pipewire = {
+        enable = true;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+      };
+      hardware.bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+      };
+      services.gnome.gnome-keyring.enable = true;
+      programs.dconf.enable = true;
+
       services.xserver.xkb = {
         layout = "us";
         variant = "dvorak";
       };
       services.getty.autologinUser = username;
       services.kmscon = {
-        enable = true;
+        enable = false;
         useXkbConfig = true;
         extraOptions = "--term xterm-256color";
         config = {
@@ -75,6 +94,8 @@ rec {
         };
       };
       fonts.packages = [
+        pkgs.noto-fonts
+        pkgs.noto-fonts-color-emoji
         pkgs.nerd-fonts.fira-code
       ];
       console = {
@@ -161,7 +182,24 @@ rec {
         bat
         zsh
         tmux
+        noctalia
+        xwayland-satellite
+        alacritty
+        wl-clipboard
+        fuzzel
+        swaylock
       ];
+      environment.sessionVariables = {
+        NIXOS_OZONE_WL = "1"; # Relevant for Electron/Chromium apps
+      };
+
+      services.greetd = {
+        enable = true;
+        settings.default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
+          user = "greeter";
+        };
+      };
 
       nixpkgs.pkgs = pkgs;
       programs = {
@@ -205,7 +243,7 @@ rec {
             "/var/log"
             "/etc/NetworkManager/system-connections"
             "/var/lib/bluetooth"
-            "/home/untio11"
+            "/home"
             "/etc/ssh"
           ];
           files = [

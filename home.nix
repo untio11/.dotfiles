@@ -44,7 +44,7 @@ in
   };
 
   nix = {
-    package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.
+    # package = pkgs.nix; # Use the Nix version as pinned by the home-manager flake.
     nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
     gc = {
       # Automatically run garbage collection every month.

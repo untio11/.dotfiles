@@ -153,6 +153,16 @@
           inputs.sops-nix.nixosModules.sops
           inputs.disko.nixosModules.disko
           inputs.preservation.nixosModules.preservation
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages= true;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              profile = seliana;
+            };
+            home-manager.users.${seliana.username} = ./home.nix;
+          }
         ];
       };
       templates = {

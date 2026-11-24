@@ -28,6 +28,11 @@ let
       languages.language-server.nixd.config.nixd.options.nixos.expr =
         "(builtins.getFlake \"${hm}\").nixosConfigurations.\"${hostname}\".options";
     };
+    # From the zen-browser flake/homeModule.
+    programs.zen-browser = {
+      enable = true;
+      setAsDefaultBrowser = true;
+    };
   };
 in
 rec {

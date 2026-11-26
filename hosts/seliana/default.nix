@@ -170,7 +170,7 @@ rec {
         initrd.kernelModules = [ "amdgpu" ];
         plymouth = {
           enable = true;
-          theme = "rings";
+          theme = "hexagon_2";
           themePackages = [
             pkgs.adi1090x-plymouth-themes
           ];

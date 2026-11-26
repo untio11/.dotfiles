@@ -8,7 +8,8 @@ let
   base-home-dir = "/home";
   hm = "${base-home-dir}/${username}/.config/home-manager";
   pre-cfg = pkgs: {
-    profile.prompt = ">";
+    #    󰗮   󱒄 󱖳 󰨑
+    profile.prompt = "";
     # TODO:
     # home.sessionVariables = {
     #   # So I can use `sudo sops edit` from gathering hub.
